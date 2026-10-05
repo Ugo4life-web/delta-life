@@ -9,99 +9,133 @@
 *{box-sizing:border-box}
 
 body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#071b12;
-    color:white;
+margin:0;
+font-family:Arial,sans-serif;
+background:#06140d;
+color:white;
 }
 
 .header{
-    background:#0b6b3a;
-    padding:20px;
-    text-align:center;
+background:linear-gradient(135deg,#08783f,#0dbb62);
+padding:25px 18px;
+text-align:center;
+border-radius:0 0 25px 25px;
 }
 
 .header h1{
-    margin:0;
-    font-size:32px;
+margin:0;
+font-size:34px;
+}
+
+.header p{
+margin:8px 0 0;
 }
 
 .container{
-    max-width:700px;
-    margin:auto;
-    padding:15px;
+max-width:700px;
+margin:auto;
+padding:15px;
 }
 
 .card{
-    background:#10281d;
-    border-radius:18px;
-    padding:20px;
-    margin:15px 0;
-    box-shadow:0 5px 20px #0005;
+background:#10261b;
+border-radius:20px;
+padding:18px;
+margin:15px 0;
+box-shadow:0 6px 20px #0006;
 }
 
 input,select{
-    width:100%;
-    padding:14px;
-    margin:7px 0;
-    border-radius:10px;
-    border:0;
-    font-size:16px;
+width:100%;
+padding:14px;
+margin:7px 0;
+border:0;
+border-radius:12px;
+font-size:16px;
 }
 
 button{
-    border:0;
-    border-radius:12px;
-    padding:13px 16px;
-    margin:5px;
-    background:#12a957;
-    color:white;
-    font-weight:bold;
-    font-size:15px;
+border:0;
+border-radius:12px;
+padding:13px 16px;
+margin:5px;
+background:#10a957;
+color:white;
+font-weight:bold;
+font-size:15px;
 }
 
 button:active{
-    transform:scale(.97);
+transform:scale(.97);
 }
 
 .stats{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
 }
 
 .stat{
-    background:#183b29;
-    padding:12px;
-    border-radius:12px;
-    text-align:center;
+background:#183b29;
+padding:12px 5px;
+border-radius:14px;
+text-align:center;
 }
 
 .stat strong{
-    display:block;
-    font-size:20px;
-    margin-top:5px;
+display:block;
+font-size:18px;
+margin-top:5px;
+}
+
+.menu{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+}
+
+.menu button{
+padding:20px 8px;
+font-size:16px;
+background:#164b30;
 }
 
 .grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
 }
 
 .location{
-    background:#183b29;
-    padding:15px;
-    border-radius:14px;
+background:#183b29;
+padding:15px;
+border-radius:14px;
 }
 
 .hidden{
-    display:none;
+display:none;
+}
+
+.section{
+display:none;
+}
+
+.section.active{
+display:block;
 }
 
 #message{
-    line-height:1.6;
-    color:#d9ffe8;
+line-height:1.6;
+color:#d9ffe8;
+}
+
+.small{
+color:#9bd7b3;
+font-size:13px;
+}
+
+.back{
+background:#245238;
 }
 </style>
 </head>
@@ -109,8 +143,8 @@ button:active{
 <body>
 
 <div class="header">
-    <h1>🌴 DELTA LIFE</h1>
-    <p>Build your life. Build your future.</p>
+<h1>🌴 DELTA LIFE</h1>
+<p>Build your life. Build your future.</p>
 </div>
 
 <div class="container">
@@ -177,9 +211,36 @@ button:active{
 </div>
 
 
-<!-- MAP -->
+<!-- MAIN MENU -->
 
 <div class="card">
+
+<h2>🏠 Delta Life</h2>
+
+<p class="small">Choose what you want to do.</p>
+
+<div class="menu">
+
+<button onclick="showSection('map')">🗺️ MAP</button>
+
+<button onclick="showSection('jobs')">💼 JOBS</button>
+
+<button onclick="showSection('home')">🏠 HOME</button>
+
+<button onclick="showSection('hotel')">🏨 HOTELS</button>
+
+<button onclick="showSection('transport')">🚗 VEHICLES</button>
+
+<button onclick="showSection('activity')">📱 ACTIVITY</button>
+
+</div>
+
+</div>
+
+
+<!-- MAP -->
+
+<div id="map" class="section card">
 
 <h2>🗺️ Delta Map</h2>
 
@@ -227,41 +288,37 @@ button:active{
 
 </div>
 
+<button class="back" onclick="hideSections()">← Back</button>
+
 </div>
 
 
 <!-- JOBS -->
 
-<div class="card">
+<div id="jobs" class="section card">
 
 <h2>💼 Jobs</h2>
 
-<button onclick="work('Trader',1200)">
-🛒 Trader +₦1,200
-</button>
+<button onclick="work('Trader',1200)">🛒 Trader +₦1,200</button>
 
-<button onclick="work('Driver',900)">
-🚕 Driver +₦900
-</button>
+<button onclick="work('Driver',900)">🚕 Driver +₦900</button>
 
-<button onclick="work('Designer',1500)">
-🎨 Designer +₦1,500
-</button>
+<button onclick="work('Designer',1500)">🎨 Designer +₦1,500</button>
 
-<button onclick="work('Mechanic',1800)">
-🔧 Mechanic +₦1,800
-</button>
+<button onclick="work('Mechanic',1800)">🔧 Mechanic +₦1,800</button>
 
-<button onclick="work('Engineer',2500)">
-⚙️ Engineer +₦2,500
-</button>
+<button onclick="work('Engineer',2500)">⚙️ Engineer +₦2,500</button>
+
+<br>
+
+<button class="back" onclick="hideSections()">← Back</button>
 
 </div>
 
 
-<!-- HOUSE -->
+<!-- HOME -->
 
-<div class="card">
+<div id="home" class="section card">
 
 <h2>🏠 Home</h2>
 
@@ -279,12 +336,16 @@ button:active{
 🏡 House — ₦50,000
 </button>
 
+<br>
+
+<button class="back" onclick="hideSections()">← Back</button>
+
 </div>
 
 
 <!-- HOTEL -->
 
-<div class="card">
+<div id="hotel" class="section card">
 
 <h2>🏨 Hotels</h2>
 
@@ -300,14 +361,18 @@ Comfort — ₦1,500
 Luxury — ₦3,000
 </button>
 
+<br>
+
+<button class="back" onclick="hideSections()">← Back</button>
+
 </div>
 
 
 <!-- TRANSPORT -->
 
-<div class="card">
+<div id="transport" class="section card">
 
-<h2>🚗 Transportation</h2>
+<h2>🚗 Vehicles & Transport</h2>
 
 <button onclick="transport('Keke',300)">
 🛺 Keke — ₦300
@@ -325,18 +390,24 @@ Luxury — ₦3,000
 🚤 Boat — ₦1,200
 </button>
 
+<br>
+
+<button class="back" onclick="hideSections()">← Back</button>
+
 </div>
 
 
 <!-- ACTIVITY -->
 
-<div class="card">
+<div id="activity" class="section card">
 
 <h2>📱 Activity</h2>
 
 <p id="message">
 Welcome to Delta Life. Your story begins now.
 </p>
+
+<button class="back" onclick="hideSections()">← Back</button>
 
 </div>
 
@@ -350,6 +421,7 @@ Welcome to Delta Life. Your story begins now.
 let money = 5000;
 let energy = 100;
 let level = 1;
+
 let playerName = "";
 let hometown = "";
 
@@ -391,10 +463,31 @@ document.getElementById("game")
 document.getElementById("welcome").textContent =
 "Welcome " + playerName + " 👋 — " + hometown;
 
-document.getElementById("message").textContent =
-"You have ₦5,000. Your Delta Life journey has started!";
+message("You have ₦5,000. Your Delta Life journey has started!");
 
 update();
+
+}
+
+function showSection(id){
+
+hideSections();
+
+document.getElementById(id)
+.classList.add("active");
+
+}
+
+function hideSections(){
+
+let sections =
+document.querySelectorAll(".section");
+
+sections.forEach(function(section){
+
+section.classList.remove("active");
+
+});
 
 }
 
@@ -403,6 +496,8 @@ function travel(place){
 if(energy < 10){
 
 message("😴 You need rest before travelling.");
+
+showSection("activity");
 
 return;
 
@@ -414,6 +509,8 @@ message("🚕 You travelled to " + place + ".");
 
 update();
 
+showSection("activity");
+
 }
 
 function work(job,pay){
@@ -421,6 +518,8 @@ function work(job,pay){
 if(energy < 15){
 
 message("😴 You are tired. Visit a hotel to rest.");
+
+showSection("activity");
 
 return;
 
@@ -446,6 +545,8 @@ pay.toLocaleString() +
 
 update();
 
+showSection("activity");
+
 }
 
 function hotel(name,cost){
@@ -453,6 +554,8 @@ function hotel(name,cost){
 if(money < cost){
 
 message("💸 You don't have enough money.");
+
+showSection("activity");
 
 return;
 
@@ -470,6 +573,8 @@ name +
 
 update();
 
+showSection("activity");
+
 }
 
 function buyHouse(type,cost){
@@ -477,6 +582,8 @@ function buyHouse(type,cost){
 if(money < cost){
 
 message("💸 You need more money to buy this " + type + ".");
+
+showSection("activity");
 
 return;
 
@@ -492,6 +599,8 @@ type +
 
 update();
 
+showSection("activity");
+
 }
 
 function transport(type,cost){
@@ -499,6 +608,8 @@ function transport(type,cost){
 if(money < cost){
 
 message("💸 You don't have enough money.");
+
+showSection("activity");
 
 return;
 
@@ -518,6 +629,8 @@ cost.toLocaleString() +
 
 update();
 
+showSection("activity");
+
 }
 
 function message(text){
@@ -530,4 +643,4 @@ text;
 </script>
 
 </body>
-  </html>
+    </html>
