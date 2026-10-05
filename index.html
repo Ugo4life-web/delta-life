@@ -2,169 +2,70 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Delta Life</title>
-
 <style>
 *{box-sizing:border-box}
-
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#06140d;
-color:white;
-}
-
-.header{
-background:linear-gradient(135deg,#08783f,#0dbb62);
-padding:25px 18px;
-text-align:center;
-border-radius:0 0 25px 25px;
-}
-
-.header h1{
-margin:0;
-font-size:34px;
-}
-
-.header p{
-margin:8px 0 0;
-}
-
-.container{
-max-width:700px;
-margin:auto;
-padding:15px;
-}
-
-.card{
-background:#10261b;
-border-radius:20px;
-padding:18px;
-margin:15px 0;
-box-shadow:0 6px 20px #0006;
-}
-
-input,select{
-width:100%;
-padding:14px;
-margin:7px 0;
-border:0;
-border-radius:12px;
-font-size:16px;
-}
-
-button{
-border:0;
-border-radius:12px;
-padding:13px 16px;
-margin:5px;
-background:#10a957;
-color:white;
-font-weight:bold;
-font-size:15px;
-}
-
-button:active{
-transform:scale(.97);
-}
-
-.stats{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:8px;
-}
-
-.stat{
-background:#183b29;
-padding:12px 5px;
-border-radius:14px;
-text-align:center;
-}
-
-.stat strong{
-display:block;
-font-size:18px;
-margin-top:5px;
-}
-
-.menu{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-}
-
-.menu button{
-padding:20px 8px;
-font-size:16px;
-background:#164b30;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-}
-
-.location{
-background:#183b29;
-padding:15px;
-border-radius:14px;
-}
-
-.hidden{
-display:none;
-}
-
-.section{
-display:none;
-}
-
-.section.active{
-display:block;
-}
-
-#message{
-line-height:1.6;
-color:#d9ffe8;
-}
-
-.small{
-color:#9bd7b3;
-font-size:13px;
-}
-
-.back{
-background:#245238;
-}
+body{margin:0;font-family:Arial,sans-serif;background:#071b12;color:#fff}
+button,input,select{font:inherit}
+button{border:0;border-radius:12px;padding:13px;margin:5px;cursor:pointer;font-weight:bold}
+input,select{width:100%;padding:13px;margin:6px 0;border-radius:10px;border:0}
+.app{max-width:600px;margin:auto;min-height:100vh;background:#0b2619}
+header{padding:20px;text-align:center;background:#0d3823}
+header h1{margin:0;font-size:28px}
+header p{margin:7px 0;color:#b9d7c4}
+.screen{padding:18px}
+.card{background:#123b27;border-radius:16px;padding:16px;margin:12px 0}
+.hidden{display:none}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:#174b31;border-radius:12px;padding:12px;text-align:center}
+.menu{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.menu button{background:#195a38;color:#fff;min-height:60px}
+.primary{background:#21a366;color:white}
+.danger{background:#a52b2b;color:white}
+.gold{background:#c28b18;color:white}
+.small{font-size:13px;color:#b9d7c4}
+.log{max-height:180px;overflow:auto}
+.log div{padding:7px;border-bottom:1px solid #28553b}
+h2,h3{margin-top:5px}
 </style>
 </head>
 
 <body>
+<div class="app">
 
-<div class="header">
+<header>
 <h1>🌴 DELTA LIFE</h1>
 <p>Build your life. Build your future.</p>
+</header>
+
+<div id="auth" class="screen">
+<div class="card">
+<h2>Welcome</h2>
+<p>Create an account or log in to continue.</p>
+
+<input id="email" type="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+
+<button class="primary" onclick="createAccount()">Create Account</button>
+<button onclick="login()">Log In</button>
+
+<p id="authMsg" class="small"></p>
+</div>
 </div>
 
-<div class="container">
-
-<!-- CHARACTER CREATION -->
-
-<div class="card" id="creation">
-
+<div id="character" class="screen hidden">
+<div class="card">
 <h2>👤 Create Your Character</h2>
 
-<input id="name" placeholder="Enter your name">
+<input id="playerName" placeholder="Your name">
 
 <select id="gender">
-<option value="">Choose gender</option>
 <option>Male</option>
 <option>Female</option>
 </select>
 
 <select id="town">
-<option value="">Choose hometown</option>
 <option>Warri</option>
 <option>Asaba</option>
 <option>Sapele</option>
@@ -173,473 +74,450 @@ background:#245238;
 <option>Kwale</option>
 <option>Ozoro</option>
 <option>Agbor</option>
-<option>Abraka</option>
 </select>
 
-<button onclick="startGame()">START DELTA LIFE 🚀</button>
-
+<button class="primary" onclick="startGame()">Enter Delta Life</button>
 </div>
-
-
-<!-- GAME -->
+</div>
 
 <div id="game" class="hidden">
 
-<div class="card">
-
+<header>
 <h2 id="welcome"></h2>
 
 <div class="stats">
-
-<div class="stat">
-💰 Money
-<strong id="money">₦5,000</strong>
+<div class="stat">💰<br><b id="money">₦0</b></div>
+<div class="stat">⚡<br><b id="energy">100</b></div>
+<div class="stat">⭐<br><b id="level">1</b></div>
 </div>
+</header>
 
-<div class="stat">
-⚡ Energy
-<strong id="energy">100</strong>
-</div>
-
-<div class="stat">
-⭐ Level
-<strong id="level">1</strong>
-</div>
-
-</div>
-
-</div>
-
-
-<!-- MAIN MENU -->
-
-<div class="card">
-
-<h2>🏠 Delta Life</h2>
-
-<p class="small">Choose what you want to do.</p>
+<div class="screen">
 
 <div class="menu">
-
-<button onclick="showSection('map')">🗺️ MAP</button>
-
-<button onclick="showSection('jobs')">💼 JOBS</button>
-
-<button onclick="showSection('home')">🏠 HOME</button>
-
-<button onclick="showSection('hotel')">🏨 HOTELS</button>
-
-<button onclick="showSection('transport')">🚗 VEHICLES</button>
-
-<button onclick="showSection('activity')">📱 ACTIVITY</button>
-
+<button onclick="show('map')">🗺️ MAP</button>
+<button onclick="show('chat')">💬 CHAT</button>
+<button onclick="show('vote')">🗳️ VOTE</button>
+<button onclick="show('club')">🎉 CLUB</button>
+<button onclick="show('jobs')">💼 JOBS</button>
+<button onclick="show('home')">🏠 HOME</button>
+<button onclick="show('transport')">🚗 TRANSPORT</button>
+<button onclick="show('missions')">🎯 MISSIONS</button>
+<button onclick="show('crime')">⚠️ CRIME</button>
+<button onclick="show('activity')">📱 ACTIVITY</button>
 </div>
 
+<div id="content" class="card">
+<h2>🏙️ Delta Life</h2>
+<p>Choose something from the menu.</p>
 </div>
 
-
-<!-- MAP -->
-
-<div id="map" class="section card">
-
-<h2>🗺️ Delta Map</h2>
-
-<div class="grid">
-
-<div class="location">
-🏙️ <b>Warri</b><br>
-<button onclick="travel('Warri')">Visit</button>
-</div>
-
-<div class="location">
-🏛️ <b>Asaba</b><br>
-<button onclick="travel('Asaba')">Visit</button>
-</div>
-
-<div class="location">
-🌴 <b>Sapele</b><br>
-<button onclick="travel('Sapele')">Visit</button>
-</div>
-
-<div class="location">
-🎓 <b>Oleh</b><br>
-<button onclick="travel('Oleh')">Visit</button>
-</div>
-
-<div class="location">
-🏘️ <b>Ughelli</b><br>
-<button onclick="travel('Ughelli')">Visit</button>
-</div>
-
-<div class="location">
-🌾 <b>Kwale</b><br>
-<button onclick="travel('Kwale')">Visit</button>
-</div>
-
-<div class="location">
-🏘️ <b>Ozoro</b><br>
-<button onclick="travel('Ozoro')">Visit</button>
-</div>
-
-<div class="location">
-🏙️ <b>Agbor</b><br>
-<button onclick="travel('Agbor')">Visit</button>
-</div>
+<button class="danger" onclick="logout()">Log Out</button>
 
 </div>
-
-<button class="back" onclick="hideSections()">← Back</button>
-
 </div>
-
-
-<!-- JOBS -->
-
-<div id="jobs" class="section card">
-
-<h2>💼 Jobs</h2>
-
-<button onclick="work('Trader',1200)">🛒 Trader +₦1,200</button>
-
-<button onclick="work('Driver',900)">🚕 Driver +₦900</button>
-
-<button onclick="work('Designer',1500)">🎨 Designer +₦1,500</button>
-
-<button onclick="work('Mechanic',1800)">🔧 Mechanic +₦1,800</button>
-
-<button onclick="work('Engineer',2500)">⚙️ Engineer +₦2,500</button>
-
-<br>
-
-<button class="back" onclick="hideSections()">← Back</button>
-
 </div>
-
-
-<!-- HOME -->
-
-<div id="home" class="section card">
-
-<h2>🏠 Home</h2>
-
-<p>Choose your first home.</p>
-
-<button onclick="buyHouse('Room',3000)">
-🛏️ Room — ₦3,000
-</button>
-
-<button onclick="buyHouse('Apartment',15000)">
-🏢 Apartment — ₦15,000
-</button>
-
-<button onclick="buyHouse('House',50000)">
-🏡 House — ₦50,000
-</button>
-
-<br>
-
-<button class="back" onclick="hideSections()">← Back</button>
-
-</div>
-
-
-<!-- HOTEL -->
-
-<div id="hotel" class="section card">
-
-<h2>🏨 Hotels</h2>
-
-<button onclick="hotel('Budget Hotel',500)">
-Budget — ₦500
-</button>
-
-<button onclick="hotel('Comfort Hotel',1500)">
-Comfort — ₦1,500
-</button>
-
-<button onclick="hotel('Luxury Hotel',3000)">
-Luxury — ₦3,000
-</button>
-
-<br>
-
-<button class="back" onclick="hideSections()">← Back</button>
-
-</div>
-
-
-<!-- TRANSPORT -->
-
-<div id="transport" class="section card">
-
-<h2>🚗 Vehicles & Transport</h2>
-
-<button onclick="transport('Keke',300)">
-🛺 Keke — ₦300
-</button>
-
-<button onclick="transport('Taxi',700)">
-🚕 Taxi — ₦700
-</button>
-
-<button onclick="transport('Bus',500)">
-🚌 Bus — ₦500
-</button>
-
-<button onclick="transport('Boat',1200)">
-🚤 Boat — ₦1,200
-</button>
-
-<br>
-
-<button class="back" onclick="hideSections()">← Back</button>
-
-</div>
-
-
-<!-- ACTIVITY -->
-
-<div id="activity" class="section card">
-
-<h2>📱 Activity</h2>
-
-<p id="message">
-Welcome to Delta Life. Your story begins now.
-</p>
-
-<button class="back" onclick="hideSections()">← Back</button>
-
-</div>
-
-</div>
-
-</div>
-
 
 <script>
+let users=JSON.parse(localStorage.getItem("deltaUsers")||"{}");
+let currentEmail=localStorage.getItem("deltaCurrent")||null;
 
-let money = 5000;
-let energy = 100;
-let level = 1;
+let player={
+name:"",
+gender:"",
+town:"",
+money:5000,
+energy:100,
+level:1,
+house:"No house",
+vehicle:"Walking",
+arrested:false,
+logs:[]
+};
 
-let playerName = "";
-let hometown = "";
+function save(){
+localStorage.setItem("deltaUsers",JSON.stringify(users));
+if(currentEmail) users[currentEmail].player=player;
+localStorage.setItem("deltaUsers",JSON.stringify(users));
+}
 
-function update(){
+function log(text){
+player.logs.unshift(new Date().toLocaleTimeString()+" — "+text);
+if(player.logs.length>50)player.logs.pop();
+save();
+}
 
-document.getElementById("money").textContent =
-"₦" + money.toLocaleString();
+function createAccount(){
+let e=email.value.trim().toLowerCase();
+let p=password.value;
 
-document.getElementById("energy").textContent =
-energy;
+if(!e||!p){
+authMsg.textContent="Enter your email and password.";
+return;
+}
 
-document.getElementById("level").textContent =
-level;
+if(users[e]){
+authMsg.textContent="Account already exists. Log in.";
+return;
+}
 
+users[e]={password:p,player:null};
+currentEmail=e;
+localStorage.setItem("deltaCurrent",e);
+localStorage.setItem("deltaUsers",JSON.stringify(users));
+
+auth.classList.add("hidden");
+character.classList.remove("hidden");
+}
+
+function login(){
+let e=email.value.trim().toLowerCase();
+let p=password.value;
+
+if(!users[e]||users[e].password!==p){
+authMsg.textContent="Wrong email or password.";
+return;
+}
+
+currentEmail=e;
+localStorage.setItem("deltaCurrent",e);
+
+if(users[e].player){
+player=users[e].player;
+openGame();
+}else{
+auth.classList.add("hidden");
+character.classList.remove("hidden");
+}
 }
 
 function startGame(){
+player.name=playerName.value.trim()||"Player";
+player.gender=gender.value;
+player.town=town.value;
 
-playerName =
-document.getElementById("name").value.trim();
+player.money=5000;
+player.energy=100;
+player.level=1;
+player.house="No house";
+player.vehicle="Walking";
+player.arrested=false;
+player.logs=[];
 
-hometown =
-document.getElementById("town").value;
-
-if(!playerName || !hometown){
-
-alert("Enter your name and choose your hometown.");
-
-return;
-
+log("Character created in "+player.town);
+openGame();
 }
 
-document.getElementById("creation")
-.classList.add("hidden");
+function openGame(){
+auth.classList.add("hidden");
+character.classList.add("hidden");
+game.classList.remove("hidden");
 
-document.getElementById("game")
-.classList.remove("hidden");
-
-document.getElementById("welcome").textContent =
-"Welcome " + playerName + " 👋 — " + hometown;
-
-message("You have ₦5,000. Your Delta Life journey has started!");
-
+welcome.textContent="Welcome, "+player.name+" 👋";
 update();
-
+show("home");
 }
 
-function showSection(id){
-
-hideSections();
-
-document.getElementById(id)
-.classList.add("active");
-
+function update(){
+money.textContent="₦"+player.money.toLocaleString();
+energy.textContent=player.energy;
+level.textContent=player.level;
 }
 
-function hideSections(){
+function show(page){
 
-let sections =
-document.querySelectorAll(".section");
+let html="";
 
-sections.forEach(function(section){
+if(page==="home"){
+html=`
+<h2>🏠 Home</h2>
+<p><b>Name:</b> ${player.name}</p>
+<p><b>Town:</b> ${player.town}</p>
+<p><b>House:</b> ${player.house}</p>
+<p><b>Vehicle:</b> ${player.vehicle}</p>
+<p>${player.arrested?"🚔 You are currently arrested.":"✅ You are free."}</p>
+`;
+}
 
-section.classList.remove("active");
+if(page==="map"){
+html=`
+<h2>🗺️ Delta Map</h2>
+<p>Current location: <b>${player.town}</b></p>
+`;
 
+["Warri","Asaba","Sapele","Ughelli","Oleh","Kwale","Ozoro","Agbor"].forEach(t=>{
+html+=`<button onclick="travel('${t}')">📍 ${t}</button>`;
 });
 
+html+=`<p class="small">Travel uses 10 energy.</p>`;
 }
 
-function travel(place){
+if(page==="chat"){
+html=`
+<h2>💬 Chat</h2>
+<div class="card">
+<b>👩 Ada</b>
+<p>“How is life going in Delta?”</p>
+<button onclick="chatReply('Ada')">Reply</button>
+</div>
 
-if(energy < 10){
+<div class="card">
+<b>👨 Emeka</b>
+<p>“There are opportunities everywhere if you look.”</p>
+<button onclick="chatReply('Emeka')">Reply</button>
+</div>
+`;
+}
 
-message("😴 You need rest before travelling.");
+if(page==="vote"){
+html=`
+<h2>🗳️ Community Vote</h2>
+<p>Choose what the community should improve:</p>
+<button onclick="vote('Market upgrade')">🛒 Market Upgrade</button>
+<button onclick="vote('Youth center')">🏢 Youth Center</button>
+<button onclick="vote('Road project')">🛣️ Road Project</button>
+`;
+}
 
-showSection("activity");
+if(page==="club"){
+html=`
+<h2>🎉 Club</h2>
+<p>Relax and enjoy the night.</p>
+<button class="gold" onclick="club()">Enter Club — ₦500</button>
+<button onclick="restaurant()">🍽️ Restaurant — ₦300</button>
+`;
+}
 
+if(page==="jobs"){
+html=`
+<h2>💼 Jobs</h2>
+<p>Work costs 15 energy.</p>
+<button onclick="job('Trader',1200)">🛒 Trader +₦1,200</button>
+<button onclick="job('Driver',900)">🚕 Driver +₦900</button>
+<button onclick="job('Designer',1500)">🎨 Designer +₦1,500</button>
+<button onclick="job('Mechanic',1800)">🔧 Mechanic +₦1,800</button>
+<button onclick="job('Engineer',2500)">⚙️ Engineer +₦2,500</button>
+`;
+}
+
+if(page==="homebuy"){
+page="home";
+}
+
+if(page==="home"){
+html+=`
+<hr>
+<h3>🏠 Buy a Home</h3>
+<button onclick="buyHome('Room',3000)">Room — ₦3,000</button>
+<button onclick="buyHome('Apartment',15000)">Apartment — ₦15,000</button>
+<button onclick="buyHome('House',50000)">House — ₦50,000</button>
+`;
+}
+
+if(page==="transport"){
+html=`
+<h2>🚗 Transport</h2>
+<button onclick="buyVehicle('Keke',300)">🛺 Keke — ₦300</button>
+<button onclick="buyVehicle('Taxi',700)">🚕 Taxi — ₦700</button>
+<button onclick="buyVehicle('Bus',500)">🚌 Bus — ₦500</button>
+<button onclick="buyVehicle('Boat',1200)">🚤 Boat — ₦1,200</button>
+`;
+}
+
+if(page==="missions"){
+html=`
+<h2>🎯 Missions</h2>
+<button onclick="mission('Help at market',800)">🛒 Help at Market +₦800</button>
+<button onclick="mission('Deliver package',1200)">📦 Deliver Package +₦1,200</button>
+<button onclick="mission('Find lost phone',1000)">📱 Find Lost Phone +₦1,000</button>
+`;
+}
+
+if(page==="crime"){
+html=`
+<h2>⚠️ Crime</h2>
+<p>These are fictional game events with fictional consequences.</p>
+<button class="danger" onclick="crime('Attempt robbery')">🚨 Attempt Robbery</button>
+<button class="danger" onclick="crime('Street trouble')">⚠️ Street Trouble</button>
+`;
+}
+
+if(page==="activity"){
+html=`
+<h2>📱 Activity</h2>
+<div class="log">
+${player.logs.length?player.logs.map(x=>`<div>${x}</div>`).join(""):"No activity yet."}
+</div>
+`;
+}
+
+content.innerHTML=html;
+}
+
+function travel(t){
+if(t===player.town){
+alert("You are already here.");
 return;
-
 }
 
-energy -= 10;
+if(player.energy<10){
+alert("Not enough energy.");
+return;
+}
 
-message("🚕 You travelled to " + place + ".");
+player.energy-=10;
+player.town=t;
+log("Travelled to "+t);
+update();
+show("map");
+}
+
+function chatReply(person){
+let replies={
+Ada:"Ada: Nice! Keep building your life.",
+Emeka:"Emeka: Opportunities are waiting for you."
+};
+
+alert(replies[person]);
+log("Chatted with "+person);
+show("chat");
+}
+
+function vote(choice){
+localStorage.setItem("deltaVote",choice);
+alert("Your vote for "+choice+" has been recorded.");
+log("Voted for "+choice);
+show("vote");
+}
+
+function club(){
+if(player.money<500){
+alert("Not enough money.");
+return;
+}
+
+player.money-=500;
+player.energy=Math.min(100,player.energy+20);
+
+log("Went to the club.");
+update();
+show("club");
+}
+
+function restaurant(){
+if(player.money<300){
+alert("Not enough money.");
+return;
+}
+
+player.money-=300;
+player.energy=Math.min(100,player.energy+10);
+
+log("Visited a restaurant.");
+update();
+show("club");
+}
+
+function job(name,pay){
+if(player.energy<15){
+alert("You need more energy.");
+return;
+}
+
+player.energy-=15;
+player.money+=pay;
+player.level=Math.max(1,Math.floor(player.money/5000)+1);
+
+log("Worked as a "+name+" and earned ₦"+pay.toLocaleString());
+update();
+show("jobs");
+}
+
+function buyHome(name,cost){
+if(player.money<cost){
+alert("Not enough money.");
+return;
+}
+
+player.money-=cost;
+player.house=name;
+
+log("Bought a "+name);
+update();
+show("home");
+}
+
+function buyVehicle(name,cost){
+if(player.money<cost){
+alert("Not enough money.");
+return;
+}
+
+player.money-=cost;
+player.vehicle=name;
+
+log("Bought a "+name);
+update();
+show("transport");
+}
+
+function mission(name,reward){
+if(player.energy<10){
+alert("Not enough energy.");
+return;
+}
+
+player.energy-=10;
+player.money+=reward;
+player.level=Math.max(1,Math.floor(player.money/5000)+1);
+
+log("Completed mission: "+name+" and earned ₦"+reward.toLocaleString());
+update();
+show("missions");
+}
+
+function crime(type){
+if(player.arrested){
+alert("You are already arrested. Serve your fictional sentence first.");
+return;
+}
+
+let caught=Math.random()<0.5;
+
+if(caught){
+player.arrested=true;
+player.money=Math.max(0,player.money-500);
+log(type+" — CAUGHT! Fictional arrest and ₦500 fine.");
+alert("🚔 You were caught! You are arrested in the game and fined ₦500.");
+}else{
+player.money+=700;
+log(type+" — escaped and received ₦700 in the game.");
+alert("You escaped in this fictional game event and received ₦700.");
+}
 
 update();
-
-showSection("activity");
-
+show("crime");
 }
 
-function work(job,pay){
+function logout(){
+save();
+localStorage.removeItem("deltaCurrent");
 
-if(energy < 15){
-
-message("😴 You are tired. Visit a hotel to rest.");
-
-showSection("activity");
-
-return;
-
+game.classList.add("hidden");
+auth.classList.remove("hidden");
+email.value="";
+password.value="";
 }
 
-energy -= 15;
-
-money += pay;
-
-if(money >= 10000){
-
-level = 2;
-
+if(currentEmail&&users[currentEmail]){
+if(users[currentEmail].player){
+player=users[currentEmail].player;
+openGame();
+}else{
+auth.classList.add("hidden");
+character.classList.remove("hidden");
 }
-
-message(
-"💼 You completed your " +
-job +
-" job and earned ₦" +
-pay.toLocaleString() +
-"."
-);
-
-update();
-
-showSection("activity");
-
 }
-
-function hotel(name,cost){
-
-if(money < cost){
-
-message("💸 You don't have enough money.");
-
-showSection("activity");
-
-return;
-
-}
-
-money -= cost;
-
-energy = 100;
-
-message(
-"🏨 You stayed at " +
-name +
-". Your energy is now 100."
-);
-
-update();
-
-showSection("activity");
-
-}
-
-function buyHouse(type,cost){
-
-if(money < cost){
-
-message("💸 You need more money to buy this " + type + ".");
-
-showSection("activity");
-
-return;
-
-}
-
-money -= cost;
-
-message(
-"🏠 Congratulations! You now own a " +
-type +
-"."
-);
-
-update();
-
-showSection("activity");
-
-}
-
-function transport(type,cost){
-
-if(money < cost){
-
-message("💸 You don't have enough money.");
-
-showSection("activity");
-
-return;
-
-}
-
-money -= cost;
-
-energy = Math.max(0,energy - 5);
-
-message(
-"🚗 You used a " +
-type +
-" and paid ₦" +
-cost.toLocaleString() +
-"."
-);
-
-update();
-
-showSection("activity");
-
-}
-
-function message(text){
-
-document.getElementById("message").textContent =
-text;
-
-}
-
 </script>
 
 </body>
