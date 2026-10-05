@@ -2,523 +2,983 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Delta Life</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#071b12;color:#fff}
-button,input,select{font:inherit}
-button{border:0;border-radius:12px;padding:13px;margin:5px;cursor:pointer;font-weight:bold}
-input,select{width:100%;padding:13px;margin:6px 0;border-radius:10px;border:0}
-.app{max-width:600px;margin:auto;min-height:100vh;background:#0b2619}
-header{padding:20px;text-align:center;background:#0d3823}
-header h1{margin:0;font-size:28px}
-header p{margin:7px 0;color:#b9d7c4}
-.screen{padding:18px}
-.card{background:#123b27;border-radius:16px;padding:16px;margin:12px 0}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f7f5;
+  color:#172019;
+}
+header{
+  background:#087443;
+  color:white;
+  padding:18px;
+  text-align:center;
+}
+.container{
+  max-width:700px;
+  margin:auto;
+  padding:15px;
+}
+.card{
+  background:white;
+  border-radius:14px;
+  padding:18px;
+  margin:12px 0;
+  box-shadow:0 2px 8px #0002;
+}
+input,select,button{
+  width:100%;
+  box-sizing:border-box;
+  padding:13px;
+  margin:7px 0;
+  border-radius:9px;
+  border:1px solid #ccc;
+  font-size:16px;
+}
+button{
+  background:#087443;
+  color:white;
+  border:0;
+  font-weight:bold;
+}
+button.secondary{
+  background:#555;
+}
 .hidden{display:none}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.stat{background:#174b31;border-radius:12px;padding:12px;text-align:center}
-.menu{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.menu button{background:#195a38;color:#fff;min-height:60px}
-.primary{background:#21a366;color:white}
-.danger{background:#a52b2b;color:white}
-.gold{background:#c28b18;color:white}
-.small{font-size:13px;color:#b9d7c4}
-.log{max-height:180px;overflow:auto}
-.log div{padding:7px;border-bottom:1px solid #28553b}
-h2,h3{margin-top:5px}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+.stat{
+  background:#e8f5ee;
+  padding:12px;
+  border-radius:10px;
+  text-align:center;
+}
+.menu{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+.menu button{
+  background:white;
+  color:#172019;
+  border:1px solid #ddd;
+  min-height:65px;
+}
+#message{
+  padding:10px;
+  border-radius:8px;
+  margin:8px 0;
+}
 </style>
 </head>
 
 <body>
-<div class="app">
 
 <header>
-<h1>🌴 DELTA LIFE</h1>
-<p>Build your life. Build your future.</p>
+  <h1>🌴 DELTA LIFE</h1>
+  <p>Build your life. Build your future.</p>
 </header>
 
-<div id="auth" class="screen">
-<div class="card">
-<h2>Welcome</h2>
-<p>Create an account or log in to continue.</p>
+<div class="container">
 
-<input id="email" type="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
+<!-- AUTH -->
+<div id="authPage">
 
-<button class="primary" onclick="createAccount()">Create Account</button>
-<button onclick="login()">Log In</button>
+  <div class="card">
+    <h2>👤 Create Account</h2>
 
-<p id="authMsg" class="small"></p>
-</div>
-</div>
+    <input id="signupEmail" type="email" placeholder="Email">
+    <input id="signupPassword" type="password" placeholder="Password">
+    <input id="signupUsername" placeholder="Username">
+    <input id="signupHometown" placeholder="Hometown e.g. Kwale">
 
-<div id="character" class="screen hidden">
-<div class="card">
-<h2>👤 Create Your Character</h2>
+    <select id="signupGender">
+      <option value="">Select gender</option>
+      <option>Male</option>
+      <option>Female</option>
+    </select>
 
-<input id="playerName" placeholder="Your name">
+    <button onclick="signUp()">Create Account</button>
+  </div>
 
-<select id="gender">
-<option>Male</option>
-<option>Female</option>
-</select>
+  <div class="card">
+    <h2>🔐 Login</h2>
 
-<select id="town">
-<option>Warri</option>
-<option>Asaba</option>
-<option>Sapele</option>
-<option>Ughelli</option>
-<option>Oleh</option>
-<option>Kwale</option>
-<option>Ozoro</option>
-<option>Agbor</option>
-</select>
+    <input id="loginEmail" type="email" placeholder="Email">
+    <input id="loginPassword" type="password" placeholder="Password">
 
-<button class="primary" onclick="startGame()">Enter Delta Life</button>
-</div>
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div id="message"></div>
 </div>
 
-<div id="game" class="hidden">
 
-<header>
-<h2 id="welcome"></h2>
+<!-- GAME -->
+<div id="gamePage" class="hidden">
 
-<div class="stats">
-<div class="stat">💰<br><b id="money">₦0</b></div>
-<div class="stat">⚡<br><b id="energy">100</b></div>
-<div class="stat">⭐<br><b id="level">1</b></div>
+  <div class="card">
+    <h2>🌴 DELTA LIFE</h2>
+    <p id="welcome"></p>
+
+    <div class="stats">
+      <div class="stat">
+        💰<br>
+        ₦<span id="money">5000</span>
+      </div>
+
+      <div class="stat">
+        ⚡<br>
+        <span id="energy">100</span>
+      </div>
+
+      <div class="stat">
+        ⭐<br>
+        Level <span id="level">1</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🗺️ Delta World</h2>
+
+    <div class="menu">
+      <button onclick="travel('Kwale')">📍 Kwale</button>
+      <button onclick="travel('Warri')">🏙️ Warri</button>
+      <button onclick="travel('Asaba')">🏙️ Asaba</button>
+      <button onclick="travel('Oleh')">📍 Oleh</button>
+      <button onclick="travel('Sapele')">📍 Sapele</button>
+      <button onclick="travel('Ughelli')">📍 Ughelli</button>
+    </div>
+
+    <p id="locationText"></p>
+  </div>
+
+  <div class="card">
+    <h2>👥 Social Life</h2>
+
+    <div class="menu">
+      <button onclick="showSection('chat')">💬 Chat</button>
+      <button onclick="showSection('people')">🔎 People</button>
+      <button onclick="showSection('vote')">🗳️ Vote</button>
+      <button onclick="showSection('club')">🎉 Club</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🏙️ Life</h2>
+
+    <div class="menu">
+      <button onclick="showSection('jobs')">💼 Jobs</button>
+      <button onclick="showSection('home')">🏠 Home</button>
+      <button onclick="showSection('vehicle')">🚗 Vehicles</button>
+      <button onclick="showSection('church')">⛪ Church</button>
+      <button onclick="showSection('hospital')">🏥 Hospital</button>
+      <button onclick="showSection('police')">🚔 Police</button>
+      <button onclick="showSection('activity')">📱 Activity</button>
+    </div>
+  </div>
+
+
+  <!-- CHAT -->
+  <div id="chat" class="card hidden">
+    <h2>💬 Chat</h2>
+    <input id="chatReceiver" placeholder="Receiver's user ID">
+    <input id="chatText" placeholder="Write your message">
+    <button onclick="sendMessage()">Send Message</button>
+    <button class="secondary" onclick="loadMessages()">Refresh Messages</button>
+    <div id="messagesList"></div>
+  </div>
+
+
+  <!-- PEOPLE -->
+  <div id="people" class="card hidden">
+    <h2>🔎 Find People</h2>
+    <p>Player search will use the online Delta Life database.</p>
+    <button onclick="loadPeople()">Load Players</button>
+    <div id="peopleList"></div>
+  </div>
+
+
+  <!-- VOTE -->
+  <div id="vote" class="card hidden">
+    <h2>🗳️ Vote</h2>
+    <p>Choose your favourite candidate.</p>
+    <button onclick="castVote('Candidate A')">Candidate A</button>
+    <button onclick="castVote('Candidate B')">Candidate B</button>
+    <p id="voteResult"></p>
+  </div>
+
+
+  <!-- CLUB -->
+  <div id="club" class="card hidden">
+    <h2>🎉 Club</h2>
+    <p>You entered the Delta Life club.</p>
+    <button onclick="clubAction()">🎵 Enjoy the Night</button>
+  </div>
+
+
+  <!-- JOBS -->
+  <div id="jobs" class="card hidden">
+    <h2>💼 Jobs</h2>
+    <button onclick="work('Delivery',1000)">🚚 Delivery — ₦1,000</button>
+    <button onclick="work('Shop Worker',1500)">🏪 Shop Worker — ₦1,500</button>
+    <button onclick="work('Tech Job',2500)">💻 Tech Job — ₦2,500</button>
+  </div>
+
+
+  <!-- HOME -->
+  <div id="home" class="card hidden">
+    <h2>🏠 Home</h2>
+    <p>Your current home: <span id="house">No house</span></p>
+    <button onclick="buyHouse()">Buy a House — ₦20,000</button>
+  </div>
+
+
+  <!-- VEHICLE -->
+  <div id="vehicle" class="card hidden">
+    <h2>🚗 Vehicles</h2>
+    <p>Your vehicle: <span id="vehicleName">Walking</span></p>
+    <button onclick="buyVehicle()">Buy Car — ₦15,000</button>
+  </div>
+
+
+  <!-- CHURCH -->
+  <div id="church" class="card hidden">
+    <h2>⛪ Church</h2>
+    <p>You attended church and restored some energy.</p>
+    <button onclick="churchAction()">Attend Service</button>
+  </div>
+
+
+  <!-- HOSPITAL -->
+  <div id="hospital" class="card hidden">
+    <h2>🏥 Hospital</h2>
+    <p>Rest and recover your energy.</p>
+    <button onclick="hospitalAction()">Recover</button>
+  </div>
+
+
+  <!-- POLICE -->
+  <div id="police" class="card hidden">
+    <h2>🚔 Police Station</h2>
+    <p>Fictional game system.</p>
+    <button onclick="crimeAction()">Attempt Risky Mission</button>
+  </div>
+
+
+  <!-- ACTIVITY -->
+  <div id="activity" class="card hidden">
+    <h2>📱 Activity</h2>
+    <button onclick="loadActivity()">Refresh Activity</button>
+    <div id="activityList"></div>
+  </div>
+
+
+  <div class="card">
+    <button class="secondary" onclick="logout()">Logout</button>
+  </div>
+
 </div>
-</header>
-
-<div class="screen">
-
-<div class="menu">
-<button onclick="show('map')">🗺️ MAP</button>
-<button onclick="show('chat')">💬 CHAT</button>
-<button onclick="show('vote')">🗳️ VOTE</button>
-<button onclick="show('club')">🎉 CLUB</button>
-<button onclick="show('jobs')">💼 JOBS</button>
-<button onclick="show('home')">🏠 HOME</button>
-<button onclick="show('transport')">🚗 TRANSPORT</button>
-<button onclick="show('missions')">🎯 MISSIONS</button>
-<button onclick="show('crime')">⚠️ CRIME</button>
-<button onclick="show('activity')">📱 ACTIVITY</button>
-</div>
-
-<div id="content" class="card">
-<h2>🏙️ Delta Life</h2>
-<p>Choose something from the menu.</p>
-</div>
-
-<button class="danger" onclick="logout()">Log Out</button>
 
 </div>
-</div>
-</div>
+
 
 <script>
-let users=JSON.parse(localStorage.getItem("deltaUsers")||"{}");
-let currentEmail=localStorage.getItem("deltaCurrent")||null;
 
-let player={
-name:"",
-gender:"",
-town:"",
-money:5000,
-energy:100,
-level:1,
-house:"No house",
-vehicle:"Walking",
-arrested:false,
-logs:[]
-};
+const SUPABASE_URL =
+"https://kwgbrnbmykflgbhxsnkl.supabase.co";
 
-function save(){
-localStorage.setItem("deltaUsers",JSON.stringify(users));
-if(currentEmail) users[currentEmail].player=player;
-localStorage.setItem("deltaUsers",JSON.stringify(users));
+const SUPABASE_KEY =
+"sb_publishable_KFH_CYFO6sPbKNtNoEjE1A_eIKaRrDC";
+
+const supabaseClient =
+window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentUser = null;
+let profile = null;
+
+
+/* MESSAGE */
+
+function showMessage(text){
+  document.getElementById("message").innerText = text;
 }
 
-function log(text){
-player.logs.unshift(new Date().toLocaleTimeString()+" — "+text);
-if(player.logs.length>50)player.logs.pop();
-save();
+
+/* SIGN UP */
+
+async function signUp(){
+
+  const email =
+    document.getElementById("signupEmail").value.trim();
+
+  const password =
+    document.getElementById("signupPassword").value;
+
+  const username =
+    document.getElementById("signupUsername").value.trim();
+
+  const hometown =
+    document.getElementById("signupHometown").value.trim();
+
+  const gender =
+    document.getElementById("signupGender").value;
+
+  if(!email || !password || !username){
+    showMessage("Please fill in email, password and username.");
+    return;
+  }
+
+  const {data,error} =
+    await supabaseClient.auth.signUp({
+      email,
+      password
+    });
+
+  if(error){
+    showMessage(error.message);
+    return;
+  }
+
+  if(!data.user){
+    showMessage("Account created. Check your email to confirm your account.");
+    return;
+  }
+
+  const {error: profileError} =
+    await supabaseClient
+      .from("profiles")
+      .insert({
+        id:data.user.id,
+        username:username,
+        gender:gender,
+        hometown:hometown,
+        location:"Kwale",
+        money:5000,
+        energy:100,
+        level:1,
+        house:"No house",
+        vehicle:"Walking"
+      });
+
+  if(profileError){
+    showMessage(profileError.message);
+    return;
+  }
+
+  showMessage("Account created successfully!");
 }
 
-function createAccount(){
-let e=email.value.trim().toLowerCase();
-let p=password.value;
 
-if(!e||!p){
-authMsg.textContent="Enter your email and password.";
-return;
+/* LOGIN */
+
+async function login(){
+
+  const email =
+    document.getElementById("loginEmail").value.trim();
+
+  const password =
+    document.getElementById("loginPassword").value;
+
+  const {data,error} =
+    await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+  if(error){
+    showMessage(error.message);
+    return;
+  }
+
+  currentUser = data.user;
+
+  await loadProfile();
+
+  if(profile){
+    openGame();
+  }
 }
 
-if(users[e]){
-authMsg.textContent="Account already exists. Log in.";
-return;
+
+/* PROFILE */
+
+async function loadProfile(){
+
+  const {data,error} =
+    await supabaseClient
+      .from("profiles")
+      .select("*")
+      .eq("id",currentUser.id)
+      .single();
+
+  if(error){
+    showMessage(error.message);
+    return;
+  }
+
+  profile = data;
+  updateScreen();
 }
 
-users[e]={password:p,player:null};
-currentEmail=e;
-localStorage.setItem("deltaCurrent",e);
-localStorage.setItem("deltaUsers",JSON.stringify(users));
 
-auth.classList.add("hidden");
-character.classList.remove("hidden");
+function updateScreen(){
+
+  document.getElementById("welcome").innerText =
+    "Welcome " + profile.username +
+    " — " + profile.location;
+
+  document.getElementById("money").innerText =
+    profile.money;
+
+  document.getElementById("energy").innerText =
+    profile.energy;
+
+  document.getElementById("level").innerText =
+    profile.level;
+
+  document.getElementById("house").innerText =
+    profile.house;
+
+  document.getElementById("vehicleName").innerText =
+    profile.vehicle;
+
+  document.getElementById("locationText").innerText =
+    "📍 You are currently in " + profile.location;
 }
 
-function login(){
-let e=email.value.trim().toLowerCase();
-let p=password.value;
 
-if(!users[e]||users[e].password!==p){
-authMsg.textContent="Wrong email or password.";
-return;
-}
-
-currentEmail=e;
-localStorage.setItem("deltaCurrent",e);
-
-if(users[e].player){
-player=users[e].player;
-openGame();
-}else{
-auth.classList.add("hidden");
-character.classList.remove("hidden");
-}
-}
-
-function startGame(){
-player.name=playerName.value.trim()||"Player";
-player.gender=gender.value;
-player.town=town.value;
-
-player.money=5000;
-player.energy=100;
-player.level=1;
-player.house="No house";
-player.vehicle="Walking";
-player.arrested=false;
-player.logs=[];
-
-log("Character created in "+player.town);
-openGame();
-}
+/* OPEN GAME */
 
 function openGame(){
-auth.classList.add("hidden");
-character.classList.add("hidden");
-game.classList.remove("hidden");
 
-welcome.textContent="Welcome, "+player.name+" 👋";
-update();
-show("home");
+  document.getElementById("authPage")
+    .classList.add("hidden");
+
+  document.getElementById("gamePage")
+    .classList.remove("hidden");
+
+  updateScreen();
 }
 
-function update(){
-money.textContent="₦"+player.money.toLocaleString();
-energy.textContent=player.energy;
-level.textContent=player.level;
+
+/* LOGOUT */
+
+async function logout(){
+
+  await supabaseClient.auth.signOut();
+
+  currentUser = null;
+  profile = null;
+
+  document.getElementById("gamePage")
+    .classList.add("hidden");
+
+  document.getElementById("authPage")
+    .classList.remove("hidden");
 }
 
-function show(page){
 
-let html="";
+/* SECTIONS */
 
-if(page==="home"){
-html=`
-<h2>🏠 Home</h2>
-<p><b>Name:</b> ${player.name}</p>
-<p><b>Town:</b> ${player.town}</p>
-<p><b>House:</b> ${player.house}</p>
-<p><b>Vehicle:</b> ${player.vehicle}</p>
-<p>${player.arrested?"🚔 You are currently arrested.":"✅ You are free."}</p>
-`;
+function showSection(id){
+
+  document.querySelectorAll(".card[id]")
+    .forEach(el => el.classList.add("hidden"));
+
+  document.getElementById(id)
+    .classList.remove("hidden");
 }
 
-if(page==="map"){
-html=`
-<h2>🗺️ Delta Map</h2>
-<p>Current location: <b>${player.town}</b></p>
-`;
 
-["Warri","Asaba","Sapele","Ughelli","Oleh","Kwale","Ozoro","Agbor"].forEach(t=>{
-html+=`<button onclick="travel('${t}')">📍 ${t}</button>`;
-});
+/* SAVE ACTIVITY */
 
-html+=`<p class="small">Travel uses 10 energy.</p>`;
+async function saveActivity(action){
+
+  if(!currentUser) return;
+
+  await supabaseClient
+    .from("activity")
+    .insert({
+      user_id:currentUser.id,
+      action:action
+    });
 }
 
-if(page==="chat"){
-html=`
-<h2>💬 Chat</h2>
-<div class="card">
-<b>👩 Ada</b>
-<p>“How is life going in Delta?”</p>
-<button onclick="chatReply('Ada')">Reply</button>
-</div>
 
-<div class="card">
-<b>👨 Emeka</b>
-<p>“There are opportunities everywhere if you look.”</p>
-<button onclick="chatReply('Emeka')">Reply</button>
-</div>
-`;
+/* TRAVEL */
+
+async function travel(place){
+
+  if(profile.energy < 10){
+    alert("Not enough energy.");
+    return;
+  }
+
+  profile.energy -= 10;
+  profile.location = place;
+
+  await supabaseClient
+    .from("profiles")
+    .update({
+      energy:profile.energy,
+      location:profile.location
+    })
+    .eq("id",currentUser.id);
+
+  await saveActivity("Travelled to " + place);
+
+  updateScreen();
+
+  alert("You travelled to " + place);
 }
 
-if(page==="vote"){
-html=`
-<h2>🗳️ Community Vote</h2>
-<p>Choose what the community should improve:</p>
-<button onclick="vote('Market upgrade')">🛒 Market Upgrade</button>
-<button onclick="vote('Youth center')">🏢 Youth Center</button>
-<button onclick="vote('Road project')">🛣️ Road Project</button>
-`;
+
+/* JOB */
+
+async function work(job,pay){
+
+  if(profile.energy < 15){
+    alert("Not enough energy.");
+    return;
+  }
+
+  profile.energy -= 15;
+  profile.money += pay;
+
+  await supabaseClient
+    .from("profiles")
+    .update({
+      energy:profile.energy,
+      money:profile.money
+    })
+    .eq("id",currentUser.id);
+
+  await saveActivity(
+    "Worked as " + job + " and earned ₦" + pay
+  );
+
+  updateScreen();
+
+  alert(
+    "You worked as " + job +
+    " and earned ₦" + pay
+  );
 }
 
-if(page==="club"){
-html=`
-<h2>🎉 Club</h2>
-<p>Relax and enjoy the night.</p>
-<button class="gold" onclick="club()">Enter Club — ₦500</button>
-<button onclick="restaurant()">🍽️ Restaurant — ₦300</button>
-`;
+
+/* HOUSE */
+
+async function buyHouse(){
+
+  if(profile.money < 20000){
+    alert("You need ₦20,000.");
+    return;
+  }
+
+  profile.money -= 20000;
+  profile.house = "Delta Home";
+
+  await supabaseClient
+    .from("profiles")
+    .update({
+      money:profile.money,
+      house:profile.house
+    })
+    .eq("id",currentUser.id);
+
+  await saveActivity("Bought a house");
+
+  updateScreen();
+
+  alert("You bought a house!");
 }
 
-if(page==="jobs"){
-html=`
-<h2>💼 Jobs</h2>
-<p>Work costs 15 energy.</p>
-<button onclick="job('Trader',1200)">🛒 Trader +₦1,200</button>
-<button onclick="job('Driver',900)">🚕 Driver +₦900</button>
-<button onclick="job('Designer',1500)">🎨 Designer +₦1,500</button>
-<button onclick="job('Mechanic',1800)">🔧 Mechanic +₦1,800</button>
-<button onclick="job('Engineer',2500)">⚙️ Engineer +₦2,500</button>
-`;
+
+/* VEHICLE */
+
+async function buyVehicle(){
+
+  if(profile.money < 15000){
+    alert("You need ₦15,000.");
+    return;
+  }
+
+  profile.money -= 15000;
+  profile.vehicle = "Delta Car";
+
+  await supabaseClient
+    .from("profiles")
+    .update({
+      money:profile.money,
+      vehicle:profile.vehicle
+    })
+    .eq("id",currentUser.id);
+
+  await saveActivity("Bought a vehicle");
+
+  updateScreen();
+
+  alert("You bought a vehicle!");
 }
 
-if(page==="homebuy"){
-page="home";
+
+/* CHURCH */
+
+async function churchAction(){
+
+  profile.energy =
+    Math.min(100,profile.energy + 20);
+
+  await supabaseClient
+    .from("profiles")
+    .update({
+      energy:profile.energy
+    })
+    .eq("id",currentUser.id);
+
+  await saveActivity("Attended church");
+
+  updateScreen();
+
+  alert("You attended church. Energy restored.");
 }
 
-if(page==="home"){
-html+=`
-<hr>
-<h3>🏠 Buy a Home</h3>
-<button onclick="buyHome('Room',3000)">Room — ₦3,000</button>
-<button onclick="buyHome('Apartment',15000)">Apartment — ₦15,000</button>
-<button onclick="buyHome('House',50000)">House — ₦50,000</button>
-`;
+
+/* HOSPITAL */
+
+async function hospitalAction(){
+
+  profile.energy = 100;
+
+  await supabaseClient
+    .from("profiles")
+    .update({
+      energy:100
+    })
+    .eq("id",currentUser.id);
+
+  await saveActivity("Visited hospital");
+
+  updateScreen();
+
+  alert("You recovered your energy.");
 }
 
-if(page==="transport"){
-html=`
-<h2>🚗 Transport</h2>
-<button onclick="buyVehicle('Keke',300)">🛺 Keke — ₦300</button>
-<button onclick="buyVehicle('Taxi',700)">🚕 Taxi — ₦700</button>
-<button onclick="buyVehicle('Bus',500)">🚌 Bus — ₦500</button>
-<button onclick="buyVehicle('Boat',1200)">🚤 Boat — ₦1,200</button>
-`;
+
+/* CLUB */
+
+async function clubAction(){
+
+  if(profile.energy < 10){
+    alert("You need more energy.");
+    return;
+  }
+
+  profile.energy -= 10;
+
+  await supabaseClient
+    .from("profiles")
+    .update({
+      energy:profile.energy
+    })
+    .eq("id",currentUser.id);
+
+  await saveActivity("Visited the club");
+
+  updateScreen();
+
+  alert("🎉 You enjoyed the night at the club!");
 }
 
-if(page==="missions"){
-html=`
-<h2>🎯 Missions</h2>
-<button onclick="mission('Help at market',800)">🛒 Help at Market +₦800</button>
-<button onclick="mission('Deliver package',1200)">📦 Deliver Package +₦1,200</button>
-<button onclick="mission('Find lost phone',1000)">📱 Find Lost Phone +₦1,000</button>
-`;
+
+/* FICTIONAL CRIME */
+
+async function crimeAction(){
+
+  if(profile.energy < 10){
+    alert("Not enough energy.");
+    return;
+  }
+
+  profile.energy -= 10;
+
+  const arrested =
+    Math.random() < 0.35;
+
+  if(arrested){
+
+    await supabaseClient
+      .from("profiles")
+      .update({
+        energy:profile.energy
+      })
+      .eq("id",currentUser.id);
+
+    await saveActivity(
+      "Was arrested during a risky mission"
+    );
+
+    updateScreen();
+
+    alert("🚔 You were arrested in the game!");
+    return;
+  }
+
+  const reward = 1000;
+  profile.money += reward;
+
+  await supabaseClient
+    .from("profiles")
+    .update({
+      energy:profile.energy,
+      money:profile.money
+    })
+    .eq("id",currentUser.id);
+
+  await saveActivity(
+    "Completed a risky fictional mission"
+  );
+
+  updateScreen();
+
+  alert(
+    "Mission successful! You earned ₦" +
+    reward
+  );
 }
 
-if(page==="crime"){
-html=`
-<h2>⚠️ Crime</h2>
-<p>These are fictional game events with fictional consequences.</p>
-<button class="danger" onclick="crime('Attempt robbery')">🚨 Attempt Robbery</button>
-<button class="danger" onclick="crime('Street trouble')">⚠️ Street Trouble</button>
-`;
+
+/* VOTE */
+
+async function castVote(choice){
+
+  const {error} =
+    await supabaseClient
+      .from("votes")
+      .insert({
+        user_id:currentUser.id,
+        choice:choice
+      });
+
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  document.getElementById("voteResult")
+    .innerText =
+    "You voted for " + choice + ".";
+
+  await saveActivity(
+    "Voted for " + choice
+  );
 }
 
-if(page==="activity"){
-html=`
-<h2>📱 Activity</h2>
-<div class="log">
-${player.logs.length?player.logs.map(x=>`<div>${x}</div>`).join(""):"No activity yet."}
-</div>
-`;
+
+/* CHAT */
+
+async function sendMessage(){
+
+  const receiver =
+    document.getElementById("chatReceiver")
+      .value.trim();
+
+  const text =
+    document.getElementById("chatText")
+      .value.trim();
+
+  if(!receiver || !text){
+    alert("Enter the receiver ID and message.");
+    return;
+  }
+
+  const {error} =
+    await supabaseClient
+      .from("messages")
+      .insert({
+        sender_id:currentUser.id,
+        receiver_id:receiver,
+        message:text
+      });
+
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  document.getElementById("chatText").value = "";
+
+  await saveActivity("Sent a chat message");
+
+  alert("Message sent.");
 }
 
-content.innerHTML=html;
+
+/* LOAD MESSAGES */
+
+async function loadMessages(){
+
+  const {data,error} =
+    await supabaseClient
+      .from("messages")
+      .select("*")
+      .or(
+        "sender_id.eq." + currentUser.id +
+        ",receiver_id.eq." + currentUser.id
+      )
+      .order("created_at",{ascending:false})
+      .limit(30);
+
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  const box =
+    document.getElementById("messagesList");
+
+  box.innerHTML = "";
+
+  data.forEach(msg => {
+
+    const div =
+      document.createElement("p");
+
+    div.innerText =
+      (msg.sender_id === currentUser.id
+        ? "You: "
+        : "Player: ") +
+      msg.message;
+
+    box.appendChild(div);
+  });
 }
 
-function travel(t){
-if(t===player.town){
-alert("You are already here.");
-return;
+
+/* PLAYERS */
+
+async function loadPeople(){
+
+  const {data,error} =
+    await supabaseClient
+      .from("profiles")
+      .select("id,username,hometown,location,level")
+      .limit(30);
+
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  const box =
+    document.getElementById("peopleList");
+
+  box.innerHTML = "";
+
+  data.forEach(player => {
+
+    const div =
+      document.createElement("div");
+
+    div.className = "card";
+
+    div.innerHTML =
+      "<b>👤 " +
+      escapeHTML(player.username || "Player") +
+      "</b><br>" +
+      "📍 " +
+      escapeHTML(player.location || "Unknown") +
+      "<br>" +
+      "⭐ Level " +
+      player.level;
+
+    box.appendChild(div);
+  });
 }
 
-if(player.energy<10){
-alert("Not enough energy.");
-return;
+
+/* ACTIVITY */
+
+async function loadActivity(){
+
+  const {data,error} =
+    await supabaseClient
+      .from("activity")
+      .select("*")
+      .eq("user_id",currentUser.id)
+      .order("created_at",{ascending:false})
+      .limit(50);
+
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  const box =
+    document.getElementById("activityList");
+
+  box.innerHTML = "";
+
+  data.forEach(item => {
+
+    const div =
+      document.createElement("p");
+
+    div.innerText =
+      "📌 " + item.action;
+
+    box.appendChild(div);
+  });
 }
 
-player.energy-=10;
-player.town=t;
-log("Travelled to "+t);
-update();
-show("map");
+
+/* BASIC HTML SAFETY */
+
+function escapeHTML(text){
+
+  return String(text)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
 
-function chatReply(person){
-let replies={
-Ada:"Ada: Nice! Keep building your life.",
-Emeka:"Emeka: Opportunities are waiting for you."
-};
 
-alert(replies[person]);
-log("Chatted with "+person);
-show("chat");
+/* CHECK EXISTING SESSION */
+
+async function checkSession(){
+
+  const {data} =
+    await supabaseClient.auth.getSession();
+
+  if(data.session){
+
+    currentUser =
+      data.session.user;
+
+    await loadProfile();
+
+    if(profile){
+      openGame();
+    }
+  }
 }
 
-function vote(choice){
-localStorage.setItem("deltaVote",choice);
-alert("Your vote for "+choice+" has been recorded.");
-log("Voted for "+choice);
-show("vote");
-}
+checkSession();
 
-function club(){
-if(player.money<500){
-alert("Not enough money.");
-return;
-}
-
-player.money-=500;
-player.energy=Math.min(100,player.energy+20);
-
-log("Went to the club.");
-update();
-show("club");
-}
-
-function restaurant(){
-if(player.money<300){
-alert("Not enough money.");
-return;
-}
-
-player.money-=300;
-player.energy=Math.min(100,player.energy+10);
-
-log("Visited a restaurant.");
-update();
-show("club");
-}
-
-function job(name,pay){
-if(player.energy<15){
-alert("You need more energy.");
-return;
-}
-
-player.energy-=15;
-player.money+=pay;
-player.level=Math.max(1,Math.floor(player.money/5000)+1);
-
-log("Worked as a "+name+" and earned ₦"+pay.toLocaleString());
-update();
-show("jobs");
-}
-
-function buyHome(name,cost){
-if(player.money<cost){
-alert("Not enough money.");
-return;
-}
-
-player.money-=cost;
-player.house=name;
-
-log("Bought a "+name);
-update();
-show("home");
-}
-
-function buyVehicle(name,cost){
-if(player.money<cost){
-alert("Not enough money.");
-return;
-}
-
-player.money-=cost;
-player.vehicle=name;
-
-log("Bought a "+name);
-update();
-show("transport");
-}
-
-function mission(name,reward){
-if(player.energy<10){
-alert("Not enough energy.");
-return;
-}
-
-player.energy-=10;
-player.money+=reward;
-player.level=Math.max(1,Math.floor(player.money/5000)+1);
-
-log("Completed mission: "+name+" and earned ₦"+reward.toLocaleString());
-update();
-show("missions");
-}
-
-function crime(type){
-if(player.arrested){
-alert("You are already arrested. Serve your fictional sentence first.");
-return;
-}
-
-let caught=Math.random()<0.5;
-
-if(caught){
-player.arrested=true;
-player.money=Math.max(0,player.money-500);
-log(type+" — CAUGHT! Fictional arrest and ₦500 fine.");
-alert("🚔 You were caught! You are arrested in the game and fined ₦500.");
-}else{
-player.money+=700;
-log(type+" — escaped and received ₦700 in the game.");
-alert("You escaped in this fictional game event and received ₦700.");
-}
-
-update();
-show("crime");
-}
-
-function logout(){
-save();
-localStorage.removeItem("deltaCurrent");
-
-game.classList.add("hidden");
-auth.classList.remove("hidden");
-email.value="";
-password.value="";
-}
-
-if(currentEmail&&users[currentEmail]){
-if(users[currentEmail].player){
-player=users[currentEmail].player;
-openGame();
-}else{
-auth.classList.add("hidden");
-character.classList.remove("hidden");
-}
-}
 </script>
 
 </body>
-    </html>
+</html>
