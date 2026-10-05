@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delta Life</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#071b12;
+    color:white;
+}
+
+.header{
+    background:#0b6b3a;
+    padding:20px;
+    text-align:center;
+}
+
+.header h1{
+    margin:0;
+    font-size:32px;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+    padding:15px;
+}
+
+.card{
+    background:#10281d;
+    border-radius:18px;
+    padding:20px;
+    margin:15px 0;
+    box-shadow:0 5px 20px #0005;
+}
+
+input,select{
+    width:100%;
+    padding:14px;
+    margin:7px 0;
+    border-radius:10px;
+    border:0;
+    font-size:16px;
+}
+
+button{
+    border:0;
+    border-radius:12px;
+    padding:13px 16px;
+    margin:5px;
+    background:#12a957;
+    color:white;
+    font-weight:bold;
+    font-size:15px;
+}
+
+button:active{
+    transform:scale(.97);
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+.stat{
+    background:#183b29;
+    padding:12px;
+    border-radius:12px;
+    text-align:center;
+}
+
+.stat strong{
+    display:block;
+    font-size:20px;
+    margin-top:5px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.location{
+    background:#183b29;
+    padding:15px;
+    border-radius:14px;
+}
+
+.hidden{
+    display:none;
+}
+
+#message{
+    line-height:1.6;
+    color:#d9ffe8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>🌴 DELTA LIFE</h1>
+    <p>Build your life. Build your future.</p>
+</div>
+
+<div class="container">
+
+<!-- CHARACTER CREATION -->
+
+<div class="card" id="creation">
+
+<h2>👤 Create Your Character</h2>
+
+<input id="name" placeholder="Enter your name">
+
+<select id="gender">
+<option value="">Choose gender</option>
+<option>Male</option>
+<option>Female</option>
+</select>
+
+<select id="town">
+<option value="">Choose hometown</option>
+<option>Warri</option>
+<option>Asaba</option>
+<option>Sapele</option>
+<option>Ughelli</option>
+<option>Oleh</option>
+<option>Kwale</option>
+<option>Ozoro</option>
+<option>Agbor</option>
+<option>Abraka</option>
+</select>
+
+<button onclick="startGame()">START DELTA LIFE 🚀</button>
+
+</div>
+
+
+<!-- GAME -->
+
+<div id="game" class="hidden">
+
+<div class="card">
+
+<h2 id="welcome"></h2>
+
+<div class="stats">
+
+<div class="stat">
+💰 Money
+<strong id="money">₦5,000</strong>
+</div>
+
+<div class="stat">
+⚡ Energy
+<strong id="energy">100</strong>
+</div>
+
+<div class="stat">
+⭐ Level
+<strong id="level">1</strong>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- MAP -->
+
+<div class="card">
+
+<h2>🗺️ Delta Map</h2>
+
+<div class="grid">
+
+<div class="location">
+🏙️ <b>Warri</b><br>
+<button onclick="travel('Warri')">Visit</button>
+</div>
+
+<div class="location">
+🏛️ <b>Asaba</b><br>
+<button onclick="travel('Asaba')">Visit</button>
+</div>
+
+<div class="location">
+🌴 <b>Sapele</b><br>
+<button onclick="travel('Sapele')">Visit</button>
+</div>
+
+<div class="location">
+🎓 <b>Oleh</b><br>
+<button onclick="travel('Oleh')">Visit</button>
+</div>
+
+<div class="location">
+🏘️ <b>Ughelli</b><br>
+<button onclick="travel('Ughelli')">Visit</button>
+</div>
+
+<div class="location">
+🌾 <b>Kwale</b><br>
+<button onclick="travel('Kwale')">Visit</button>
+</div>
+
+<div class="location">
+🏘️ <b>Ozoro</b><br>
+<button onclick="travel('Ozoro')">Visit</button>
+</div>
+
+<div class="location">
+🏙️ <b>Agbor</b><br>
+<button onclick="travel('Agbor')">Visit</button>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- JOBS -->
+
+<div class="card">
+
+<h2>💼 Jobs</h2>
+
+<button onclick="work('Trader',1200)">
+🛒 Trader +₦1,200
+</button>
+
+<button onclick="work('Driver',900)">
+🚕 Driver +₦900
+</button>
+
+<button onclick="work('Designer',1500)">
+🎨 Designer +₦1,500
+</button>
+
+<button onclick="work('Mechanic',1800)">
+🔧 Mechanic +₦1,800
+</button>
+
+<button onclick="work('Engineer',2500)">
+⚙️ Engineer +₦2,500
+</button>
+
+</div>
+
+
+<!-- HOUSE -->
+
+<div class="card">
+
+<h2>🏠 Home</h2>
+
+<p>Choose your first home.</p>
+
+<button onclick="buyHouse('Room',3000)">
+🛏️ Room — ₦3,000
+</button>
+
+<button onclick="buyHouse('Apartment',15000)">
+🏢 Apartment — ₦15,000
+</button>
+
+<button onclick="buyHouse('House',50000)">
+🏡 House — ₦50,000
+</button>
+
+</div>
+
+
+<!-- HOTEL -->
+
+<div class="card">
+
+<h2>🏨 Hotels</h2>
+
+<button onclick="hotel('Budget Hotel',500)">
+Budget — ₦500
+</button>
+
+<button onclick="hotel('Comfort Hotel',1500)">
+Comfort — ₦1,500
+</button>
+
+<button onclick="hotel('Luxury Hotel',3000)">
+Luxury — ₦3,000
+</button>
+
+</div>
+
+
+<!-- TRANSPORT -->
+
+<div class="card">
+
+<h2>🚗 Transportation</h2>
+
+<button onclick="transport('Keke',300)">
+🛺 Keke — ₦300
+</button>
+
+<button onclick="transport('Taxi',700)">
+🚕 Taxi — ₦700
+</button>
+
+<button onclick="transport('Bus',500)">
+🚌 Bus — ₦500
+</button>
+
+<button onclick="transport('Boat',1200)">
+🚤 Boat — ₦1,200
+</button>
+
+</div>
+
+
+<!-- ACTIVITY -->
+
+<div class="card">
+
+<h2>📱 Activity</h2>
+
+<p id="message">
+Welcome to Delta Life. Your story begins now.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+let money = 5000;
+let energy = 100;
+let level = 1;
+let playerName = "";
+let hometown = "";
+
+function update(){
+
+document.getElementById("money").textContent =
+"₦" + money.toLocaleString();
+
+document.getElementById("energy").textContent =
+energy;
+
+document.getElementById("level").textContent =
+level;
+
+}
+
+function startGame(){
+
+playerName =
+document.getElementById("name").value.trim();
+
+hometown =
+document.getElementById("town").value;
+
+if(!playerName || !hometown){
+
+alert("Enter your name and choose your hometown.");
+
+return;
+
+}
+
+document.getElementById("creation")
+.classList.add("hidden");
+
+document.getElementById("game")
+.classList.remove("hidden");
+
+document.getElementById("welcome").textContent =
+"Welcome " + playerName + " 👋 — " + hometown;
+
+document.getElementById("message").textContent =
+"You have ₦5,000. Your Delta Life journey has started!";
+
+update();
+
+}
+
+function travel(place){
+
+if(energy < 10){
+
+message("😴 You need rest before travelling.");
+
+return;
+
+}
+
+energy -= 10;
+
+message("🚕 You travelled to " + place + ".");
+
+update();
+
+}
+
+function work(job,pay){
+
+if(energy < 15){
+
+message("😴 You are tired. Visit a hotel to rest.");
+
+return;
+
+}
+
+energy -= 15;
+
+money += pay;
+
+if(money >= 10000){
+
+level = 2;
+
+}
+
+message(
+"💼 You completed your " +
+job +
+" job and earned ₦" +
+pay.toLocaleString() +
+"."
+);
+
+update();
+
+}
+
+function hotel(name,cost){
+
+if(money < cost){
+
+message("💸 You don't have enough money.");
+
+return;
+
+}
+
+money -= cost;
+
+energy = 100;
+
+message(
+"🏨 You stayed at " +
+name +
+". Your energy is now 100."
+);
+
+update();
+
+}
+
+function buyHouse(type,cost){
+
+if(money < cost){
+
+message("💸 You need more money to buy this " + type + ".");
+
+return;
+
+}
+
+money -= cost;
+
+message(
+"🏠 Congratulations! You now own a " +
+type +
+"."
+);
+
+update();
+
+}
+
+function transport(type,cost){
+
+if(money < cost){
+
+message("💸 You don't have enough money.");
+
+return;
+
+}
+
+money -= cost;
+
+energy = Math.max(0,energy - 5);
+
+message(
+"🚗 You used a " +
+type +
+" and paid ₦" +
+cost.toLocaleString() +
+"."
+);
+
+update();
+
+}
+
+function message(text){
+
+document.getElementById("message").textContent =
+text;
+
+}
+
+</script>
+
+</body>
+  </html>
