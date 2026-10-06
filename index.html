@@ -1205,6 +1205,400 @@ await loadGame();
 
 startApp();
 
+/* =========================
+   DELTA LIFE — VISUAL UPGRADE
+   ========================= */
+
+(function () {
+
+  const style = document.createElement("style");
+
+  style.textContent = `
+    #deltaUpgrade {
+      margin: 18px auto;
+      max-width: 900px;
+      font-family: Arial, sans-serif;
+    }
+
+    .delta-welcome {
+      background: linear-gradient(135deg,#075e3c,#0c8f5b);
+      color: white;
+      border-radius: 22px;
+      padding: 22px;
+      margin-bottom: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.20);
+    }
+
+    .delta-welcome h2 {
+      margin: 0 0 6px;
+      font-size: 25px;
+    }
+
+    .delta-welcome p {
+      margin: 0;
+      opacity: .9;
+    }
+
+    .delta-stats {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .delta-stat {
+      background: rgba(255,255,255,.14);
+      border-radius: 15px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .delta-stat strong {
+      display: block;
+      font-size: 20px;
+      margin-top: 4px;
+    }
+
+    .delta-section-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 22px 4px 12px;
+    }
+
+    .delta-grid {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 12px;
+    }
+
+    .delta-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 105px;
+      border-radius: 20px;
+      padding: 18px;
+      color: white;
+      cursor: pointer;
+      border: 0;
+      text-align: left;
+      box-shadow: 0 8px 22px rgba(0,0,0,.16);
+      transition: transform .15s, box-shadow .15s;
+    }
+
+    .delta-card:active {
+      transform: scale(.96);
+    }
+
+    .delta-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0,0,0,.22);
+    }
+
+    .delta-card .icon {
+      font-size: 34px;
+      margin-bottom: 8px;
+    }
+
+    .delta-card .title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .delta-card .small {
+      font-size: 12px;
+      opacity: .85;
+      margin-top: 4px;
+    }
+
+    .map-card {
+      background: linear-gradient(135deg,#075e3c,#13a66a);
+      grid-column: span 2;
+      min-height: 140px;
+    }
+
+    .job-card {
+      background: linear-gradient(135deg,#164e63,#087f8c);
+    }
+
+    .home-card {
+      background: linear-gradient(135deg,#713f12,#ca8a04);
+    }
+
+    .people-card {
+      background: linear-gradient(135deg,#312e81,#6366f1);
+    }
+
+    .church-card {
+      background: linear-gradient(135deg,#581c87,#9333ea);
+    }
+
+    .club-card {
+      background: linear-gradient(135deg,#831843,#db2777);
+    }
+
+    .hospital-card {
+      background: linear-gradient(135deg,#075985,#0284c7);
+    }
+
+    .police-card {
+      background: linear-gradient(135deg,#172554,#1d4ed8);
+    }
+
+    .vehicle-card {
+      background: linear-gradient(135deg,#292524,#57534e);
+    }
+
+    .activity-card {
+      background: linear-gradient(135deg,#374151,#6b7280);
+    }
+
+    @media(max-width:600px) {
+      .delta-grid {
+        grid-template-columns:1fr 1fr;
+      }
+
+      .map-card {
+        grid-column:span 2;
+      }
+
+      .delta-stats {
+        grid-template-columns:repeat(3,1fr);
+      }
+
+      .delta-card {
+        min-height:95px;
+        padding:14px;
+      }
+    }
+  `;
+
+  document.head.appendChild(style);
+
+  function makeCard(icon, title, text, className, action) {
+    const card = document.createElement("div");
+    card.className = "delta-card " + className;
+
+    card.innerHTML = `
+      <div class="icon">${icon}</div>
+      <div class="title">${title}</div>
+      <div class="small">${text}</div>
+    `;
+
+    card.onclick = action;
+
+    return card;
+  }
+
+  function createUpgrade() {
+
+    if (document.getElementById("deltaUpgrade")) return;
+
+    const gameArea =
+      document.querySelector("#gameScreen") ||
+      document.querySelector(".game-screen") ||
+      document.body;
+
+    const box = document.createElement("div");
+    box.id = "deltaUpgrade";
+
+    box.innerHTML = `
+      <div class="delta-welcome">
+        <h2>🌴 Welcome to Delta Life</h2>
+        <p>Live your life. Make money. Explore Delta State.</p>
+
+        <div class="delta-stats">
+          <div class="delta-stat">
+            💰
+            <strong id="upgradeMoney">₦0</strong>
+            Money
+          </div>
+
+          <div class="delta-stat">
+            ⚡
+            <strong id="upgradeEnergy">0</strong>
+            Energy
+          </div>
+
+          <div class="delta-stat">
+            ⭐
+            <strong id="upgradeLevel">1</strong>
+            Level
+          </div>
+        </div>
+      </div>
+
+      <div class="delta-section-title">🌴 What do you want to do?</div>
+
+      <div class="delta-grid" id="deltaCards"></div>
+    `;
+
+    gameArea.appendChild(box);
+
+    const cards = document.getElementById("deltaCards");
+
+    cards.appendChild(
+      makeCard(
+        "🗺️",
+        "Explore Delta",
+        "Travel around Delta State",
+        "map-card",
+        () => {
+          if (typeof map === "function") map();
+        }
+      )
+    );
+
+    cards.appendChild(
+      makeCard(
+        "💼",
+        "Jobs",
+        "Work and earn money",
+        "job-card",
+        () => {
+          if (typeof jobs === "function") jobs();
+        }
+      )
+    );
+
+    cards.appendChild(
+      makeCard(
+        "🏠",
+        "My Home",
+        "Manage your home",
+        "home-card",
+        () => {
+          if (typeof home === "function") home();
+        }
+      )
+    );
+
+    cards.appendChild(
+      makeCard(
+        "🚗",
+        "Vehicles",
+        "Check your vehicles",
+        "vehicle-card",
+        () => {
+          if (typeof vehicles === "function") vehicles();
+        }
+      )
+    );
+
+    cards.appendChild(
+      makeCard(
+        "👥",
+        "People",
+        "Meet other players",
+        "people-card",
+        () => {
+          if (typeof people === "function") people();
+        }
+      )
+    );
+
+    cards.appendChild(
+      makeCard(
+        "⛪",
+        "Church",
+        "Visit church",
+        "church-card",
+        () => {
+          if (typeof church === "function") church();
+        }
+      )
+    );
+
+    cards.appendChild(
+      makeCard(
+        "🎉",
+        "Club",
+        "Enjoy the nightlife",
+        "club-card",
+        () => {
+          if (typeof club === "function") club();
+        }
+      )
+    );
+
+    cards.appendChild(
+      makeCard(
+        "🏥",
+        "Hospital",
+        "Take care of your health",
+        "hospital-card",
+        () => {
+          if (typeof hospital === "function") hospital();
+        }
+      )
+    );
+
+    cards.appendChild(
+      makeCard(
+        "👮",
+        "Police",
+        "Police station",
+        "police-card",
+        () => {
+          if (typeof police === "function") police();
+        }
+      )
+    );
+
+    cards.appendChild(
+      makeCard(
+        "📱",
+        "Activity",
+        "See what you've done",
+        "activity-card",
+        () => {
+          if (typeof activity === "function") activity();
+        }
+      )
+    );
+  }
+
+  function updateUpgradeStats() {
+
+    const money = document.getElementById("upgradeMoney");
+    const energy = document.getElementById("upgradeEnergy");
+    const level = document.getElementById("upgradeLevel");
+
+    if (money && typeof player !== "undefined") {
+      if (player.money !== undefined)
+        money.textContent = "₦" + Number(player.money).toLocaleString();
+    }
+
+    if (energy && typeof player !== "undefined") {
+      if (player.energy !== undefined)
+        energy.textContent = player.energy;
+    }
+
+    if (level && typeof player !== "undefined") {
+      if (player.level !== undefined)
+        level.textContent = player.level;
+    }
+  }
+
+  const watcher = new MutationObserver(function () {
+
+    const text = document.body.innerText || "";
+
+    if (
+      text.includes("Welcome") &&
+      !document.getElementById("deltaUpgrade")
+    ) {
+      setTimeout(createUpgrade, 300);
+    }
+
+    updateUpgradeStats();
+  });
+
+  watcher.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+
+})();  
 </script>
 
 </body>
