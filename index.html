@@ -3102,5 +3102,24 @@ async function buyDeltaHouse(house,price){
 }
 
     </script>
+<script>
+setTimeout(function(){
+
+  const homeButtons=document.querySelectorAll(".deltaSide button");
+
+  homeButtons.forEach(function(button){
+
+    if(button.innerText.includes("Home")){
+
+      button.onclick=function(){
+        openDeltaHome();
+      };
+
+    }
+
+  });
+
+},700);
+</script>
 </body>
 </html>
