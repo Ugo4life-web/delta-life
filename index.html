@@ -2196,7 +2196,7 @@ activateDeltaWorld();
   position:fixed;
   inset:0;
   z-index:99999;
-  background:linear-gradient(#74c9e8,#dff6ff);
+  background:linear-gradient(#74c9e8,#e8f8ff);
   overflow-y:auto;
   padding:25px 18px 100px;
   font-family:Arial,sans-serif;
@@ -2208,18 +2208,18 @@ activateDeltaWorld();
   background:white;
   border-radius:25px;
   padding:20px;
+  box-shadow:0 10px 35px rgba(0,0,0,.2);
 }
 
 .deltaPlaceTitle{
   font-size:28px;
   font-weight:bold;
-  margin-bottom:10px;
+  margin-bottom:8px;
 }
 
 .deltaPlaceText{
-  font-size:16px;
   line-height:1.5;
-  margin-bottom:20px;
+  margin-bottom:18px;
 }
 
 .deltaPlaceCard{
@@ -2229,6 +2229,11 @@ activateDeltaWorld();
   margin:12px 0;
   font-size:17px;
   font-weight:bold;
+  cursor:pointer;
+}
+
+.deltaPlaceCard:active{
+  transform:scale(.98);
 }
 
 .deltaPlaceClose{
@@ -2261,6 +2266,7 @@ activateDeltaWorld();
 </div>
 
 <script>
+
 function openDeltaPlace(place){
 
   document.getElementById("deltaPlaceScreen").style.display="block";
@@ -2272,45 +2278,54 @@ function openDeltaPlace(place){
   if(place==="market"){
 
     title.innerHTML="🛒 DELTA MARKET";
-
-    text.innerHTML=
-      "Welcome to Delta Market. Buy items, look for work and meet people.";
+    text.innerHTML="Welcome to Delta Market.";
 
     options.innerHTML=`
-      <div class="deltaPlaceCard">💼 Find a Job</div>
-      <div class="deltaPlaceCard">🛍️ Shops</div>
-      <div class="deltaPlaceCard">🍔 Food</div>
-      <div class="deltaPlaceCard">👥 People at the Market</div>
+      <div class="deltaPlaceCard" onclick="gameAction('💼 JOBS','You looked for work at the market.')">💼 Find a Job</div>
+      <div class="deltaPlaceCard" onclick="gameAction('🛍️ SHOPS','The market shops are opening soon.')">🛍️ Shops</div>
+      <div class="deltaPlaceCard" onclick="gameAction('🍔 FOOD','You visited the food section.')">🍔 Food</div>
+      <div class="deltaPlaceCard" onclick="gameAction('👥 PEOPLE','You looked around the market.')">👥 People at the Market</div>
     `;
   }
 
   if(place==="hotel"){
 
     title.innerHTML="🏨 DELTA HOTEL";
-
-    text.innerHTML=
-      "A place to stay, rest and meet other players.";
+    text.innerHTML="Welcome to Delta Hotel.";
 
     options.innerHTML=`
-      <div class="deltaPlaceCard">🛏️ Get a Room</div>
-      <div class="deltaPlaceCard">🍽️ Hotel Restaurant</div>
-      <div class="deltaPlaceCard">👥 Guests</div>
+      <div class="deltaPlaceCard" onclick="gameAction('🛏️ ROOM','You checked the available hotel rooms.')">🛏️ Get a Room</div>
+      <div class="deltaPlaceCard" onclick="gameAction('🍽️ RESTAURANT','You entered the hotel restaurant.')">🍽️ Hotel Restaurant</div>
+      <div class="deltaPlaceCard" onclick="gameAction('👥 GUESTS','You looked around the hotel.')">👥 Guests</div>
     `;
   }
 
   if(place==="university"){
 
     title.innerHTML="🎓 DELTA UNIVERSITY";
-
-    text.innerHTML=
-      "Study, attend classes and build your character's future.";
+    text.innerHTML="Welcome to Delta University.";
 
     options.innerHTML=`
-      <div class="deltaPlaceCard">📚 Study</div>
-      <div class="deltaPlaceCard">🏫 Attend Class</div>
-      <div class="deltaPlaceCard">👨‍🎓 Students</div>
+      <div class="deltaPlaceCard" onclick="studyAtUniversity()">📚 Study</div>
+      <div class="deltaPlaceCard" onclick="gameAction('🏫 CLASS','You attended a university class.')">🏫 Attend Class</div>
+      <div class="deltaPlaceCard" onclick="gameAction('👨‍🎓 STUDENTS','You looked around the university.')">👨‍🎓 Students</div>
     `;
   }
+}
+
+function gameAction(title,message){
+
+  alert(title+"\n\n"+message);
+}
+
+function studyAtUniversity(){
+
+  alert(
+    "📚 STUDY SESSION\n\n"+
+    "You studied at Delta University.\n\n"+
+    "⭐ Experience +10\n"+
+    "⚡ Energy -5"
+  );
 }
 
 function closeDeltaPlace(){
@@ -2330,6 +2345,7 @@ document.querySelector(".hotel").onclick=function(){
 document.querySelector(".university").onclick=function(){
   openDeltaPlace("university");
 };
+
 </script>
 </body>
 </html>
