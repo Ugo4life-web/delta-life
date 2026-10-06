@@ -3102,5 +3102,38 @@ async function buyDeltaHouse(house,price){
 }
 
 </script>
+<style>
+#deltaWorld{
+  pointer-events:auto !important;
+}
+
+#deltaWorld .deltaCity{
+  pointer-events:none !important;
+}
+
+#deltaWorld .market,
+#deltaWorld .hotel,
+#deltaWorld .university,
+#deltaWorld .deltaSide,
+#deltaWorld .deltaBottom,
+#deltaWorld .deltaSide button,
+#deltaWorld .deltaBottom button{
+  pointer-events:auto !important;
+}
+
+#deltaWorld .deltaSide{
+  z-index:100000 !important;
+}
+
+#deltaWorld .deltaBottom{
+  z-index:100001 !important;
+}
+
+#deltaWorld .market,
+#deltaWorld .hotel,
+#deltaWorld .university{
+  z-index:100002 !important;
+}
+</style>
 </body>
 </html>
