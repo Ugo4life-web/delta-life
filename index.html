@@ -2722,5 +2722,18 @@ setTimeout(function(){
 },500);
 
 </script>
+<!-- DELTA LIFE PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#74c9e8">
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => console.log("Delta Life ready for install"))
+      .catch(err => console.log("PWA error:", err));
+  });
+}
+</script>
 </body>
 </html>
