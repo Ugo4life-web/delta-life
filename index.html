@@ -3101,17 +3101,17 @@ async function buyDeltaHouse(house,price){
 
 }
 
-    </script>
+</script>
 <script>
 setTimeout(function(){
 
-  const homeButtons=document.querySelectorAll(".deltaSide button");
+  const buttons = document.querySelectorAll("#deltaWorld button");
 
-  homeButtons.forEach(function(button){
+  buttons.forEach(function(button){
 
-    if(button.innerText.includes("Home")){
+    if(button.textContent.trim() === "🏠 Home"){
 
-      button.onclick=function(){
+      button.onclick = function(){
         openDeltaHome();
       };
 
@@ -3119,7 +3119,7 @@ setTimeout(function(){
 
   });
 
-},700);
+},1000);
 </script>
 </body>
 </html>
