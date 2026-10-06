@@ -2206,6 +2206,7 @@ activateDeltaWorld();
   max-width:600px;
   margin:auto;
   background:white;
+  color:#123;
   border-radius:25px;
   padding:20px;
   box-shadow:0 10px 35px rgba(0,0,0,.2);
@@ -2247,66 +2248,16 @@ activateDeltaWorld();
   font-weight:bold;
   margin-top:15px;
 }
-<style>
-#deltaPlaceScreen{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:99999;
-  background:linear-gradient(#74c9e8,#e8f8ff);
-  overflow-y:auto;
-  padding:25px 18px 100px;
-  font-family:Arial,sans-serif;
-}
-
-.deltaPlaceBox{
-  max-width:600px;
-  margin:auto;
-  background:white;
-  border-radius:25px;
-  padding:20px;
-  box-shadow:0 10px 35px rgba(0,0,0,.2);
-}
-
-.deltaPlaceTitle{
-  font-size:28px;
-  font-weight:bold;
-  margin-bottom:8px;
-}
-
-.deltaPlaceText{
-  line-height:1.5;
-  margin-bottom:18px;
-}
-
-.deltaPlaceCard{
-  background:#f1f5f7;
-  border-radius:18px;
-  padding:18px;
-  margin:12px 0;
-  font-size:17px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.deltaPlaceClose{
-  width:100%;
-  border:0;
-  border-radius:16px;
-  padding:15px;
-  background:#123;
-  color:white;
-  font-size:17px;
-  font-weight:bold;
-  margin-top:15px;
-}
 </style>
 
 <div id="deltaPlaceScreen">
+
   <div class="deltaPlaceBox">
 
     <div id="deltaPlaceTitle" class="deltaPlaceTitle"></div>
+
     <div id="deltaPlaceText" class="deltaPlaceText"></div>
+
     <div id="deltaPlaceOptions"></div>
 
     <button class="deltaPlaceClose" onclick="closeDeltaPlace()">
@@ -2314,9 +2265,11 @@ activateDeltaWorld();
     </button>
 
   </div>
+
 </div>
 
 <script>
+
 function openDeltaPlace(place){
 
   document.getElementById("deltaPlaceScreen").style.display="block";
@@ -2326,74 +2279,156 @@ function openDeltaPlace(place){
   const options=document.getElementById("deltaPlaceOptions");
 
   if(place==="market"){
+
     title.innerHTML="🛒 DELTA MARKET";
-    text.innerHTML="Welcome to Delta Market. What would you like to do?";
+
+    text.innerHTML=
+      "Welcome to Delta Market. What would you like to do?";
 
     options.innerHTML=`
-      <div class="deltaPlaceCard" onclick="marketJob()">💼 Find a Job</div>
-      <div class="deltaPlaceCard" onclick="showGameAction('🛍️ SHOPS','Market shops will appear here.')">🛍️ Shops</div>
-      <div class="deltaPlaceCard" onclick="showGameAction('🍔 FOOD','Food and restaurants will appear here.')">🍔 Food</div>
-      <div class="deltaPlaceCard" onclick="showGameAction('👥 PEOPLE','Players at the market will appear here.')">👥 People at the Market</div>
+
+      <div class="deltaPlaceCard"
+        onclick="marketJob()">
+        💼 Find a Job
+      </div>
+
+      <div class="deltaPlaceCard"
+        onclick="marketShop()">
+        🛍️ Shops
+      </div>
+
+      <div class="deltaPlaceCard"
+        onclick="marketFood()">
+        🍔 Food
+      </div>
+
+      <div class="deltaPlaceCard"
+        onclick="marketPeople()">
+        👥 People at the Market
+      </div>
+
     `;
   }
 
   if(place==="hotel"){
+
     title.innerHTML="🏨 DELTA HOTEL";
-    text.innerHTML="Welcome to Delta Hotel.";
+
+    text.innerHTML=
+      "Welcome to Delta Hotel.";
 
     options.innerHTML=`
-      <div class="deltaPlaceCard" onclick="showGameAction('🛏️ ROOMS','Available hotel rooms will appear here.')">🛏️ Get a Room</div>
-      <div class="deltaPlaceCard" onclick="showGameAction('🍽️ RESTAURANT','The hotel restaurant will appear here.')">🍽️ Hotel Restaurant</div>
-      <div class="deltaPlaceCard" onclick="showGameAction('👥 GUESTS','Players staying at the hotel will appear here.')">👥 Guests</div>
+
+      <div class="deltaPlaceCard"
+        onclick="hotelRoom()">
+        🛏️ Get a Room
+      </div>
+
+      <div class="deltaPlaceCard"
+        onclick="hotelRestaurant()">
+        🍽️ Hotel Restaurant
+      </div>
+
+      <div class="deltaPlaceCard"
+        onclick="hotelGuests()">
+        👥 Guests
+      </div>
+
     `;
   }
 
   if(place==="university"){
+
     title.innerHTML="🎓 DELTA UNIVERSITY";
-    text.innerHTML="Welcome to Delta University.";
+
+    text.innerHTML=
+      "Welcome to Delta University.";
 
     options.innerHTML=`
-      <div class="deltaPlaceCard" onclick="studyAtUniversity()">📚 Study</div>
-      <div class="deltaPlaceCard" onclick="showGameAction('🏫 CLASS','Available classes will appear here.')">🏫 Attend Class</div>
-      <div class="deltaPlaceCard" onclick="showGameAction('👨‍🎓 STUDENTS','Students at the university will appear here.')">👨‍🎓 Students</div>
+
+      <div class="deltaPlaceCard"
+        onclick="studyAtUniversity()">
+        📚 Study
+      </div>
+
+      <div class="deltaPlaceCard"
+        onclick="attendClass()">
+        🏫 Attend Class
+      </div>
+
+      <div class="deltaPlaceCard"
+        onclick="universityStudents()">
+        👨‍🎓 Students
+      </div>
+
     `;
   }
 }
 
+
+/* MARKET JOBS */
+
 function marketJob(){
 
-  document.getElementById("deltaPlaceTitle").innerHTML="💼 MARKET JOBS";
+  document.getElementById("deltaPlaceTitle").innerHTML=
+    "💼 MARKET JOBS";
 
   document.getElementById("deltaPlaceText").innerHTML=
     "Choose a job at Delta Market.";
 
   document.getElementById("deltaPlaceOptions").innerHTML=`
-    <div class="deltaPlaceCard" onclick="marketWork('Mechanic',15000)">
-  🔧 Mechanic — ₦15,000
-</div>
-    <div class="deltaPlaceCard">
+
+    <div class="deltaPlaceCard"
+      onclick="marketWork('Mechanic',15000)">
+      🔧 Mechanic — ₦15,000
+    </div>
+
+    <div class="deltaPlaceCard"
+      onclick="marketWork('Shop Worker',10000)">
       🏪 Shop Worker — ₦10,000
     </div>
 
-    <div class="deltaPlaceCard">
+    <div class="deltaPlaceCard"
+      onclick="marketWork('Store Assistant',12000)">
       📦 Store Assistant — ₦12,000
     </div>
+
   `;
 }
-  async function marketWork(job,pay){
 
-  if(Number(profile.energy)<10){
+
+/* MARKET WORK */
+
+async function marketWork(job,pay){
+
+  if(!profile){
 
     document.getElementById("deltaPlaceText").innerHTML=
-      "⚡ You are too tired to work.";
+      "Please login first.";
 
     return;
   }
 
-  await updateProfile({
+  if(Number(profile.energy)<10){
+
+    document.getElementById("deltaPlaceTitle").innerHTML=
+      "⚡ TOO TIRED";
+
+    document.getElementById("deltaPlaceText").innerHTML=
+      "You need at least 10 energy to work.";
+
+    return;
+  }
+
+  const updated=await updateProfile({
+
     money:Number(profile.money)+pay,
+
     energy:Number(profile.energy)-10
+
   });
+
+  if(!updated)return;
 
   await logActivity(
     "Worked as "+job+" at Delta Market"
@@ -2406,6 +2441,7 @@ function marketJob(){
     "You worked as "+job+" at Delta Market.";
 
   document.getElementById("deltaPlaceOptions").innerHTML=`
+
     <div class="deltaPlaceCard">
       💰 Earned ₦${pay.toLocaleString()}
     </div>
@@ -2413,50 +2449,278 @@ function marketJob(){
     <div class="deltaPlaceCard">
       ⚡ Energy -10
     </div>
-  `;
-  }
-  function showGameAction(title,message){
 
-  document.getElementById("deltaPlaceTitle").innerHTML=title;
-
-  document.getElementById("deltaPlaceText").innerHTML=message;
-
-  document.getElementById("deltaPlaceOptions").innerHTML=`
-    <div class="deltaPlaceCard">
-      ✅ You are here
-    </div>
   `;
 }
 
-function studyAtUniversity(){
 
-  document.getElementById("deltaPlaceTitle").innerHTML="📚 STUDY";
+/* MARKET SHOPS */
+
+function marketShop(){
+
+  document.getElementById("deltaPlaceTitle").innerHTML=
+    "🛍️ MARKET SHOPS";
 
   document.getElementById("deltaPlaceText").innerHTML=
-    "You are studying at Delta University.";
+    "Choose a shop to visit.";
 
   document.getElementById("deltaPlaceOptions").innerHTML=`
-    <div class="deltaPlaceCard">📖 Study session started</div>
-    <div class="deltaPlaceCard">⭐ Experience +10</div>
-    <div class="deltaPlaceCard">⚡ Energy -5</div>
+
+    <div class="deltaPlaceCard">
+      🛒 Supermarket
+    </div>
+
+    <div class="deltaPlaceCard">
+      📱 Phone Shop
+    </div>
+
+    <div class="deltaPlaceCard">
+      👕 Clothing Shop
+    </div>
+
   `;
 }
 
-function closeDeltaPlace(){
-  document.getElementById("deltaPlaceScreen").style.display="none";
+
+/* MARKET FOOD */
+
+function marketFood(){
+
+  document.getElementById("deltaPlaceTitle").innerHTML=
+    "🍔 MARKET FOOD";
+
+  document.getElementById("deltaPlaceText").innerHTML=
+    "Food places around Delta Market.";
+
+  document.getElementById("deltaPlaceOptions").innerHTML=`
+
+    <div class="deltaPlaceCard">
+      🍔 Fast Food
+    </div>
+
+    <div class="deltaPlaceCard">
+      🍲 Local Restaurant
+    </div>
+
+    <div class="deltaPlaceCard">
+      🥤 Drinks
+    </div>
+
+  `;
 }
 
-document.querySelector(".market").onclick=function(){
-  openDeltaPlace("market");
-};
 
-document.querySelector(".hotel").onclick=function(){
-  openDeltaPlace("hotel");
-};
+/* MARKET PEOPLE */
 
-document.querySelector(".university").onclick=function(){
-  openDeltaPlace("university");
-};
+function marketPeople(){
+
+  document.getElementById("deltaPlaceTitle").innerHTML=
+    "👥 MARKET PEOPLE";
+
+  document.getElementById("deltaPlaceText").innerHTML=
+    "Players around Delta Market.";
+
+  document.getElementById("deltaPlaceOptions").innerHTML=`
+
+    <div class="deltaPlaceCard">
+      👤 Players will appear here.
+    </div>
+
+  `;
+}
+
+
+/* HOTEL */
+
+function hotelRoom(){
+
+  document.getElementById("deltaPlaceTitle").innerHTML=
+    "🛏️ HOTEL ROOM";
+
+  document.getElementById("deltaPlaceText").innerHTML=
+    "Hotel rooms will be available here.";
+
+  document.getElementById("deltaPlaceOptions").innerHTML=`
+
+    <div class="deltaPlaceCard">
+      🛏️ Standard Room
+    </div>
+
+    <div class="deltaPlaceCard">
+      🏨 Luxury Room
+    </div>
+
+  `;
+}
+
+
+function hotelRestaurant(){
+
+  document.getElementById("deltaPlaceTitle").innerHTML=
+    "🍽️ HOTEL RESTAURANT";
+
+  document.getElementById("deltaPlaceText").innerHTML=
+    "Welcome to the hotel restaurant.";
+
+  document.getElementById("deltaPlaceOptions").innerHTML=`
+
+    <div class="deltaPlaceCard">
+      🍲 Restaurant menu coming soon.
+    </div>
+
+  `;
+}
+
+
+function hotelGuests(){
+
+  document.getElementById("deltaPlaceTitle").innerHTML=
+    "👥 HOTEL GUESTS";
+
+  document.getElementById("deltaPlaceText").innerHTML=
+    "Players staying at the hotel.";
+
+  document.getElementById("deltaPlaceOptions").innerHTML=`
+
+    <div class="deltaPlaceCard">
+      👤 Guests will appear here.
+    </div>
+
+  `;
+}
+
+
+/* UNIVERSITY */
+
+async function studyAtUniversity(){
+
+  if(!profile)return;
+
+  if(Number(profile.energy)<5){
+
+    document.getElementById("deltaPlaceText").innerHTML=
+      "⚡ You need 5 energy to study.";
+
+    return;
+  }
+
+  const updated=await updateProfile({
+
+    energy:Number(profile.energy)-5
+
+  });
+
+  if(!updated)return;
+
+  await logActivity(
+    "Studied at Delta University"
+  );
+
+  document.getElementById("deltaPlaceTitle").innerHTML=
+    "📚 STUDY COMPLETE";
+
+  document.getElementById("deltaPlaceText").innerHTML=
+    "You completed a study session.";
+
+  document.getElementById("deltaPlaceOptions").innerHTML=`
+
+    <div class="deltaPlaceCard">
+      📖 Study session completed
+    </div>
+
+    <div class="deltaPlaceCard">
+      ⭐ Experience +10
+    </div>
+
+    <div class="deltaPlaceCard">
+      ⚡ Energy -5
+    </div>
+
+  `;
+}
+
+
+function attendClass(){
+
+  document.getElementById("deltaPlaceTitle").innerHTML=
+    "🏫 CLASS";
+
+  document.getElementById("deltaPlaceText").innerHTML=
+    "You attended a Delta University class.";
+
+  document.getElementById("deltaPlaceOptions").innerHTML=`
+
+    <div class="deltaPlaceCard">
+      📚 Class completed
+    </div>
+
+  `;
+}
+
+
+function universityStudents(){
+
+  document.getElementById("deltaPlaceTitle").innerHTML=
+    "👨‍🎓 STUDENTS";
+
+  document.getElementById("deltaPlaceText").innerHTML=
+    "Students at Delta University.";
+
+  document.getElementById("deltaPlaceOptions").innerHTML=`
+
+    <div class="deltaPlaceCard">
+      👨‍🎓 Students will appear here.
+    </div>
+
+  `;
+}
+
+
+/* CLOSE */
+
+function closeDeltaPlace(){
+
+  document.getElementById("deltaPlaceScreen").style.display="none";
+
+}
+
+
+/* CONNECT BUILDINGS */
+
+setTimeout(function(){
+
+  const market=document.querySelector(".market");
+
+  const hotel=document.querySelector(".hotel");
+
+  const university=document.querySelector(".university");
+
+  if(market){
+
+    market.onclick=function(){
+      openDeltaPlace("market");
+    };
+
+  }
+
+  if(hotel){
+
+    hotel.onclick=function(){
+      openDeltaPlace("hotel");
+    };
+
+  }
+
+  if(university){
+
+    university.onclick=function(){
+      openDeltaPlace("university");
+    };
+
+  }
+
+},500);
+
 </script>
 </body>
 </html>
