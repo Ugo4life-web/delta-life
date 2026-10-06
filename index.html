@@ -2315,9 +2315,19 @@ function openDeltaPlace(place){
 
 function gameAction(title,message){
 
-  alert(title+"\n\n"+message);
-}
+  const titleBox=document.getElementById("deltaPlaceTitle");
+  const textBox=document.getElementById("deltaPlaceText");
+  const options=document.getElementById("deltaPlaceOptions");
 
+  titleBox.innerHTML=title;
+  textBox.innerHTML=message;
+
+  options.innerHTML=`
+    <div class="deltaPlaceCard">
+      ✅ Action completed
+    </div>
+  `;
+}
 function studyAtUniversity(){
 
   alert(
