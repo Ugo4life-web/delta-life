@@ -3135,5 +3135,41 @@ async function buyDeltaHouse(house,price){
   z-index:100002 !important;
 }
 </style>
+<script>
+document.addEventListener("click", function(e){
+
+  const button = e.target.closest("button");
+
+  if(!button) return;
+
+  const text = button.textContent.trim();
+
+  if(text.includes("Home")){
+    showHome();
+    return;
+  }
+
+  if(text.includes("Jobs")){
+    showJobs();
+    return;
+  }
+
+  if(text.includes("People")){
+    showPeople();
+    return;
+  }
+
+  if(text.includes("Buy")){
+    showVehicles();
+    return;
+  }
+
+  if(text.includes("Phone")){
+    showPeople();
+    return;
+  }
+
+});
+</script>
 </body>
 </html>
