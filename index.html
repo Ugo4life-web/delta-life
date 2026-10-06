@@ -1,1130 +1,1211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🌴 Delta Life</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delta Life</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #071b14;
-      color: white;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      margin-top: 10px;
-      border: 0;
-      border-radius: 10px;
-      background: #19c37d;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    button:active {
-      transform: scale(0.98);
-    }
-
-    input, select {
-      width: 100%;
-      padding: 14px;
-      margin: 7px 0 12px;
-      border-radius: 9px;
-      border: 1px solid #315447;
-      background: #102d23;
-      color: white;
-      font-size: 15px;
-      outline: none;
-    }
-
-    label {
-      display: block;
-      margin-top: 8px;
-      font-weight: bold;
-    }
-
-    .screen {
-      max-width: 600px;
-      margin: auto;
-      padding: 18px;
-    }
-
-    .card {
-      background: #0d2920;
-      border-radius: 16px;
-      padding: 18px;
-      margin: 12px 0;
-      box-shadow: 0 4px 15px rgba(0,0,0,.25);
-    }
-
-    .logo {
-      text-align: center;
-      font-size: 32px;
-      font-weight: bold;
-      margin: 25px 0 5px;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: #a9c8ba;
-      margin-bottom: 25px;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .danger {
-      background: #d64545;
-    }
-
-    .secondary {
-      background: #315447;
-    }
-
-    .stat {
-      display: inline-block;
-      width: 32%;
-      text-align: center;
-      background: #12372a;
-      padding: 12px 4px;
-      border-radius: 10px;
-      margin: 1%;
-    }
-
-    .menu {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-
-    .menu button {
-      margin: 0;
-      background: #12372a;
-    }
-
-    .location {
-      background: #12372a;
-      padding: 15px;
-      border-radius: 12px;
-      margin: 10px 0;
-    }
-
-    #message {
-      padding: 12px;
-      border-radius: 10px;
-      margin-top: 10px;
-      display: none;
-      background: #153f30;
-    }
-
-    h2, h3 {
-      margin-top: 5px;
-    }
-
-    .small {
-      color: #9db9ae;
-      font-size: 13px;
-    }
-  </style>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#071b12;
+  color:white;
+}
+header{
+  background:#0d6b3d;
+  padding:18px;
+  text-align:center;
+  font-size:25px;
+  font-weight:bold;
+}
+.container{
+  width:92%;
+  max-width:700px;
+  margin:20px auto;
+}
+.card{
+  background:#10271d;
+  border-radius:15px;
+  padding:20px;
+  margin-bottom:15px;
+  box-shadow:0 4px 15px #0006;
+}
+input,select,button{
+  width:100%;
+  padding:13px;
+  margin:7px 0;
+  border-radius:9px;
+  border:0;
+  font-size:16px;
+}
+input,select{
+  background:white;
+  color:#111;
+}
+button{
+  background:#16a05d;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+button:hover{background:#20bd70}
+.danger{background:#b83232}
+.hidden{display:none}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+.stat{
+  background:#173a29;
+  padding:12px;
+  text-align:center;
+  border-radius:10px;
+}
+.menu{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+.menu button{margin:0}
+.message{
+  padding:10px;
+  border-radius:8px;
+  margin-top:10px;
+  background:#193c2b;
+}
+.error{background:#642727}
+.success{background:#175d38}
+.small{
+  font-size:13px;
+  color:#bbb;
+}
+h2,h3{margin-top:0}
+hr{
+  border:0;
+  border-top:1px solid #ffffff22;
+  margin:15px 0;
+}
+</style>
 </head>
 
 <body>
 
-<!-- ================= AUTH SCREEN ================= -->
+<header>🌴 DELTA LIFE</header>
 
-<div id="authScreen" class="screen">
+<div class="container">
 
-  <div class="logo">🌴 DELTA LIFE</div>
-  <div class="subtitle">Build your life. Build your future.</div>
+<!-- AUTH -->
+<section id="authScreen">
 
-  <!-- CREATE ACCOUNT -->
-  <div id="signupBox" class="card">
+<div class="card">
+<h2>🌴 Welcome to Delta Life</h2>
+<p class="small">Build your life. Build your future.</p>
 
-    <h2>📝 Create Account</h2>
+<div id="registerBox">
 
-    <label>📧 Email</label>
-    <input
-      id="signupEmail"
-      type="email"
-      placeholder="Enter your email"
-      autocomplete="email"
-    >
+<h3>Create Account</h3>
 
-    <label>🔒 Password</label>
-    <input
-      id="signupPassword"
-      type="password"
-      placeholder="Create a password"
-      autocomplete="new-password"
-    >
+<input id="regEmail" type="email" placeholder="Email">
 
-    <label>👤 Username</label>
-    <input
-      id="signupUsername"
-      type="text"
-      placeholder="Choose your username"
-    >
+<input id="regPassword" type="password" placeholder="Password">
 
-    <label>🏠 Hometown</label>
-    <input
-      id="signupHometown"
-      type="text"
-      placeholder="Example: Kwale"
-    >
+<input id="regUsername" type="text" placeholder="Username">
 
-    <label>⚧️ Gender</label>
-    <select id="signupGender">
-      <option value="">Select gender</option>
-      <option value="Male">Male</option>
-      <option value="Female">Female</option>
-      <option value="Other">Other</option>
-    </select>
+<input id="regHometown" type="text" placeholder="Hometown">
 
-    <button onclick="createAccount()">Create Account</button>
+<select id="regGender">
+<option value="">Select Gender</option>
+<option value="Male">Male</option>
+<option value="Female">Female</option>
+</select>
 
-    <button class="secondary" onclick="showLogin()">
-      Already have an account? Login
-    </button>
+<button onclick="createAccount()">Create Account</button>
 
-  </div>
+<p class="small">
+Already have an account?
+<button onclick="showLogin()" style="background:none;padding:3px;width:auto">
+Login
+</button>
+</p>
+
+</div>
+
+<div id="loginBox" class="hidden">
+
+<h3>Login</h3>
+
+<input id="loginEmail" type="email" placeholder="Email">
+
+<input id="loginPassword" type="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+<p class="small">
+Don't have an account?
+<button onclick="showRegister()" style="background:none;padding:3px;width:auto">
+Create Account
+</button>
+</p>
+
+</div>
+
+<div id="authMessage"></div>
+
+</div>
+</section>
 
 
-  <!-- LOGIN -->
-  <div id="loginBox" class="card hidden">
+<!-- GAME -->
+<section id="gameScreen" class="hidden">
 
-    <h2>🔐 Login</h2>
+<div class="card">
 
-    <label>📧 Email</label>
-    <input
-      id="loginEmail"
-      type="email"
-      placeholder="Enter your email"
-      autocomplete="email"
-    >
+<h2>🌴 DELTA LIFE</h2>
 
-    <label>🔒 Password</label>
-    <input
-      id="loginPassword"
-      type="password"
-      placeholder="Enter your password"
-      autocomplete="current-password"
-    >
+<p id="welcomeText"></p>
 
-    <button onclick="login()">Login</button>
+<div class="stats">
 
-    <button class="secondary" onclick="showSignup()">
-      Create a new account
-    </button>
+<div class="stat">
+💰<br>
+₦<span id="money">0</span>
+</div>
 
-  </div>
+<div class="stat">
+⚡<br>
+<span id="energy">0</span>
+</div>
 
-  <div id="message"></div>
+<div class="stat">
+⭐<br>
+Level <span id="level">1</span>
+</div>
+
+</div>
 
 </div>
 
 
-<!-- ================= GAME SCREEN ================= -->
+<div class="card">
 
-<div id="gameScreen" class="screen hidden">
+<h3>🧭 Menu</h3>
 
-  <div class="card">
-    <h2>🌴 DELTA LIFE</h2>
+<div class="menu">
 
-    <p>
-      Welcome <b id="playerName">Player</b> 👋
-    </p>
+<button onclick="travel()">🗺️ MAP</button>
 
-    <div class="stat">
-      💰<br>
-      ₦<span id="money">0</span>
-    </div>
+<button onclick="jobs()">💼 JOBS</button>
 
-    <div class="stat">
-      ⚡<br>
-      <span id="energy">0</span>
-    </div>
+<button onclick="home()">🏠 HOME</button>
 
-    <div class="stat">
-      ⭐<br>
-      Level <span id="level">1</span>
-    </div>
-  </div>
+<button onclick="vehicles()">🚗 VEHICLES</button>
 
+<button onclick="people()">👥 PEOPLE</button>
 
-  <!-- MAIN MENU -->
+<button onclick="church()">⛪ CHURCH</button>
 
-  <div class="card">
-    <h3>📱 Menu</h3>
+<button onclick="club()">🎉 CLUB</button>
 
-    <div class="menu">
+<button onclick="hospital()">🏥 HOSPITAL</button>
 
-      <button onclick="showSection('map')">
-        🗺️ MAP
-      </button>
+<button onclick="police()">👮 POLICE</button>
 
-      <button onclick="showSection('jobs')">
-        💼 JOBS
-      </button>
+<button onclick="showActivity()">📱 ACTIVITY</button>
 
-      <button onclick="showSection('home')">
-        🏠 HOME
-      </button>
+</div>
 
-      <button onclick="showSection('vehicles')">
-        🚗 VEHICLES
-      </button>
+</div>
 
-      <button onclick="showSection('people')">
-        👥 PEOPLE
-      </button>
 
-      <button onclick="showSection('chat')">
-        💬 CHAT
-      </button>
+<div class="card">
 
-      <button onclick="showSection('vote')">
-        🗳️ VOTE
-      </button>
+<h3>🎮 Game Area</h3>
 
-      <button onclick="showSection('club')">
-        🎉 CLUB
-      </button>
+<div id="gameOutput">
+<p>Choose an activity above.</p>
+</div>
 
-      <button onclick="showSection('church')">
-        ⛪ CHURCH
-      </button>
+</div>
 
-      <button onclick="showSection('hospital')">
-        🏥 HOSPITAL
-      </button>
 
-      <button onclick="showSection('police')">
-        👮 POLICE
-      </button>
+<div class="card">
 
-      <button onclick="showSection('activity')">
-        📱 ACTIVITY
-      </button>
+<button class="danger" onclick="logout()">Logout</button>
 
-    </div>
-  </div>
+</div>
 
-
-  <!-- MAP -->
-
-  <div id="map" class="card section hidden">
-    <h2>🗺️ Delta Map</h2>
-
-    <div class="location">
-      <b>📍 Kwale</b>
-      <button onclick="travel('Kwale')">Travel Here</button>
-    </div>
-
-    <div class="location">
-      <b>📍 Warri</b>
-      <button onclick="travel('Warri')">Travel Here</button>
-    </div>
-
-    <div class="location">
-      <b>📍 Asaba</b>
-      <button onclick="travel('Asaba')">Travel Here</button>
-    </div>
-
-    <div class="location">
-      <b>📍 Oleh</b>
-      <button onclick="travel('Oleh')">Travel Here</button>
-    </div>
-
-    <div class="location">
-      <b>📍 Sapele</b>
-      <button onclick="travel('Sapele')">Travel Here</button>
-    </div>
-
-    <div class="location">
-      <b>📍 Ughelli</b>
-      <button onclick="travel('Ughelli')">Travel Here</button>
-    </div>
-  </div>
-
-
-  <!-- JOBS -->
-
-  <div id="jobs" class="card section hidden">
-    <h2>💼 Jobs</h2>
-
-    <p>Work to earn money.</p>
-
-    <button onclick="work('Engineering Work', 2500)">
-      🔧 Engineering Work — ₦2,500
-    </button>
-
-    <button onclick="work('Shop Work', 1800)">
-      🛒 Shop Work — ₦1,800
-    </button>
-
-    <button onclick="work('Design Work', 3000)">
-      🎨 Design Work — ₦3,000
-    </button>
-
-    <button onclick="work('Delivery Work', 2200)">
-      🛵 Delivery Work — ₦2,200
-    </button>
-  </div>
-
-
-  <!-- HOME -->
-
-  <div id="home" class="card section hidden">
-    <h2>🏠 Home</h2>
-
-    <p>
-      Current home:
-      <b id="homeName">Small Room</b>
-    </p>
-
-    <button onclick="buyHome('Better Apartment', 10000)">
-      🏢 Buy Better Apartment — ₦10,000
-    </button>
-
-    <button onclick="buyHome('Luxury House', 50000)">
-      🏡 Buy Luxury House — ₦50,000
-    </button>
-  </div>
-
-
-  <!-- VEHICLES -->
-
-  <div id="vehicles" class="card section hidden">
-    <h2>🚗 Vehicles</h2>
-
-    <p>
-      Current vehicle:
-      <b id="vehicleName">None</b>
-    </p>
-
-    <button onclick="buyVehicle('Motorcycle', 8000)">
-      🏍️ Motorcycle — ₦8,000
-    </button>
-
-    <button onclick="buyVehicle('Car', 30000)">
-      🚗 Car — ₦30,000
-    </button>
-
-    <button onclick="buyVehicle('Luxury Car', 100000)">
-      🚘 Luxury Car — ₦100,000
-    </button>
-  </div>
-
-
-  <!-- PEOPLE -->
-
-  <div id="people" class="card section hidden">
-    <h2>👥 People</h2>
-
-    <input
-      id="peopleSearch"
-      type="text"
-      placeholder="Search username"
-      oninput="searchPeople()"
-    >
-
-    <div id="peopleResults">
-      <p class="small">Search for players.</p>
-    </div>
-  </div>
-
-
-  <!-- CHAT -->
-
-  <div id="chat" class="card section hidden">
-
-    <h2>💬 Chat</h2>
-
-    <label>Receiver User ID</label>
-
-    <input
-      id="receiverId"
-      placeholder="Paste the player's user ID"
-    >
-
-    <label>Message</label>
-
-    <input
-      id="chatMessage"
-      placeholder="Type your message"
-    >
-
-    <button onclick="sendMessage()">
-      Send Message
-    </button>
-
-    <div id="chatResults"></div>
-
-  </div>
-
-
-  <!-- VOTE -->
-
-  <div id="vote" class="card section hidden">
-
-    <h2>🗳️ Vote</h2>
-
-    <p>Choose your favourite player.</p>
-
-    <button onclick="castVote('Player A')">
-      Player A
-    </button>
-
-    <button onclick="castVote('Player B')">
-      Player B
-    </button>
-
-    <button onclick="castVote('Player C')">
-      Player C
-    </button>
-
-    <div id="voteResults"></div>
-
-  </div>
-
-
-  <!-- CLUB -->
-
-  <div id="club" class="card section hidden">
-
-    <h2>🎉 Club</h2>
-
-    <p>Welcome to Delta Life Club.</p>
-
-    <button onclick="clubAction()">
-      🎵 Enter Club
-    </button>
-
-  </div>
-
-
-  <!-- CHURCH -->
-
-  <div id="church" class="card section hidden">
-
-    <h2>⛪ Church</h2>
-
-    <p>Attend church and improve your energy.</p>
-
-    <button onclick="churchAction()">
-      🙏 Attend Service
-    </button>
-
-  </div>
-
-
-  <!-- HOSPITAL -->
-
-  <div id="hospital" class="card section hidden">
-
-    <h2>🏥 Hospital</h2>
-
-    <p>Recover your energy.</p>
-
-    <button onclick="hospitalAction()">
-      🩺 Get Treatment — ₦1,000
-    </button>
-
-  </div>
-
-
-  <!-- POLICE -->
-
-  <div id="police" class="card section hidden">
-
-    <h2>👮 Police Station</h2>
-
-    <p>
-      This is a fictional game activity.
-    </p>
-
-    <button onclick="policeMission()">
-      🎮 Start Fictional Mission
-    </button>
-
-  </div>
-
-
-  <!-- ACTIVITY -->
-
-  <div id="activity" class="card section hidden">
-
-    <h2>📱 Activity</h2>
-
-    <div id="activityList">
-      <p>No activity yet.</p>
-    </div>
-
-  </div>
-
-
-  <button class="danger" onclick="logout()">
-    🚪 Logout
-  </button>
+</section>
 
 </div>
 
 
 <script>
 
-  // ================= SUPABASE =================
+/* =========================
+   SUPABASE
+========================= */
 
-  const SUPABASE_URL =
-    "https://kwgbrnbmykflgbhxsnkl.supabase.co";
+const SUPABASE_URL =
+"https://kwgbrnbmykflgbhxsnkl.supabase.co";
 
-  const SUPABASE_KEY =
-    "sb_publishable_KFH_CYFO6sPbKNtNoEjE1A_eIKaRrDC";
+const SUPABASE_KEY =
+"sb_publishable_KFH_CYFO6sPbKNtNoEjE1A_eIKaRrDC";
+
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
 
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
+/* =========================
+   HELPERS
+========================= */
 
+function message(text,type=""){
+const box=document.getElementById("authMessage");
+box.className="message "+type;
+box.innerHTML=text;
+}
 
-  let currentUser = null;
-  let currentProfile = null;
+function output(text){
+document.getElementById("gameOutput").innerHTML=text;
+}
 
+function showLogin(){
+document.getElementById("registerBox").classList.add("hidden");
+document.getElementById("loginBox").classList.remove("hidden");
+message("");
+}
 
-  // ================= AUTH UI =================
+function showRegister(){
+document.getElementById("loginBox").classList.add("hidden");
+document.getElementById("registerBox").classList.remove("hidden");
+message("");
+}
 
-  function showLogin() {
-    document.getElementById("signupBox").classList.add("hidden");
-    document.getElementById("loginBox").classList.remove("hidden");
-    clearMessage();
-  }
 
+/* =========================
+   CREATE ACCOUNT
+========================= */
 
-  function showSignup() {
-    document.getElementById("loginBox").classList.add("hidden");
-    document.getElementById("signupBox").classList.remove("hidden");
-    clearMessage();
-  }
+async function createAccount(){
 
+const email =
+document.getElementById("regEmail").value.trim();
 
-  function showMessage(text) {
-    const box = document.getElementById("message");
+const password =
+document.getElementById("regPassword").value;
 
-    box.style.display = "block";
-    box.textContent = text;
-  }
+const username =
+document.getElementById("regUsername").value.trim();
 
+const hometown =
+document.getElementById("regHometown").value.trim();
 
-  function clearMessage() {
-    const box = document.getElementById("message");
+const gender =
+document.getElementById("regGender").value;
 
-    box.style.display = "none";
-    box.textContent = "";
-  }
+if(!email || !password || !username || !hometown || !gender){
+message("Please fill every box.","error");
+return;
+}
 
+if(password.length < 6){
+message("Password must be at least 6 characters.","error");
+return;
+}
 
-  // ================= CREATE ACCOUNT =================
+message("Creating your account...");
 
-  async function createAccount() {
+try{
 
-    const email =
-      document.getElementById("signupEmail").value.trim();
+const {data,error} =
+await supabaseClient.auth.signUp({
+email:email,
+password:password
+});
 
-    const password =
-      document.getElementById("signupPassword").value;
+if(error){
+message(error.message,"error");
+return;
+}
 
-    const username =
-      document.getElementById("signupUsername").value.trim();
+if(!data.user){
+message("Account creation failed. Please try again.","error");
+return;
+}
 
-    const hometown =
-      document.getElementById("signupHometown").value.trim();
 
-    const gender =
-      document.getElementById("signupGender").value;
+/* Save profile */
 
+const {error:profileError} =
+await supabaseClient
+.from("profiles")
+.insert({
+id:data.user.id,
+username:username,
+hometown:hometown,
+gender:gender,
+location:hometown,
+money:5000,
+energy:100,
+level:1,
+house:"Delta Life",
+vehicle:"None"
+});
 
-    if (!email) {
-      showMessage("Please enter your email.");
-      return;
-    }
+if(profileError){
 
-    if (!password || password.length < 6) {
-      showMessage("Password must be at least 6 characters.");
-      return;
-    }
+/* If profile already exists, continue */
 
-    if (!username) {
-      showMessage("Please choose a username.");
-      return;
-    }
+if(!profileError.message.toLowerCase().includes("duplicate")){
 
-    if (!hometown) {
-      showMessage("Please enter your hometown.");
-      return;
-    }
+message(
+"Account was created, but profile setup failed: "+
+profileError.message,
+"error"
+);
 
-    if (!gender) {
-      showMessage("Please select your gender.");
-      return;
-    }
+return;
+}
 
+}
 
-    showMessage("Creating your account...");
 
+/* If email confirmation is required */
 
-    const { data, error } =
-      await supabaseClient.auth.signUp({
-        email: email,
-        password: password
-      });
+if(!data.session){
 
+message(
+"Account created! Check your email to confirm your account, then login.",
+"success"
+);
 
-    if (error) {
-      showMessage(error.message);
-      return;
-    }
+showLogin();
+return;
+}
 
 
-    // Save profile details temporarily.
-    // They will be added after the player becomes authenticated.
-    localStorage.setItem(
-      "deltaLifePendingProfile",
-      JSON.stringify({
-        username: username,
-        hometown: hometown,
-        gender: gender
-      })
-    );
+/* Logged in immediately */
 
+message("Account created successfully!","success");
 
-    if (data.session && data.user) {
+await loadGame();
 
-      currentUser = data.user;
+}catch(err){
 
-      await ensureProfile(currentUser);
+message(
+"Something went wrong: "+err.message,
+"error"
+);
 
-      await loadGame();
+}
 
-    } else {
+}
 
-      showMessage(
-        "Account created successfully! 📧 If email confirmation is required, check your email, confirm it, then come back and Login."
-      );
 
-      showLogin();
-    }
-  }
+/* =========================
+   LOGIN
+========================= */
 
+async function login(){
 
-  // ================= LOGIN =================
+const email =
+document.getElementById("loginEmail").value.trim();
 
-  async function login() {
+const password =
+document.getElementById("loginPassword").value;
 
-    const email =
-      document.getElementById("loginEmail").value.trim();
+if(!email || !password){
 
-    const password =
-      document.getElementById("loginPassword").value;
+message("Enter your email and password.","error");
+return;
 
+}
 
-    if (!email || !password) {
-      showMessage("Enter your email and password.");
-      return;
-    }
+message("Logging in...");
 
+try{
 
-    showMessage("Logging in...");
+const {data,error} =
+await supabaseClient.auth.signInWithPassword({
+email:email,
+password:password
+});
 
+if(error){
 
-    const { data, error } =
-      await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: password
-      });
+message(error.message,"error");
+return;
 
+}
 
-    if (error) {
-      showMessage(error.message);
-      return;
-    }
+if(!data.user){
 
+message("Login failed.","error");
+return;
 
-    currentUser = data.user;
+}
 
-    await ensureProfile(currentUser);
+await ensureProfile(data.user);
 
-    await loadGame();
-  }
+await loadGame();
 
+}catch(err){
 
-  // ================= PROFILE =================
+message(
+"Login error: "+err.message,
+"error"
+);
 
-  async function ensureProfile(user) {
+}
 
-    const { data, error } =
-      await supabaseClient
-        .from("profiles")
-        .select("*")
-        .eq("id", user.id)
-        .maybeSingle();
+}
 
 
-    if (error) {
-      console.log(error);
-      return;
-    }
+/* =========================
+   ENSURE PROFILE
+========================= */
 
+async function ensureProfile(user){
 
-    if (data) {
-      currentProfile = data;
-      return;
-    }
+const {data,error} =
+await supabaseClient
+.from("profiles")
+.select("*")
+.eq("id",user.id)
+.maybeSingle();
 
+if(error){
+console.log(error);
+return;
+}
 
-    let pending = null;
+if(data)return;
 
-    try {
-      pending =
-        JSON.parse(
-          localStorage.getItem("deltaLifePendingProfile")
-        );
-    } catch (e) {
-      pending = null;
-    }
 
+/* Create profile if missing */
 
-    const profile = {
+await supabaseClient
+.from("profiles")
+.insert({
+id:user.id,
+username:user.email.split("@")[0],
+hometown:"Delta State",
+gender:"Not specified",
+location:"Delta State",
+money:5000,
+energy:100,
+level:1,
+house:"Delta Life",
+vehicle:"None"
+});
 
-      id: user.id,
+}
 
-      username:
-        pending?.username ||
-        user.email.split("@")[0],
 
-      hometown:
-        pending?.hometown ||
-        "Kwale",
+/* =========================
+   LOAD GAME
+========================= */
 
-      gender:
-        pending?.gender ||
-        "",
+async function loadGame(){
 
-      location:
-        pending?.hometown ||
-        "Kwale",
+const {data:{user}} =
+await supabaseClient.auth.getUser();
 
-      money: 5000,
+if(!user)return;
 
-      energy: 90,
+await ensureProfile(user);
 
-      level: 1,
+const {data,error} =
+await supabaseClient
+.from("profiles")
+.select("*")
+.eq("id",user.id)
+.single();
 
-      house: "Small Room",
+if(error){
 
-      vehicle: "None"
-    };
+message(
+"Could not load profile: "+error.message,
+"error"
+);
 
+return;
+}
 
-    const { data: newProfile, error: insertError } =
-      await supabaseClient
-        .from("profiles")
-        .insert(profile)
-        .select()
-        .single();
+document.getElementById("authScreen")
+.classList.add("hidden");
 
+document.getElementById("gameScreen")
+.classList.remove("hidden");
 
-    if (insertError) {
+document.getElementById("welcomeText").innerHTML =
+"Welcome <b>"+escapeHTML(data.username)+"</b> 👋 — "+
+escapeHTML(data.hometown);
 
-      console.log(insertError);
+updateStats(data);
 
-      showMessage(
-        "Your account is ready, but your game profile could not be created yet."
-      );
+}
 
-      return;
-    }
 
+/* =========================
+   STATS
+========================= */
 
-    currentProfile = newProfile;
+function updateStats(data){
 
-    localStorage.removeItem(
-      "deltaLifePendingProfile"
-    );
-  }
+document.getElementById("money").textContent =
+Number(data.money||0).toLocaleString();
 
+document.getElementById("energy").textContent =
+Number(data.energy||0);
 
-  async function loadGame() {
+document.getElementById("level").textContent =
+Number(data.level||1);
 
-    document
-      .getElementById("authScreen")
-      .classList.add("hidden");
+}
 
-    document
-      .getElementById("gameScreen")
-      .classList.remove("hidden");
 
+/* =========================
+   UPDATE PROFILE
+========================= */
 
-    updateGameScreen();
+async function updateProfile(changes){
 
-    loadActivity();
-  }
+const {data:{user}} =
+await supabaseClient.auth.getUser();
 
+if(!user)return;
 
-  // ================= UPDATE SCREEN =================
+const {data,error} =
+await supabaseClient
+.from("profiles")
+.update(changes)
+.eq("id",user.id)
+.select()
+.single();
 
-  function updateGameScreen() {
+if(!error && data){
+updateStats(data);
+}
 
-    if (!currentProfile) return;
+}
 
 
-    document.getElementById("playerName").textContent =
-      currentProfile.username || "Player";
+/* =========================
+   ACTIVITY
+========================= */
 
+async function logActivity(action){
 
-    document.getElementById("money").textContent =
-      Number(currentProfile.money || 0).toLocaleString();
+const {data:{user}} =
+await supabaseClient.auth.getUser();
 
+if(!user)return;
 
-    document.getElementById("energy").textContent =
-      Number(currentProfile.energy || 0);
+await supabaseClient
+.from("activity")
+.insert({
+user_id:user.id,
+action:action
+});
 
+}
 
-    document.getElementById("level").textContent =
-      Number(currentProfile.level || 1);
 
+/* =========================
+   MAP
+========================= */
 
-    document.getElementById("homeName").textContent =
-      currentProfile.house || "Small Room";
+async function travel(){
 
+const places=[
+"Warri",
+"Ughelli",
+"Asaba",
+"Sapele",
+"Kwale",
+"Oleh",
+"Effurun",
+"Agbor"
+];
 
-    document.getElementById("vehicleName").textContent =
-      currentProfile.vehicle || "None";
-  }
+const place =
+places[Math.floor(Math.random()*places.length)];
 
+const {data:{user}} =
+await supabaseClient.auth.getUser();
 
-  // ================= UPDATE PROFILE =================
+const {data} =
+await supabaseClient
+.from("profiles")
+.select("*")
+.eq("id",user.id)
+.single();
 
-  async function saveProfile(changes) {
+if(!data)return;
 
-    if (!currentUser) return;
+if(Number(data.energy)<10){
 
+output("⚡ You are too tired to travel. Visit the hospital or rest at home.");
 
-    const { data, error } =
-      await supabaseClient
-        .from("profiles")
-        .update(changes)
-        .eq("id", currentUser.id)
-        .select()
-        .single();
+return;
+}
 
+await updateProfile({
+location:place,
+energy:Number(data.energy)-10
+});
 
-    if (error) {
-      console.log(error);
-      return false;
-    }
+await logActivity("Travelled to "+place);
 
+output(
+"🗺️ You travelled to <b>"+place+"</b>.<br><br>"+
+"⚡ Energy reduced by 10."
+);
 
-    currentProfile = data;
+}
 
-    updateGameScreen();
 
-    return true;
-  }
+/* =========================
+   JOBS
+========================= */
 
+async function jobs(){
 
-  // ================= MENU =================
+output(`
+<h3>💼 Jobs</h3>
 
-  function showSection(id) {
+<button onclick="work('Mechanic',1200)">
+🔧 Mechanic — ₦1,200
+</button>
 
-    document
-      .querySelectorAll(".section")
-      .forEach(section => {
-        section.classList.add("hidden");
-      });
+<button onclick="work('Shop Worker',900)">
+🛒 Shop Worker — ₦900
+</button>
 
+<button onclick="work('Driver',1500)">
+🚕 Driver — ₦1,500
+</button>
 
-    const selected =
-      document.getElementById(id);
+<button onclick="work('Designer',1800)">
+🎨 Designer — ₦1,800
+</button>
+`);
 
+}
 
-    if (selected) {
-      selected.classList.remove("hidden");
-      selected.scrollIntoView({
-        behavior: "smooth"
-      });
-    }
-  }
 
+async function work(job,pay){
 
-  // ================= TRAVEL =================
+const {data:{user}} =
+await supabaseClient.auth.getUser();
 
-  async function travel(place) {
+const {data} =
+await supabaseClient
+.from("profiles")
+.select("*")
+.eq("id",user.id)
+.single();
 
-    if (Number(currentProfile.energy) < 10) {
-      alert("You need more energy to travel.");
-      return;
-    }
+if(!data)return;
 
+if(Number(data.energy)<10){
 
-    const newEnergy =
-      Number(currentProfile.energy) - 10;
+output("⚡ You don't have enough energy to work.");
 
+return;
+}
 
-    await saveProfile({
-      location: place,
-      energy: newEnergy
-    });
+await updateProfile({
+money:Number(data.money)+pay,
+energy:Number(data.energy)-10
+});
 
+await logActivity(
+"Worked as "+job+" and earned ₦"+pay
+);
 
-    await addActivity(
-      "You travelled to " + place + "."
-    );
+output(
+"💼 You worked as a <b>"+job+
+"</b> and earned <b>₦"+
+pay.toLocaleString()+
+"</b>.<br><br>⚡ Energy -10"
+);
 
+}
 
-    alert("🚕 You travelled to " + place + ".");
 
-    loadActivity();
-  }
+/* =========================
+   HOME
+========================= */
 
+async function home(){
 
-  // ================= JOBS =================
+output(`
+<h3>🏠 Home</h3>
 
-  async function work(job, reward) {
+<p>Your current home is <b>Delta Life</b>.</p>
 
-    if (Number(currentProfile.energy) < 15) {
-      alert("You need more energy to work.");
-      return;
-    }
+<button onclick="rest()">🛏️ Rest</button>
 
+<button onclick="buyHouse('Comfort House',10000)">
+🏡 Buy Comfort House — ₦10,000
+</button>
 
-    const newMoney =
-      Number(currentProfile.money) + reward;
+<button onclick="buyHouse('Luxury House',50000)">
+🏰 Buy Luxury House — ₦50,000
+</button>
+`);
 
+}
 
-    const newEnergy =
-      Number(currentProfile.energy) - 15;
 
+async function rest(){
 
-    await saveProfile({
-      money: newMoney,
-      energy: newEnergy
-    });
+const {data:{user}} =
+await supabaseClient.auth.getUser();
 
+const {data} =
+await supabase
+.from("profiles")
+.select("*")
+.eq("id",user.id)
+.single();
 
-    await addActivity(
-      "You worked as " + job +
-      " and earned ₦" +
-      reward.toLocaleString() +
-      "."
-    );
+}
 
 
-    alert(
-      "💼 You worked and earned ₦" +
-      reward.toLocaleString() +
-      "!"
-    );
+/* =========================
+   VEHICLES
+========================= */
 
+async function vehicles(){
 
-    loadActivity();
-  }
+output(`
+<h3>🚗 Vehicles</h3>
 
+<p>Current vehicle: Your profile vehicle</p>
 
-  // ================= HOME =================
+<button onclick="buyVehicle('Motorcycle',8000)">
+🏍️ Motorcycle — ₦8,000
+</button>
 
-  async function buyHome(home, price) {
+<button onclick="buyVehicle('Car',30000)">
+🚗 Car — ₦30,000
+</button>
 
-    if (Number(currentProfile.money) < price) {
-      alert("You don't have enough money.");
-      return;
-    }
+<button onclick="buyVehicle('Luxury Car',100000)">
+🏎️ Luxury Car — ₦100,000
+</button>
+`);
 
+}
 
-    const newMoney =
-      Number(currentProfile.money) - price;
 
+async function buyVehicle(vehicle,price){
 
-    await saveProfile({
-      money: newMoney,
-      house: home
-    });
+const {data:{user}} =
+await supabaseClient.auth.getUser();
 
+const {data} =
+await supabaseClient
+.from("profiles")
+.select("*")
+.eq("id",user.id)
+.single();
 
-    await addActivity(
-      "You bought a " + home + "."
-    );
+if(!data)return;
 
+if(Number(data.money)<price){
 
-    alert("🏠 You now own a " + home + "!");
+output("💰 You don't have enough money.");
 
-    loadActivity();
-  }
+return;
+}
 
+await updateProfile({
+vehicle:vehicle,
+money:Number(data.money)-price
+});
 
-  // ================= VEHICLES =================
+await logActivity(
+"Bought a "+vehicle
+);
 
-  async function buyVehicle(vehicle, price) {
+output(
+"🚗 You bought a <b>"+vehicle+"</b>."
+);
 
-    if (Number(currentProfile.money) < price) {
-      alert("You don't have enough money.");
-      return;
-    }
+}
 
 
-    const newMoney =
-      Number(currentProfile.money) - price;
+/* =========================
+   HOUSE PURCHASE
+========================= */
 
+async function buyHouse(house,price){
 
-    await saveProfile({
-      money: newMoney,
-      vehicle: vehicle
-    });
+const {data:{user}} =
+await supabaseClient.auth.getUser();
 
+const {data} =
+await supabase
+.from("profiles")
+.select("*")
+.eq("id",user.id)
+.single();
 
-    await addActivity(
-      "You bought a " + vehicle + "."
-    );
+if(!data)return;
 
+if(Number(data.money)<price){
 
-    alert("🚗 You bought a " + vehicle + "!");
+output("💰 You don't have enough money.");
 
-    loadActivity();
-  }
+return;
+}
 
+await updateProfile({
+house:house,
+money:Number(data.money)-price
+});
 
-  // ================= PEOPLE =================
+await logActivity(
+"Bought "+house
+);
 
-  async function searchPeople() {
+output(
+"🏠 You bought <b>"+house+"</b>."
+);
 
-    const search =
-      document.getElementById("peopleSearch")
-        .value
-        .trim();
+}
 
 
-    if (!search) {
+/* =========================
+   PEOPLE
+========================= */
 
-      document.getElementById("peopleResults").innerHTML =
-        "<p class='small'>Search for players.</p>";
+async function people(){
 
-      return;
-    }
+const {data,error} =
+await supabaseClient
+.from("profiles")
+.select("id,username,hometown,gender")
+.limit(20);
 
+if(error){
 
-    const { data, error } =
-      await supabaseClient
-        .from("profiles")
-        .select("id, username, hometown, gender")
-        .ilike("username
+output("Unable to load players right now.");
+
+return;
+}
+
+if(!data || data.length===0){
+
+output("No other players found yet.");
+
+return;
+}
+
+let html="<h3>👥 People</h3>";
+
+data.forEach(person=>{
+
+html+=`
+<div class="message">
+<b>${escapeHTML(person.username||"Player")}</b><br>
+📍 ${escapeHTML(person.hometown||"Unknown")}<br>
+${escapeHTML(person.gender||"")}<br>
+</div>
+`;
+
+});
+
+output(html);
+
+}
+
+
+/* =========================
+   CHURCH
+========================= */
+
+async function church(){
+
+output(`
+<h3>⛪ Church</h3>
+
+<p>You entered church.</p>
+
+<button onclick="churchService()">
+🙏 Attend Service
+</button>
+`);
+
+}
+
+
+async function churchService(){
+
+await logActivity("Attended church service");
+
+output(
+"⛪ You attended the church service.<br><br>"+
+"🙏 Your spirit is refreshed."
+);
+
+}
+
+
+/* =========================
+   CLUB
+========================= */
+
+async function club(){
+
+output(`
+<h3>🎉 Club</h3>
+
+<p>Welcome to the Delta Life club.</p>
+
+<button onclick="dance()">
+🎵 Dance
+</button>
+
+<button onclick="leaveClub()">
+🚶 Leave Club
+</button>
+`);
+
+}
+
+
+async function dance(){
+
+await logActivity("Visited the club and danced");
+
+output(
+"🎵 You enjoyed yourself at the club!"
+);
+
+}
+
+
+async function leaveClub(){
+
+output("🚶 You left the club.");
+
+}
+
+
+/* =========================
+   HOSPITAL
+========================= */
+
+async function hospital(){
+
+output(`
+<h3>🏥 Hospital</h3>
+
+<p>Energy recovery service.</p>
+
+<button onclick="heal()">
+💚 Recover Energy — ₦500
+</button>
+`);
+
+}
+
+
+async function heal(){
+
+const {data:{user}} =
+await supabaseClient.auth.getUser();
+
+const {data} =
+await supabaseClient
+.from("profiles")
+.select("*")
+.eq("id",user.id)
+.single();
+
+if(!data)return;
+
+if(Number(data.money)<500){
+
+output("💰 You need ₦500.");
+
+return;
+}
+
+await updateProfile({
+money:Number(data.money)-500,
+energy:100
+});
+
+await logActivity("Visited the hospital");
+
+output(
+"🏥 You recovered your energy to 100."
+);
+
+}
+
+
+/* =========================
+   FICTIONAL POLICE GAME
+========================= */
+
+async function police(){
+
+output(`
+<h3>👮 Police</h3>
+
+<p>Delta Life police station.</p>
+
+<button onclick="policeMission()">
+🚓 Start Police Mission
+</button>
+
+<p class="small">
+This is a fictional game activity.
+</p>
+`);
+
+}
+
+
+async function policeMission(){
+
+await logActivity(
+"Completed a fictional police mission"
+);
+
+output(
+"👮 Mission completed!<br><br>"+
+"⭐ You gained experience."
+);
+
+}
+
+
+/* =========================
+   ACTIVITY
+========================= */
+
+async function showActivity(){
+
+const {data:{user}} =
+await supabaseClient.auth.getUser();
+
+if(!user)return;
+
+const {data,error} =
+await supabaseClient
+.from("activity")
+.select("*")
+.eq("user_id",user.id)
+.order("created_at",{ascending:false})
+.limit(20);
+
+if(error){
+
+output("Could not load activity.");
+
+return;
+}
+
+let html="<h3>📱 Activity</h3>";
+
+if(!data.length){
+
+html+="<p>No activity yet.</p>";
+
+}else{
+
+data.forEach(item=>{
+
+html+=`
+<div class="message">
+${escapeHTML(item.action)}
+<br>
+<span class="small">
+${new Date(item.created_at).toLocaleString()}
+</span>
+</div>
+`;
+
+});
+
+}
+
+output(html);
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logout(){
+
+await supabaseClient.auth.signOut();
+
+document.getElementById("gameScreen")
+.classList.add("hidden");
+
+document.getElementById("authScreen")
+.classList.remove("hidden");
+
+showRegister();
+
+}
+
+
+/* =========================
+   SECURITY ESCAPE
+========================= */
+
+function escapeHTML(value){
+
+return String(value||"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+
+/* =========================
+   CHECK SESSION
+========================= */
+
+async function startApp(){
+
+const {data:{session}} =
+await supabaseClient.auth.getSession();
+
+if(session){
+
+await loadGame();
+
+}
+
+}
+
+startApp();
+
+</script>
+
+</body>
+  </html>
