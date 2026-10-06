@@ -2735,5 +2735,175 @@ if ("serviceWorker" in navigator) {
   });
 }
 </script>
+<style>
+#deltaUniversityScreen{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:100000;
+  background:linear-gradient(#74c9e8,#eefaff);
+  overflow-y:auto;
+  padding:25px 18px 100px;
+  font-family:Arial,sans-serif;
+}
+
+.uniBox{
+  max-width:600px;
+  margin:auto;
+  background:white;
+  color:#123;
+  border-radius:25px;
+  padding:20px;
+  box-shadow:0 10px 35px rgba(0,0,0,.2);
+}
+
+.uniTitle{
+  font-size:28px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.uniText{
+  line-height:1.5;
+  margin-bottom:18px;
+}
+
+.uniCard{
+  background:#f1f5f7;
+  border-radius:18px;
+  padding:18px;
+  margin:12px 0;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.uniCard:active{
+  transform:scale(.98);
+}
+
+.uniBack{
+  width:100%;
+  border:0;
+  border-radius:16px;
+  padding:15px;
+  background:#123;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  margin-top:15px;
+}
+</style>
+
+<div id="deltaUniversityScreen">
+
+  <div class="uniBox">
+
+    <div class="uniTitle">🎓 DELTA UNIVERSITY</div>
+
+    <div id="uniText" class="uniText">
+      Welcome to Delta University.
+    </div>
+
+    <div id="uniOptions">
+
+      <div class="uniCard" onclick="uniStudy()">
+        📚 Study
+      </div>
+
+      <div class="uniCard" onclick="uniClass()">
+        🏫 Attend Class
+      </div>
+
+      <div class="uniCard" onclick="uniFees()">
+        💰 School Fees
+      </div>
+
+      <div class="uniCard" onclick="uniCourse()">
+        📖 My Course
+      </div>
+
+      <div class="uniCard" onclick="uniStudents()">
+        👨‍🎓 Students
+      </div>
+
+    </div>
+
+    <button class="uniBack" onclick="closeUniversity()">
+      ← BACK TO DELTA LIFE
+    </button>
+
+  </div>
+
+</div>
+
+<script>
+
+function openUniversity(){
+
+  document.getElementById("deltaUniversityScreen").style.display="block";
+
+}
+
+function closeUniversity(){
+
+  document.getElementById("deltaUniversityScreen").style.display="none";
+
+}
+
+async function uniStudy(){
+
+  if(!profile)return;
+
+  if(Number(profile.energy)<5){
+
+    document.getElementById("uniText").innerHTML=
+      "⚡ You need at least 5 energy to study.";
+
+    return;
+  }
+
+  const updated=await updateProfile({
+    energy:Number(profile.energy)-5
+  });
+
+  if(!updated)return;
+
+  await logActivity("Studied at Delta University");
+
+  document.getElementById("uniText").innerHTML=
+    "📚 Study session completed!<br><br>⭐ Experience +10<br>⚡ Energy -5";
+
+}
+
+function uniClass(){
+
+  document.getElementById("uniText").innerHTML=
+    "🏫 You attended your class today.<br><br>⭐ Experience +5";
+
+}
+
+function uniFees(){
+
+  document.getElementById("uniText").innerHTML=
+    "💰 SCHOOL FEES<br><br>School fees system is being prepared.";
+
+}
+
+function uniCourse(){
+
+  document.getElementById("uniText").innerHTML=
+    "📖 MY COURSE<br><br>Electrical / Electronics Engineering";
+
+}
+
+function uniStudents(){
+
+  document.getElementById("uniText").innerHTML=
+    "👨‍🎓 STUDENTS<br><br>Players studying at Delta University will appear here.";
+
+}
+
+</script>
 </body>
 </html>
