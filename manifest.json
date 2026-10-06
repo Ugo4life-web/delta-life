@@ -1,0 +1,9 @@
+{
+  "name": "Delta Life",
+  "short_name": "Delta Life",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#74c9e8",
+  "theme_color": "#74c9e8",
+  "orientation": "portrait"
+}
