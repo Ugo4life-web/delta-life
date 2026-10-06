@@ -2368,10 +2368,9 @@ function marketJob(){
     "Choose a job at Delta Market.";
 
   document.getElementById("deltaPlaceOptions").innerHTML=`
-    <div class="deltaPlaceCard">
-      🔧 Mechanic — ₦15,000
-    </div>
-
+    <div class="deltaPlaceCard" onclick="marketWork('Mechanic',15000)">
+  🔧 Mechanic — ₦15,000
+</div>
     <div class="deltaPlaceCard">
       🏪 Shop Worker — ₦10,000
     </div>
@@ -2381,6 +2380,41 @@ function marketJob(){
     </div>
   `;
 }
+  async function marketWork(job,pay){
+
+  if(Number(profile.energy)<10){
+
+    document.getElementById("deltaPlaceText").innerHTML=
+      "⚡ You are too tired to work.";
+
+    return;
+  }
+
+  await updateProfile({
+    money:Number(profile.money)+pay,
+    energy:Number(profile.energy)-10
+  });
+
+  await logActivity(
+    "Worked as "+job+" at Delta Market"
+  );
+
+  document.getElementById("deltaPlaceTitle").innerHTML=
+    "💼 JOB COMPLETED";
+
+  document.getElementById("deltaPlaceText").innerHTML=
+    "You worked as "+job+" at Delta Market.";
+
+  document.getElementById("deltaPlaceOptions").innerHTML=`
+    <div class="deltaPlaceCard">
+      💰 Earned ₦${pay.toLocaleString()}
+    </div>
+
+    <div class="deltaPlaceCard">
+      ⚡ Energy -10
+    </div>
+  `;
+  }
   function showGameAction(title,message){
 
   document.getElementById("deltaPlaceTitle").innerHTML=title;
