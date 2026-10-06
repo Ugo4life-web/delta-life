@@ -2330,7 +2330,7 @@ function openDeltaPlace(place){
     text.innerHTML="Welcome to Delta Market. What would you like to do?";
 
     options.innerHTML=`
-      <div class="deltaPlaceCard" onclick="showGameAction('💼 JOBS','Available market jobs will appear here.')">💼 Find a Job</div>
+      <div class="deltaPlaceCard" onclick="marketJob()">💼 Find a Job</div>
       <div class="deltaPlaceCard" onclick="showGameAction('🛍️ SHOPS','Market shops will appear here.')">🛍️ Shops</div>
       <div class="deltaPlaceCard" onclick="showGameAction('🍔 FOOD','Food and restaurants will appear here.')">🍔 Food</div>
       <div class="deltaPlaceCard" onclick="showGameAction('👥 PEOPLE','Players at the market will appear here.')">👥 People at the Market</div>
@@ -2360,7 +2360,28 @@ function openDeltaPlace(place){
   }
 }
 
-function showGameAction(title,message){
+function marketJob(){
+
+  document.getElementById("deltaPlaceTitle").innerHTML="💼 MARKET JOBS";
+
+  document.getElementById("deltaPlaceText").innerHTML=
+    "Choose a job at Delta Market.";
+
+  document.getElementById("deltaPlaceOptions").innerHTML=`
+    <div class="deltaPlaceCard">
+      🔧 Mechanic — ₦15,000
+    </div>
+
+    <div class="deltaPlaceCard">
+      🏪 Shop Worker — ₦10,000
+    </div>
+
+    <div class="deltaPlaceCard">
+      📦 Store Assistant — ₦12,000
+    </div>
+  `;
+}
+  function showGameAction(title,message){
 
   document.getElementById("deltaPlaceTitle").innerHTML=title;
 
