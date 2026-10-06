@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Delta Life</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -16,87 +15,200 @@ box-sizing:border-box;
 body{
 margin:0;
 font-family:Arial,sans-serif;
-background:#06140e;
+background:#071b12;
 color:white;
-}
-
-button,input,select{
-font:inherit;
 }
 
 button{
+border:0;
+border-radius:12px;
+padding:14px;
+font-size:16px;
+font-weight:bold;
 cursor:pointer;
 }
 
-.header{
-background:#087443;
-padding:16px;
+input{
+width:100%;
+padding:14px;
+margin:7px 0;
+border-radius:10px;
+border:1px solid #315c47;
+background:#10291e;
+color:white;
+font-size:16px;
+}
+
+#authScreen{
+min-height:100vh;
 display:flex;
 align-items:center;
-justify-content:space-between;
-position:sticky;
-top:0;
-z-index:20;
-box-shadow:0 4px 18px #0008;
+justify-content:center;
+padding:20px;
+background:linear-gradient(135deg,#062b19,#0b5b36);
+}
+
+.authBox{
+width:100%;
+max-width:420px;
+background:#0c2419;
+padding:25px;
+border-radius:20px;
+box-shadow:0 10px 40px #0008;
 }
 
 .logo{
-font-size:22px;
+font-size:32px;
 font-weight:bold;
+text-align:center;
+margin-bottom:5px;
+}
+
+.subtitle{
+text-align:center;
+color:#a9cdb9;
+margin-bottom:20px;
+}
+
+.mainBtn{
+width:100%;
+background:#20c76a;
+color:#06200f;
+margin-top:10px;
+}
+
+.loginBtn{
+width:100%;
+background:#153c29;
+color:white;
+margin-top:10px;
+border:1px solid #2e6949;
+}
+
+#gameScreen{
+display:none;
+min-height:100vh;
+}
+
+.topbar{
+background:#0b2a1b;
+padding:15px;
+position:sticky;
+top:0;
+z-index:20;
+border-bottom:1px solid #1c4d34;
+}
+
+.brand{
+font-size:25px;
+font-weight:bold;
+}
+
+.stats{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin-top:10px;
+}
+
+.stat{
+background:#123724;
+padding:8px 12px;
+border-radius:10px;
+font-size:14px;
 }
 
 .container{
-width:94%;
-max-width:950px;
+padding:15px;
+max-width:1000px;
 margin:auto;
-padding:15px 0;
 }
 
-.card{
-background:#10251b;
-border-radius:18px;
-padding:17px;
-margin-bottom:15px;
-box-shadow:0 6px 22px #0006;
-border:1px solid #ffffff10;
+.map{
+background:
+radial-gradient(circle at 30% 30%,#27784b 0 3%,transparent 4%),
+radial-gradient(circle at 70% 60%,#27784b 0 3%,transparent 4%),
+#123d28;
+border-radius:22px;
+padding:20px;
+min-height:450px;
+position:relative;
+overflow:hidden;
+border:2px solid #2c744d;
 }
 
-input,
-select{
-width:100%;
-padding:13px;
-margin:6px 0;
-border:0;
-border-radius:10px;
-background:white;
-color:#111;
+.map h2{
+text-align:center;
 }
 
-.btn{
-width:100%;
-padding:13px;
-margin:6px 0;
-border:0;
-border-radius:10px;
-background:#10a968;
+.mapSub{
+text-align:center;
+color:#acd1bb;
+}
+
+.cityGrid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+margin-top:20px;
+}
+
+.city{
+background:#174a30;
 color:white;
-font-weight:bold;
+border:1px solid #39805a;
+min-height:80px;
 }
 
-.btn:hover{
-background:#13bd75;
+.city:hover{
+background:#216642;
 }
 
-.btn.dark{
-background:#214333;
+.section{
+background:#0d281b;
+border:1px solid #1d5035;
+border-radius:18px;
+padding:18px;
+margin-top:15px;
 }
 
-.btn.red{
-background:#a83232;
+.cards{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
 }
 
-.btn.gold{
-background:#9b690b;
+.cardBtn{
+background:#123a27;
+color:white;
+border:1px solid #286144;
+}
+
+.cardBtn:hover{
+background:#1b5134;
+}
+
+#output{
+margin-top:15px;
+}
+
+.message{
+background:#123a27;
+padding:12px;
+border-radius:12px;
+margin:7px 0;
+}
+
+.danger{
+background:#652525;
+color:white;
+}
+
+.logout{
+background:#792929;
+color:white;
+width:100%;
+margin-top:20px;
 }
 
 .hidden{
@@ -105,535 +217,233 @@ display:none!important;
 
 .small{
 font-size:13px;
-color:#b9c6bf;
-}
-
-.message{
-padding:11px;
-border-radius:10px;
-margin-top:10px;
-background:#183b2a;
-}
-
-.error{
-background:#642727;
+color:#a9cdb9;
 }
 
 .success{
-background:#175d38;
+color:#62e69a;
 }
 
-.stats{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:8px;
-margin-top:15px;
-}
-
-.stat{
-background:#173b2a;
-padding:12px 5px;
-text-align:center;
-border-radius:12px;
-}
-
-.stat strong{
-display:block;
-font-size:18px;
-margin-top:4px;
-}
-
-.nav{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:7px;
-margin-bottom:14px;
-}
-
-.nav button{
-border:0;
-border-radius:10px;
-padding:10px 4px;
-background:#143525;
-color:white;
-font-size:12px;
-}
-
-.nav button.active{
-background:#10a968;
-}
-
-.map{
-height:480px;
-position:relative;
-overflow:hidden;
-border-radius:22px;
-background:
-linear-gradient(135deg,#0b4e35,#11704b 50%,#083d31);
-border:2px solid #ffffff18;
-}
-
-.map:before{
-content:"";
-position:absolute;
-inset:0;
-background:
-radial-gradient(circle,#ffffff12 2px,transparent 3px);
-background-size:45px 45px;
-}
-
-.water{
-position:absolute;
-width:75%;
-height:120%;
-right:-38%;
-top:-10%;
-background:#1380a933;
-border-radius:50%;
-transform:rotate(18deg);
-}
-
-.road1,
-.road2,
-.road3{
-position:absolute;
-height:11px;
-background:#d8a64a35;
-border-radius:20px;
-}
-
-.road1{
-width:90%;
-left:4%;
-top:48%;
-transform:rotate(-12deg);
-}
-
-.road2{
-width:70%;
-left:17%;
-top:65%;
-transform:rotate(18deg);
-}
-
-.road3{
-width:65%;
-left:8%;
-top:30%;
-transform:rotate(25deg);
-}
-
-.city{
-position:absolute;
-padding:8px 10px;
-border:1px solid #ffffff30;
-border-radius:12px;
-background:#06281cdd;
-color:white;
-box-shadow:0 4px 14px #0008;
-text-align:left;
-}
-
-.city b{
-display:block;
-font-size:12px;
-}
-
-.city span{
-font-size:9px;
-color:#b8dfc9;
-}
-
-.asaba{
-top:7%;
-left:48%;
-}
-
-.agbor{
-top:20%;
-left:13%;
-}
-
-.sapele{
-top:36%;
-left:23%;
-}
-
-.ughelli{
-top:49%;
-left:30%;
-}
-
-.warri{
-top:57%;
-left:55%;
-}
-
-.effurun{
-top:44%;
-left:73%;
-}
-
-.ozoro{
-top:67%;
-left:64%;
-}
-
-.oleh{
-top:72%;
-left:42%;
-}
-
-.kwale{
-top:78%;
-left:17%;
-}
-
-.map-title{
-position:absolute;
-top:12px;
-left:12px;
-background:#06140edd;
-padding:10px;
-border-radius:10px;
-font-weight:bold;
-}
-
-.map-info{
-position:absolute;
-bottom:12px;
-left:12px;
-background:#06140edd;
-padding:10px;
-border-radius:10px;
-font-size:12px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-}
-
-.tile{
-background:#173729;
-padding:14px;
-border-radius:14px;
-}
-
-.tile h3{
-margin-top:0;
-}
-
-.place-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:9px;
-}
-
-.place{
-padding:14px;
-border:0;
-border-radius:13px;
-background:#17432f;
-color:white;
-text-align:left;
-}
-
-.place strong{
-display:block;
-}
-
-.place small{
-color:#b8c5be;
-}
-
-.activity{
-padding:11px;
-background:#173729;
-border-radius:10px;
-margin:7px 0;
+.error{
+color:#ff8c8c;
 }
 
 @media(max-width:600px){
-
-.map{
-height:450px;
-}
-
-.city{
-padding:6px 8px;
-}
-
-.city b{
-font-size:10px;
-}
-
-.city span{
-font-size:8px;
-}
-
-.nav{
-grid-template-columns:repeat(5,1fr);
-}
-
-.grid,
-.place-grid{
+.cityGrid{
 grid-template-columns:1fr 1fr;
 }
 
+.cards{
+grid-template-columns:1fr 1fr;
+}
+
+.map{
+min-height:400px;
+}
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
+<!-- AUTH -->
+<div id="authScreen">
 
-<div class="logo">
-🌴 DELTA LIFE
+<div class="authBox">
+
+<div class="logo">🌴 DELTA LIFE</div>
+<div class="subtitle">Build your life in Delta State</div>
+
+<input id="email" type="email" placeholder="Email">
+
+<input id="password" type="password" placeholder="Password">
+
+<input id="username" type="text" placeholder="Username">
+
+<input id="hometown" type="text" placeholder="Hometown">
+
+<select id="gender" style="width:100%;padding:14px;margin:7px 0;border-radius:10px;background:#10291e;color:white;border:1px solid #315c47;">
+<option value="">Select Gender</option>
+<option value="Male">Male</option>
+<option value="Female">Female</option>
+</select>
+
+<button type="button" class="mainBtn" onclick="createAccount()">
+Create Account
+</button>
+
+<button type="button" class="loginBtn" onclick="login()">
+Login
+</button>
+
+<div id="authMessage" style="margin-top:15px;text-align:center;"></div>
+
+</div>
 </div>
 
-<button
-id="logoutTop"
-class="btn red hidden"
-style="width:auto;margin:0;padding:8px 12px"
-onclick="logout()">
+
+<!-- GAME -->
+<div id="gameScreen">
+
+<div class="topbar">
+
+<div class="brand">🌴 DELTA LIFE</div>
+
+<div id="welcome"></div>
+
+<div class="stats">
+<div class="stat">💰 ₦<span id="money">0</span></div>
+<div class="stat">⚡ <span id="energy">0</span></div>
+<div class="stat">⭐ Level <span id="level">1</span></div>
+<div class="stat">📍 <span id="location">Delta State</span></div>
+</div>
+
+</div>
+
+
+<div class="container">
+
+<div class="section">
+
+<h2>🗺️ Delta State</h2>
+<p class="small">
+Choose a place to travel and explore.
+</p>
+
+<div class="map">
+
+<h2>🌴 DELTA LIFE MAP</h2>
+
+<div class="mapSub">
+Explore cities, university, hotels, business and nightlife.
+</div>
+
+<div class="cityGrid">
+
+<button type="button" class="city" onclick="travelTo('Asaba')">
+🏙️<br>Asaba
+</button>
+
+<button type="button" class="city" onclick="travelTo('Warri')">
+🌊<br>Warri
+</button>
+
+<button type="button" class="city" onclick="travelTo('Sapele')">
+🌴<br>Sapele
+</button>
+
+<button type="button" class="city" onclick="travelTo('Ughelli')">
+🏘️<br>Ughelli
+</button>
+
+<button type="button" class="city" onclick="travelTo('Oleh')">
+📍<br>Oleh
+</button>
+
+<button type="button" class="city" onclick="travelTo('Kwale')">
+🌴<br>Kwale
+</button>
+
+<button type="button" class="city" onclick="travelTo('Ozoro')">
+🏘️<br>Ozoro
+</button>
+
+<button type="button" class="city" onclick="travelTo('Effurun')">
+🏙️<br>Effurun
+</button>
+
+<button type="button" class="city" onclick="travelTo('Agbor')">
+🏘️<br>Agbor
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="section">
+
+<h2>🎮 Activities</h2>
+
+<div class="cards">
+
+<button type="button" class="cardBtn" onclick="showJobs()">
+💼 Jobs
+</button>
+
+<button type="button" class="cardBtn" onclick="showHome()">
+🏠 Home
+</button>
+
+<button type="button" class="cardBtn" onclick="showVehicles()">
+🚗 Vehicles
+</button>
+
+<button type="button" class="cardBtn" onclick="showPeople()">
+👥 People
+</button>
+
+<button type="button" class="cardBtn" onclick="showChurch()">
+⛪ Church
+</button>
+
+<button type="button" class="cardBtn" onclick="showHospital()">
+🏥 Hospital
+</button>
+
+<button type="button" class="cardBtn" onclick="showPolice()">
+👮 Police
+</button>
+
+<button type="button" class="cardBtn" onclick="showFinance()">
+🏦 Finance
+</button>
+
+<button type="button" class="cardBtn" onclick="showUniversity()">
+🎓 University
+</button>
+
+<button type="button" class="cardBtn" onclick="showHotels()">
+🏨 Hotels
+</button>
+
+<button type="button" class="cardBtn" onclick="showNightlife()">
+🎉 Nightlife
+</button>
+
+<button type="button" class="cardBtn" onclick="showBusiness()">
+🏪 Businesses
+</button>
+
+<button type="button" class="cardBtn" onclick="showActivity()">
+📱 Activity
+</button>
+
+</div>
+
+</div>
+
+
+<div id="output"></div>
+
+
+<button type="button" class="logout" onclick="logout()">
 Logout
 </button>
 
 </div>
-
-<div class="container">
-
-<!-- ================= AUTH ================= -->
-
-<section id="authScreen">
-
-<div class="card">
-
-<h2>🌴 Welcome to Delta Life</h2>
-
-<p class="small">
-Build your life. Make money. Explore Delta State.
-</p>
-
-<div id="registerBox">
-
-<h3>Create Account</h3>
-
-<input
-id="regEmail"
-type="email"
-placeholder="Email">
-
-<input
-id="regPassword"
-type="password"
-placeholder="Password">
-
-<input
-id="regUsername"
-placeholder="Username">
-
-<input
-id="regHometown"
-placeholder="Hometown">
-
-<select id="regGender">
-
-<option value="">
-Select Gender
-</option>
-
-<option value="Male">
-Male
-</option>
-
-<option value="Female">
-Female
-</option>
-
-</select>
-
-<button
-class="btn"
-onclick="createAccount()">
-
-Create Account
-
-</button>
-
-<button
-class="btn dark"
-onclick="showLogin()">
-
-Already have an account? Login
-
-</button>
-
-</div>
-
-
-<div id="loginBox" class="hidden">
-
-<h3>Login</h3>
-
-<input
-id="loginEmail"
-type="email"
-placeholder="Email">
-
-<input
-id="loginPassword"
-type="password"
-placeholder="Password">
-
-<button
-class="btn"
-onclick="login()">
-
-Login
-
-</button>
-
-<button
-class="btn dark"
-onclick="showRegister()">
-
-Create Account
-
-</button>
-
-</div>
-
-<div id="authMessage"></div>
-
-</div>
-
-</section>
-
-
-<!-- ================= GAME ================= -->
-
-<section
-id="gameScreen"
-class="hidden">
-
-<div class="card">
-
-<h2 id="welcomeText">
-Welcome 👋
-</h2>
-
-<div class="stats">
-
-<div class="stat">
-💰
-<strong id="money">
-₦0
-</strong>
-Money
-</div>
-
-<div class="stat">
-⚡
-<strong id="energy">
-0
-</strong>
-Energy
-</div>
-
-<div class="stat">
-⭐
-<strong id="level">
-1
-</strong>
-Level
-</div>
-
-</div>
-
-</div>
-
-
-<!-- NAVIGATION -->
-
-<div class="nav">
-
-<button
-id="mapNav"
-class="active"
-onclick="showMap()">
-
-🗺️
-<br>
-Map
-
-</button>
-
-<button
-id="jobsNav"
-onclick="showJobs()">
-
-💼
-<br>
-Jobs
-
-</button>
-
-<button
-id="homeNav"
-onclick="showHome()">
-
-🏠
-<br>
-Home
-
-</button>
-
-<button
-id="peopleNav"
-onclick="showPeople()">
-
-👥
-<br>
-People
-
-</button>
-
-<button
-id="moreNav"
-onclick="showMore()">
-
-☰
-<br>
-More
-
-</button>
-
-</div>
-
-
-<div id="gameOutput"></div>
-
-
-</section>
-
 </div>
 
 
 <script>
 
-/* =====================================================
-SUPABASE
-===================================================== */
-
 const SUPABASE_URL =
 "https://kwgbrnbmykflgbhxsnkl.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_KFH_CYFO6sPbKNtNoEjE1A_eIKaRrDC";
+"sb_publishable_KFH_CYFO6sPbKNtNoEjE1A";
 
 const supabaseClient =
 window.supabase.createClient(
@@ -641,192 +451,78 @@ SUPABASE_URL,
 SUPABASE_KEY
 );
 
-
-/* =====================================================
-PLAYER
-===================================================== */
-
-let player = null;
+let currentUser = null;
+let profile = null;
 
 
-/* =====================================================
-HELPERS
-===================================================== */
-
-function escapeHTML(value){
-
-return String(value || "")
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
-
-}
-
+/* AUTH MESSAGE */
 
 function authMessage(text,type=""){
-
-const box =
-document.getElementById("authMessage");
-
-box.className =
-"message " + type;
+const box=document.getElementById("authMessage");
 
 box.innerHTML =
-text;
-
+"<span class='"+type+"'>"+text+"</span>";
 }
 
 
-function output(html){
-
-document.getElementById(
-"gameOutput"
-).innerHTML = html;
-
-}
-
-
-function showLogin(){
-
-document
-.getElementById("registerBox")
-.classList
-.add("hidden");
-
-document
-.getElementById("loginBox")
-.classList
-.remove("hidden");
-
-authMessage("");
-
-}
-
-
-function showRegister(){
-
-document
-.getElementById("loginBox")
-.classList
-.add("hidden");
-
-document
-.getElementById("registerBox")
-.classList
-.remove("hidden");
-
-authMessage("");
-
-}
-
-
-/* =====================================================
-CREATE ACCOUNT
-===================================================== */
+/* CREATE ACCOUNT */
 
 async function createAccount(){
 
 const email =
-document.getElementById(
-"regEmail"
-).value.trim();
+document.getElementById("email").value.trim();
 
 const password =
-document.getElementById(
-"regPassword"
-).value;
+document.getElementById("password").value;
 
 const username =
-document.getElementById(
-"regUsername"
-).value.trim();
+document.getElementById("username").value.trim();
 
 const hometown =
-document.getElementById(
-"regHometown"
-).value.trim();
+document.getElementById("hometown").value.trim();
 
 const gender =
-document.getElementById(
-"regGender"
-).value;
+document.getElementById("gender").value;
 
-
-if(
-!email ||
-!password ||
-!username ||
-!hometown ||
-!gender
-){
+if(!email || !password || !username || !hometown || !gender){
 
 authMessage(
-"Please fill every box.",
+"Please fill everything.",
 "error"
 );
 
 return;
-
 }
 
-
-if(password.length < 6){
-
-authMessage(
-"Password must be at least 6 characters.",
-"error"
-);
-
-return;
-
-}
-
-
-authMessage(
-"Creating your account..."
-);
-
+authMessage("Creating account...");
 
 const {data,error} =
 await supabaseClient.auth.signUp({
 
 email:email,
-
 password:password
 
 });
 
-
 if(error){
 
-authMessage(
-error.message,
-"error"
-);
-
+authMessage(error.message,"error");
 return;
 
 }
-
 
 if(!data.user){
 
 authMessage(
-"Account creation failed.",
-"error"
+"Account created. Check your email to verify it.",
+"success"
 );
 
 return;
-
 }
 
 
-/*
-NEW PLAYERS START WITH
-₦1,000,000
-*/
+/* CREATE PROFILE */
 
 const {error:profileError} =
 await supabaseClient
@@ -834,37 +530,22 @@ await supabaseClient
 .insert({
 
 id:data.user.id,
-
 username:username,
-
 hometown:hometown,
-
 gender:gender,
-
 location:hometown,
-
 money:1000000,
-
 energy:100,
-
 level:1,
-
 house:"Delta Starter Home",
-
 vehicle:"None"
 
 });
 
-
-if(
-profileError &&
-!profileError.message
-.toLowerCase()
-.includes("duplicate")
-){
+if(profileError){
 
 authMessage(
-"Profile setup failed: " +
+"Account created, but profile setup failed: "+
 profileError.message,
 "error"
 );
@@ -873,42 +554,23 @@ return;
 
 }
 
-
-if(!data.session){
-
 authMessage(
-"Account created! Check your email, verify it, then login.",
+"Account created! Check your email to verify your account.",
 "success"
 );
 
-showLogin();
-
-return;
-
 }
 
 
-await loadGame();
-
-}
-
-
-/* =====================================================
-LOGIN
-===================================================== */
+/* LOGIN */
 
 async function login(){
 
 const email =
-document.getElementById(
-"loginEmail"
-).value.trim();
+document.getElementById("email").value.trim();
 
 const password =
-document.getElementById(
-"loginPassword"
-).value;
-
+document.getElementById("password").value;
 
 if(!email || !password){
 
@@ -918,299 +580,891 @@ authMessage(
 );
 
 return;
-
 }
 
-
-authMessage(
-"Logging in..."
-);
-
+authMessage("Logging in...");
 
 const {data,error} =
-await supabaseClient.auth
-.signInWithPassword({
+await supabaseClient.auth.signInWithPassword({
 
 email:email,
-
 password:password
 
 });
 
-
 if(error){
 
-authMessage(
-error.message,
-"error"
-);
-
+authMessage(error.message,"error");
 return;
 
 }
 
-
-if(!data.user){
-
-authMessage(
-"Login failed.",
-"error"
-);
-
-return;
-
-}
-
-
-await ensureProfile(
-data.user
-);
+currentUser=data.user;
 
 await loadGame();
 
 }
 
 
-/* =====================================================
-ENSURE PROFILE
-===================================================== */
-
-async function ensureProfile(user){
-
-const {data,error} =
-await supabaseClient
-.from("profiles")
-.select("*")
-.eq("id",user.id)
-.maybeSingle();
-
-
-if(data){
-
-player=data;
-
-return;
-
-}
-
-
-if(error){
-
-console.log(error);
-
-}
-
-
-await supabaseClient
-.from("profiles")
-.insert({
-
-id:user.id,
-
-username:
-(user.email || "player")
-.split("@")[0],
-
-hometown:"Delta State",
-
-gender:"Not specified",
-
-location:"Asaba",
-
-money:1000000,
-
-energy:100,
-
-level:1,
-
-house:"Delta Starter Home",
-
-vehicle:"None"
-
-});
-
-
-const result =
-await supabaseClient
-.from("profiles")
-.select("*")
-.eq("id",user.id)
-.single();
-
-
-player=result.data;
-
-}
-
-
-/* =====================================================
-LOAD GAME
-===================================================== */
+/* LOAD GAME */
 
 async function loadGame(){
 
-const {
-data:{
-user
+if(!currentUser){
+
+const result =
+await supabaseClient.auth.getUser();
+
+currentUser=result.data.user;
+
 }
-} =
-await supabaseClient
-.auth
-.getUser();
 
+if(!currentUser){
 
-if(!user)return;
-
-
-await ensureProfile(user);
+showAuth();
+return;
+}
 
 
 const {data,error} =
 await supabaseClient
 .from("profiles")
 .select("*")
-.eq("id",user.id)
+.eq("id",currentUser.id)
 .single();
-
 
 if(error){
 
 authMessage(
-"Could not load profile: " +
+"Profile could not be loaded: "+
 error.message,
 "error"
 );
 
 return;
+}
+
+profile=data;
+
+document.getElementById("authScreen")
+.style.display="none";
+
+document.getElementById("gameScreen")
+.style.display="block";
+
+updateDashboard();
 
 }
 
 
-player=data;
+/* DASHBOARD */
 
+function updateDashboard(){
 
-document
-.getElementById("authScreen")
-.classList
-.add("hidden");
+if(!profile)return;
 
-
-document
-.getElementById("gameScreen")
-.classList
-.remove("hidden");
-
-
-document
-.getElementById("logoutTop")
-.classList
-.remove("hidden");
-
-
-updateStats();
-
-
-showMap();
-
-}
-
-
-/* =====================================================
-STATS
-===================================================== */
-
-function updateStats(){
-
-if(!player)return;
-
-
-document
-.getElementById("welcomeText")
+document.getElementById("welcome")
 .innerHTML =
-"Welcome <b>" +
-escapeHTML(player.username) +
-"</b> 👋 — " +
-escapeHTML(player.location || player.hometown);
+"Welcome "+escapeHTML(profile.username || "Player")+" 👋";
 
-
-document
-.getElementById("money")
+document.getElementById("money")
 .textContent =
-"₦" +
-Number(
-player.money || 0
-).toLocaleString();
+Number(profile.money || 0).toLocaleString();
 
-
-document
-.getElementById("energy")
+document.getElementById("energy")
 .textContent =
-Number(
-player.energy || 0
-);
+Number(profile.energy || 0);
 
-
-document
-.getElementById("level")
+document.getElementById("level")
 .textContent =
-Number(
-player.level || 1
-);
+profile.level || 1;
+
+document.getElementById("location")
+.textContent =
+profile.location || "Delta State";
 
 }
 
 
-/* =====================================================
-UPDATE PLAYER
-===================================================== */
+/* UPDATE PROFILE */
 
-async function updatePlayer(changes){
+async function updateProfile(changes){
 
-const {
-data,
-error
-} =
+if(!currentUser)return;
+
+const {data,error} =
 await supabaseClient
 .from("profiles")
 .update(changes)
-.eq("id",player.id)
+.eq("id",currentUser.id)
 .select()
 .single();
 
+if(error){
 
-if(!error && data){
+showOutput(
+"❌ "+escapeHTML(error.message)
+);
 
-player=data;
+return null;
 
-updateStats();
+}
 
-return true;
+profile=data;
+updateDashboard();
+
+return data;
 
 }
 
 
-console.log(error);
+/* TRAVEL */
 
-return false;
+async function travelTo(place){
+
+if(!profile)return;
+
+const energy =
+Number(profile.energy || 0);
+
+if(energy < 10){
+
+showOutput(
+"⚡ You need at least 10 energy to travel."
+);
+
+return;
+
+}
+
+await updateProfile({
+
+location:place,
+energy:energy-10
+
+});
+
+await logActivity(
+"Travelled to "+place
+);
+
+showOutput(
+"🗺️ You travelled to <b>"+
+escapeHTML(place)+
+"</b>.<br><br>⚡ 10 energy used."
+);
 
 }
 
 
-/* =====================================================
-ACTIVITY
-===================================================== */
+/* JOBS */
+
+function showJobs(){
+
+showOutput(`
+<h2>💼 Jobs</h2>
+
+<p>Choose a job.</p>
+
+<div class="cards">
+
+<button type="button" class="cardBtn"
+onclick="work('Mechanic',15000)">
+🔧 Mechanic<br>₦15,000
+</button>
+
+<button type="button" class="cardBtn"
+onclick="work('Shop Worker',10000)">
+🏪 Shop Worker<br>₦10,000
+</button>
+
+<button type="button" class="cardBtn"
+onclick="work('Driver',18000)">
+🚗 Driver<br>₦18,000
+</button>
+
+<button type="button" class="cardBtn"
+onclick="work('Designer',20000)">
+🎨 Designer<br>₦20,000
+</button>
+
+<button type="button" class="cardBtn"
+onclick="work('Tech Assistant',25000)">
+💻 Tech Assistant<br>₦25,000
+</button>
+
+<button type="button" class="cardBtn"
+onclick="work('Site Worker',17000)">
+🏗️ Site Worker<br>₦17,000
+</button>
+
+</div>
+`);
+
+}
+
+
+/* WORK */
+
+async function work(job,pay){
+
+if(Number(profile.energy)<10){
+
+showOutput("⚡ You are too tired to work.");
+
+return;
+
+}
+
+await updateProfile({
+
+money:Number(profile.money)+pay,
+energy:Number(profile.energy)-10
+
+});
+
+await logActivity(
+"Worked as "+job+
+" and earned ₦"+pay.toLocaleString()
+);
+
+showOutput(
+"💼 You worked as <b>"+
+escapeHTML(job)+
+"</b>.<br><br>💰 You earned ₦"+
+pay.toLocaleString()+
+"<br>⚡ 10 energy used."
+);
+
+}
+
+
+/* HOME */
+
+function showHome(){
+
+showOutput(`
+<h2>🏠 Home</h2>
+
+<p>
+House: <b>${escapeHTML(profile.house || "None")}</b>
+</p>
+
+<button type="button" class="cardBtn"
+onclick="restHome()">
+😴 Rest at Home
+</button>
+
+<button type="button" class="cardBtn"
+onclick="buyHouse()">
+🏠 Buy Better House — ₦300,000
+</button>
+`);
+
+}
+
+
+/* REST */
+
+async function restHome(){
+
+await updateProfile({
+energy:100
+});
+
+await logActivity("Rested at home");
+
+showOutput(
+"😴 You rested at home.<br><br>⚡ Energy restored to 100."
+);
+
+}
+
+
+/* HOUSE */
+
+async function buyHouse(){
+
+const price=300000;
+
+if(Number(profile.money)<price){
+
+showOutput("❌ You don't have enough money.");
+
+return;
+}
+
+await updateProfile({
+
+money:Number(profile.money)-price,
+house:"Delta Comfort Home"
+
+});
+
+await logActivity("Bought Delta Comfort Home");
+
+showOutput(
+"🏠 Congratulations! You bought a Delta Comfort Home."
+);
+
+}
+
+
+/* VEHICLES */
+
+function showVehicles(){
+
+showOutput(`
+<h2>🚗 Vehicles</h2>
+
+<p>
+Current vehicle:
+<b>${escapeHTML(profile.vehicle || "None")}</b>
+</p>
+
+<div class="cards">
+
+<button type="button" class="cardBtn"
+onclick="buyVehicle('Motorcycle',150000)">
+🏍️ Motorcycle<br>₦150,000
+</button>
+
+<button type="button" class="cardBtn"
+onclick="buyVehicle('Car',800000)">
+🚗 Car<br>₦800,000
+</button>
+
+<button type="button" class="cardBtn"
+onclick="buyVehicle('Luxury Car',2500000)">
+🚘 Luxury Car<br>₦2,500,000
+</button>
+
+</div>
+`);
+
+}
+
+
+/* BUY VEHICLE */
+
+async function buyVehicle(name,price){
+
+if(Number(profile.money)<price){
+
+showOutput("❌ You don't have enough money.");
+
+return;
+}
+
+await updateProfile({
+
+money:Number(profile.money)-price,
+vehicle:name
+
+});
+
+await logActivity("Bought "+name);
+
+showOutput(
+"🚗 You bought a "+escapeHTML(name)+"."
+);
+
+}
+
+
+/* PEOPLE */
+
+function showPeople(){
+
+showOutput(`
+<h2>👥 People</h2>
+
+<p>
+Search for another player's username.
+</p>
+
+<input id="personSearch"
+placeholder="Enter username">
+
+<button type="button"
+class="mainBtn"
+onclick="searchPeople()">
+🔎 Search
+</button>
+
+<div id="peopleResults"></div>
+`);
+
+}
+
+
+/* SEARCH PEOPLE */
+
+async function searchPeople(){
+
+const search =
+document.getElementById("personSearch")
+.value.trim();
+
+if(!search){
+
+showOutput("Enter a username.");
+
+return;
+
+}
+
+const {data,error} =
+await supabaseClient
+.from("profiles")
+.select("id,username,hometown,location,level")
+.ilike("username","%"+search+"%")
+.limit(10);
+
+if(error){
+
+showOutput(
+"❌ Player search is not available yet because of the current profile security settings."
+);
+
+return;
+
+}
+
+if(!data || data.length===0){
+
+document.getElementById("peopleResults")
+.innerHTML=
+"<p>No player found.</p>";
+
+return;
+
+}
+
+document.getElementById("peopleResults")
+.innerHTML=
+data.map(p=>`
+
+<div class="message">
+
+<b>👤 ${escapeHTML(p.username)}</b><br>
+
+📍 ${escapeHTML(p.location || p.hometown || "Delta State")}
+<br>
+⭐ Level ${p.level || 1}
+
+<br><br>
+
+<button type="button"
+class="cardBtn"
+onclick="openChat('${p.id}','${escapeHTML(p.username)}')">
+💬 Chat
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* CHAT PLACEHOLDER */
+
+function openChat(id,name){
+
+showOutput(`
+<h2>💬 Chat with ${escapeHTML(name)}</h2>
+
+<p>
+Private player chat is connected to the
+messages system. The chat screen will use
+this player's ID:
+</p>
+
+<div class="message">
+${escapeHTML(id)}
+</div>
+
+<p class="small">
+Chat messaging is the next connection to finish.
+</p>
+`);
+
+}
+
+
+/* CHURCH */
+
+function showChurch(){
+
+showOutput(`
+<h2>⛪ Church</h2>
+
+<p>
+Attend church and restore some energy.
+</p>
+
+<button type="button"
+class="cardBtn"
+onclick="church()">
+🙏 Attend Service
+</button>
+`);
+
+}
+
+async function church(){
+
+let energy=Math.min(
+100,
+Number(profile.energy)+20
+);
+
+await updateProfile({
+energy:energy
+});
+
+await logActivity("Attended church service");
+
+showOutput(
+"⛪ You attended church service.<br><br>🙏 You feel refreshed."
+);
+
+}
+
+
+/* HOSPITAL */
+
+function showHospital(){
+
+showOutput(`
+<h2>🏥 Hospital</h2>
+
+<p>Restore your energy.</p>
+
+<button type="button"
+class="cardBtn"
+onclick="hospital()">
+💊 Get Treatment — ₦5,000
+</button>
+`);
+
+}
+
+async function hospital(){
+
+const cost=5000;
+
+if(Number(profile.money)<cost){
+
+showOutput("❌ You need ₦5,000.");
+
+return;
+}
+
+await updateProfile({
+
+money:Number(profile.money)-cost,
+energy:100
+
+});
+
+await logActivity("Visited hospital");
+
+showOutput(
+"🏥 Treatment complete.<br><br>⚡ Energy restored to 100."
+);
+
+}
+
+
+/* POLICE */
+
+function showPolice(){
+
+showOutput(`
+<h2>👮 Police Station</h2>
+
+<p>
+Take part in fictional Delta Life missions.
+</p>
+
+<button type="button"
+class="cardBtn"
+onclick="policeMission()">
+🚓 Start Mission
+</button>
+`);
+
+}
+
+async function policeMission(){
+
+if(Number(profile.energy)<15){
+
+showOutput("⚡ You need 15 energy.");
+
+return;
+}
+
+const reward=25000;
+
+await updateProfile({
+
+money:Number(profile.money)+reward,
+energy:Number(profile.energy)-15
+
+});
+
+await logActivity(
+"Completed a fictional police mission"
+);
+
+showOutput(
+"👮 Mission completed!<br><br>"+
+"💰 Reward: ₦25,000<br>"+
+"⚡ 15 energy used."
+);
+
+}
+
+
+/* FINANCE */
+
+function showFinance(){
+
+showOutput(`
+<h2>🏦 Delta Finance</h2>
+
+<p>
+Loans and savings will be added to the
+Delta Life economy system.
+</p>
+
+<div class="message">
+🏦 Finance system coming in the next database upgrade.
+</div>
+`);
+
+}
+
+
+/* UNIVERSITY */
+
+function showUniversity(){
+
+showOutput(`
+<h2>🎓 University</h2>
+
+<p>
+Welcome to the Delta Life University area.
+</p>
+
+<button type="button"
+class="cardBtn"
+onclick="university()">
+📚 Attend Lecture
+</button>
+`);
+
+}
+
+async function university(){
+
+if(Number(profile.energy)<10){
+
+showOutput("⚡ You need 10 energy.");
+
+return;
+}
+
+await updateProfile({
+
+energy:Number(profile.energy)-10
+
+});
+
+await logActivity("Attended university lecture");
+
+showOutput(
+"🎓 You attended a university lecture.<br><br>📚 Knowledge increased!"
+);
+
+}
+
+
+/* HOTELS */
+
+function showHotels(){
+
+showOutput(`
+<h2>🏨 Hotels</h2>
+
+<div class="message">
+🏨 Delta Grand Hotel
+<br>Luxury stay
+</div>
+
+<div class="message">
+🏨 Warri City Hotel
+<br>City accommodation
+</div>
+
+<div class="message">
+🏨 Asaba Royal Hotel
+<br>Premium accommodation
+</div>
+`);
+
+}
+
+
+/* NIGHTLIFE */
+
+function showNightlife(){
+
+showOutput(`
+<h2>🎉 Nightlife</h2>
+
+<div class="message">
+🎉 Delta Night Club
+<br><br>
+Party time: 10:00 PM — Dawn
+<br><br>
+A fictional nightlife location inside Delta Life.
+</div>
+
+<button type="button"
+class="cardBtn"
+onclick="party()">
+🎉 Enter Party
+</button>
+`);
+
+}
+
+async function party(){
+
+if(Number(profile.energy)<20){
+
+showOutput("⚡ You need 20 energy.");
+
+return;
+}
+
+await updateProfile({
+
+energy:Number(profile.energy)-20
+
+});
+
+await logActivity("Visited Delta Night Club");
+
+showOutput(
+"🎉 You enjoyed the fictional Delta Life nightlife.<br><br>"+
+"⚡ 20 energy used."
+);
+
+}
+
+
+/* BUSINESS */
+
+function showBusiness(){
+
+showOutput(`
+<h2>🏪 Businesses</h2>
+
+<div class="cards">
+
+<button type="button"
+class="cardBtn">
+🛒 Supermarket
+</button>
+
+<button type="button"
+class="cardBtn">
+🔧 Mechanic Workshop
+</button>
+
+<button type="button"
+class="cardBtn">
+📱 Phone Shop
+</button>
+
+<button type="button"
+class="cardBtn">
+🍔 Restaurant
+</button>
+
+</div>
+`);
+
+}
+
+
+/* ACTIVITY */
+
+async function showActivity(){
+
+const {data,error} =
+await supabaseClient
+.from("activity")
+.select("*")
+.eq("user_id",currentUser.id)
+.order("created_at",{ascending:false})
+.limit(20);
+
+if(error){
+
+showOutput(
+"❌ "+escapeHTML(error.message)
+);
+
+return;
+
+}
+
+let html="<h2>📱 Activity</h2>";
+
+if(!data || data.length===0){
+
+html+="<p>No activity yet.</p>";
+
+}else{
+
+data.forEach(item=>{
+
+html+=`
+<div class="message">
+${escapeHTML(item.action)}
+<br>
+<span class="small">
+${new Date(item.created_at).toLocaleString()}
+</span>
+</div>
+`;
+
+});
+
+}
+
+showOutput(html);
+
+}
+
+
+/* LOG ACTIVITY */
 
 async function logActivity(action){
 
-if(!player)return;
-
+if(!currentUser)return;
 
 await supabaseClient
 .from("activity")
 .insert({
 
-user_id:player.id,
-
+user_id:currentUser.id,
 action:action
 
 });
@@ -1218,803 +1472,69 @@ action:action
 }
 
 
-/* =====================================================
-NAVIGATION
-===================================================== */
+/* OUTPUT */
 
-function resetNav(){
+function showOutput(html){
 
-document
-.querySelectorAll(".nav button")
-.forEach(
-button =>
-button.classList.remove("active")
-);
+document.getElementById("output").innerHTML=html;
+
+window.scrollTo({
+ollHeight,
+behavior:"smooth"
+});
+}
+function escapeHTML(value){
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+}
+function showAuth(){
+document.getElementById("gameScreen").style.display="none";
+document.getElementById("authScreen").style.display="flex";
+}
+
+async function logout(){
+await supabaseClient.auth.signOut();
+currentUser=null;
+profile=null;
+showAuth();
+authMessage("Logged out.");
+}
+async function startApp(){
+
+const {data}=await supabaseClient.auth.getSession();
+
+if(data && data.session){
+currentUser=data.session.user;
+await loadGame();
+}else{
+showAuth();
+}
 
 }
 
+supabaseClient.auth.onAuthStateChange(
+async(event,session)=>{
 
-function showMap(){
-
-resetNav();
-
-document
-.getElementById("mapNav")
-.classList
-.add("active");
-
-
-renderMap();
-
+if(session && !currentUser){
+currentUser=session.user;
+await loadGame();
 }
 
-
-function showJobs(){
-
-resetNav();
-
-document
-.getElementById("jobsNav")
-.classList
-.add("active");
-
-
-renderJobs();
-
+if(!session){
+currentUser=null;
+profile=null;
+showAuth();
 }
-
-
-function showHome(){
-
-resetNav();
-
-document
-.getElementById("homeNav")
-.classList
-.add("active");
-
-
-renderHome();
-
-}
-
-
-function showPeople(){
-
-resetNav();
-
-document
-.getElementById("peopleNav")
-.classList
-.add("active");
-
-
-renderPeople();
-
-}
-
-
-function showMore(){
-
-resetNav();
-
-document
-.getElementById("moreNav")
-.classList
-.add("active");
-
-
-renderMore();
-
-}
-
-
-/* =====================================================
-MAP
-===================================================== */
-
-function renderMap(){
-
-output(`
-
-<div class="card">
-
-<h2>🗺️ DELTA STATE</h2>
-
-<p class="small">
-
-Explore Delta State.
-
-Current location:
-<b>
-${escapeHTML(
-player.location || "Asaba"
-)}
-</b>
-
-</p>
-
-
-<div class="map">
-
-<div class="water"></div>
-
-<div class="road1"></div>
-<div class="road2"></div>
-<div class="road3"></div>
-
-
-<div class="map-title">
-🌴 DELTA LIFE MAP
-</div>
-
-
-<button
-class="city asaba"
-onclick="travelTo('Asaba')">
-
-<b>🏙️ Asaba</b>
-
-<span>Capital</span>
-
-</button>
-
-
-<button
-class="city warri"
-onclick="travelTo('Warri')">
-
-<b>🌊 Warri</b>
-
-<span>Entertainment</span>
-
-</button>
-
-
-<button
-class="city sapele"
-onclick="travelTo('Sapele')">
-
-<b>🌴 Sapele</b>
-
-<span>River city</span>
-
-</button>
-
-
-<button
-class="city ughelli"
-onclick="travelTo('Ughelli')">
-
-<b>🏘️ Ughelli</b>
-
-<span>Business</span>
-
-</button>
-
-
-<button
-class="city oleh"
-onclick="travelTo('Oleh')">
-
-<b>📍 Oleh</b>
-
-<span>University</span>
-
-</button>
-
-
-<button
-class="city kwale"
-onclick="travelTo('Kwale')">
-
-<b>🌴 Kwale</b>
-
-<span>Trade</span>
-
-</button>
-
-
-<button
-class="city ozoro"
-onclick="travelTo('Ozoro')">
-
-<b>🏘️ Ozoro</b>
-
-<span>Education</span>
-
-</button>
-
-
-<button
-class="city effurun"
-onclick="travelTo('Effurun')">
-
-<b>🏙️ Effurun</b>
-
-<span>Urban life</span>
-
-</button>
-
-
-<button
-class="city agbor"
-onclick="travelTo('Agbor')">
-
-<b>🏘️ Agbor</b>
-
-<span>Transport</span>
-
-</button>
-
-
-<div class="map-info">
-
-📍 Tap a city to travel
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h3>📍 DELTA PLACES</h3>
-
-<div class="place-grid">
-
-
-<button
-class="place"
-onclick="university()">
-
-🎓
-
-<strong>
-University
-</strong>
-
-<small>
-Study and campus life
-</small>
-
-</button>
-
-
-<button
-class="place"
-onclick="hotels()">
-
-🏨
-
-<strong>
-Hotels
-</strong>
-
-<small>
-Stay and restore energy
-</small>
-
-</button>
-
-
-<button
-class="place"
-onclick="nightlife()">
-
-🎉
-
-<strong>
-Nightlife
-</strong>
-
-<small>
-Party from 10PM
-</small>
-
-</button>
-
-
-<button
-class="place"
-onclick="businesses()">
-
-🏪
-
-<strong>
-Businesses
-</strong>
-
-<small>
-Work and business
-</small>
-
-</button>
-
-
-</div>
-
-</div>
-
-`);
-
-}
-
-
-/* =====================================================
-TRAVEL
-===================================================== */
-
-async function travelTo(place){
-
-if(
-player.location === place
-){
-
-alert(
-"You are already in " +
-place
-);
-
-return;
-
-}
-
-
-if(
-Number(player.energy) < 10
-){
-
-alert(
-"You need at least 10 energy to travel."
-);
-
-return;
-
-}
-
-
-await updatePlayer({
-
-location:place,
-
-energy:
-Number(player.energy) - 10
 
 });
 
+startApp();
 
-await logActivity(
-"Travelled to " +
-place
-);
+</script>
 
-
-showMap();
-
-}
-
-
-/* =====================================================
-JOBS
-===================================================== */
-
-function renderJobs(){
-
-output(`
-
-<div class="card">
-
-<h2>💼 JOBS</h2>
-
-<p class="small">
-Work and earn money.
-</p>
-
-
-<div class="grid">
-
-
-<div class="tile">
-
-<h3>🔧 Mechanic</h3>
-
-<p>
-Earn ₦1,200
-</p>
-
-<button
-class="btn"
-onclick="work('Mechanic',1200)">
-
-Work
-
-</button>
-
-</div>
-
-
-<div class="tile">
-
-<h3>🛒 Shop Worker</h3>
-
-<p>
-Earn ₦900
-</p>
-
-<button
-class="btn"
-onclick="work('Shop Worker',900)">
-
-Work
-
-</button>
-
-</div>
-
-
-<div class="tile">
-
-<h3>🚕 Driver</h3>
-
-<p>
-Earn ₦1,500
-</p>
-
-<button
-class="btn"
-onclick="work('Driver',1500)">
-
-Work
-
-</button>
-
-</div>
-
-
-<div class="tile">
-
-<h3>🎨 Designer</h3>
-
-<p>
-Earn ₦1,800
-</p>
-
-<button
-class="btn"
-onclick="work('Designer',1800)">
-
-Work
-
-</button>
-
-</div>
-
-
-<div class="tile">
-
-<h3>💻 Tech Assistant</h3>
-
-<p>
-Earn ₦2,200
-</p>
-
-<button
-class="btn"
-onclick="work('Tech Assistant',2200)">
-
-Work
-
-</button>
-
-</div>
-
-
-<div class="tile">
-
-<h3>🏗️ Site Worker</h3>
-
-<p>
-Earn ₦1,700
-</p>
-
-<button
-class="btn"
-onclick="work('Site Worker',1700)">
-
-Work
-
-</button>
-
-</div>
-
-
-</div>
-
-</div>
-
-`);
-
-}
-
-
-async function work(job,pay){
-
-if(
-Number(player.energy) < 10
-){
-
-alert(
-"⚡ You don't have enough energy."
-);
-
-return;
-
-}
-
-
-await updatePlayer({
-
-money:
-Number(player.money) + pay,
-
-energy:
-Number(player.energy) - 10
-
-});
-
-
-await logActivity(
-"Worked as " +
-job +
-" and earned ₦" +
-pay
-);
-
-
-alert(
-"💰 You earned ₦" +
-pay.toLocaleString()
-);
-
-}
-
-
-/* =====================================================
-HOME
-===================================================== */
-
-function renderHome(){
-
-output(`
-
-<div class="card">
-
-<h2>🏠 MY HOME</h2>
-
-<p>
-
-Current home:
-<b>
-${escapeHTML(
-player.house || "Delta Starter Home"
-)}
-</b>
-
-</p>
-
-
-<button
-class="btn"
-onclick="rest()">
-
-🛏️ Rest
-
-</button>
-
-
-<div class="grid">
-
-
-<div class="tile">
-
-<h3>🏡 Comfort Home</h3>
-
-<p>
-₦100,000
-</p>
-
-<button
-class="btn"
-onclick="buyHouse(
-'Comfort Home',
-100000
-)">
-
-Buy
-
-</button>
-
-</div>
-
-
-<div class="tile">
-
-<h3>🏰 Luxury Home</h3>
-
-<p>
-₦500,000
-</p>
-
-<button
-class="btn"
-onclick="buyHouse(
-'Luxury Home',
-500000
-)">
-
-Buy
-
-</button>
-
-</div>
-
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h3>🚗 VEHICLE</h3>
-
-<p>
-
-Current:
-<b>
-${escapeHTML(
-player.vehicle || "None"
-)}
-</b>
-
-</p>
-
-<button
-class="btn"
-onclick="vehicles()">
-
-View Vehicles
-
-</button>
-
-</div>
-
-`);
-
-}
-
-
-async function rest(){
-
-await updatePlayer({
-energy:100
-});
-
-
-await logActivity(
-"Rested at home"
-);
-
-
-alert(
-"⚡ Energy restored to 100."
-);
-
-}
-
-
-async function buyHouse(
-house,
-price
-){
-
-if(
-Number(player.money) < price
-){
-
-alert(
-"💰 You don't have enough money."
-);
-
-return;
-
-}
-
-
-await updatePlayer({
-
-house:house,
-
-money:
-Number(player.money) - price
-
-});
-
-
-await logActivity(
-"Bought " + house
-);
-
-
-renderHome();
-
-}
-
-
-/* =====================================================
-VEHICLES
-===================================================== */
-
-function vehicles(){
-
-output(`
-
-<div class="card">
-
-<h2>🚗 VEHICLES</h2>
-
-<p>
-
-Current vehicle:
-<b>
-${escapeHTML(
-player.vehicle || "None"
-)}
-</b>
-
-</p>
-
-
-<div class="grid">
-
-
-<div class="tile">
-
-<h3>🏍️ Motorcycle</h3>
-
-<p>
-₦80,000
-</p>
-
-<button
-class="btn"
-onclick="buyVehicle(
-'Motorcycle',
-80000
-)">
-
-Buy
-
-</button>
-
-</div>
-
-
-<div class="tile">
-
-<h3>🚗 Car</h3>
-
-<p>
-₦300,000
-</p>
-
-<button
-class="btn"
-onclick="buyVehicle(
-'Car',
-300000
-)">
-  
+</body>
+</html>
