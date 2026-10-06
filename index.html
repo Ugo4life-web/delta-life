@@ -1536,5 +1536,659 @@ startApp();
 
 </script>
 
+<style>
+/* ===== DELTA LIFE NEW GAME INTERFACE ===== */
+
+#deltaWorld{
+position:fixed;
+inset:0;
+z-index:999;
+background:#0d1733;
+color:#172033;
+font-family:Arial,sans-serif;
+overflow:hidden;
+display:none;
+}
+
+.deltaSky{
+position:absolute;
+inset:0;
+background:
+linear-gradient(180deg,#78c8ed 0%,#bde8f5 38%,#76a96d 38%,#63965d 100%);
+}
+
+.deltaCity{
+position:absolute;
+inset:115px 0 90px;
+overflow:hidden;
+background:
+linear-gradient(90deg,transparent 48%,#d8c99c 48%,#d8c99c 52%,transparent 52%),
+linear-gradient(0deg,transparent 47%,#b6bca3 47%,#b6bca3 53%,transparent 53%);
+}
+
+.deltaRoad{
+position:absolute;
+background:#505763;
+box-shadow:inset 0 0 0 5px #737984;
+}
+
+.road1{
+width:100%;
+height:125px;
+top:45%;
+left:0;
+}
+
+.road2{
+width:125px;
+height:100%;
+left:52%;
+top:0;
+}
+
+.cityBuilding{
+position:absolute;
+border-radius:8px 8px 2px 2px;
+box-shadow:0 8px 15px #0004;
+}
+
+.b1{
+width:120px;
+height:190px;
+left:7%;
+bottom:30%;
+background:#e5edf1;
+}
+
+.b2{
+width:150px;
+height:250px;
+right:8%;
+bottom:35%;
+background:#d7e5eb;
+}
+
+.b3{
+width:90px;
+height:140px;
+left:35%;
+top:8%;
+background:#f1d7a9;
+}
+
+.b4{
+width:105px;
+height:170px;
+right:29%;
+top:15%;
+background:#b8d6df;
+}
+
+.market{
+position:absolute;
+left:7%;
+top:55%;
+background:#d95c3e;
+color:white;
+padding:14px 22px;
+border-radius:12px;
+font-weight:bold;
+box-shadow:0 5px 10px #0004;
+}
+
+.hotel{
+position:absolute;
+right:10%;
+top:25%;
+background:#6b55a5;
+color:white;
+padding:14px 20px;
+border-radius:12px;
+font-weight:bold;
+}
+
+.university{
+position:absolute;
+left:38%;
+bottom:10%;
+background:#226b4b;
+color:white;
+padding:14px 18px;
+border-radius:12px;
+font-weight:bold;
+}
+
+.palm{
+position:absolute;
+font-size:48px;
+}
+
+.p1{left:20%;top:12%}
+.p2{right:20%;bottom:20%}
+.p3{left:48%;bottom:5%}
+
+.deltaTop{
+position:absolute;
+top:15px;
+left:15px;
+right:15px;
+display:flex;
+align-items:center;
+gap:10px;
+z-index:10;
+}
+
+.deltaProfile{
+background:#ffffffef;
+border-radius:30px;
+padding:10px 16px;
+display:flex;
+align-items:center;
+gap:10px;
+box-shadow:0 5px 18px #0003;
+}
+
+.deltaAvatar{
+width:45px;
+height:45px;
+border-radius:50%;
+background:#159b63;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:25px;
+}
+
+.deltaName{
+font-weight:bold;
+font-size:16px;
+}
+
+.deltaLevel{
+font-size:12px;
+color:#657080;
+}
+
+.deltaMoney{
+margin-left:auto;
+background:#ffffffef;
+border-radius:30px;
+padding:13px 18px;
+font-weight:bold;
+box-shadow:0 5px 18px #0003;
+}
+
+.deltaMission{
+position:absolute;
+left:15px;
+top:105px;
+width:290px;
+background:#ffffffed;
+border-radius:18px;
+padding:14px;
+z-index:10;
+box-shadow:0 5px 18px #0003;
+}
+
+.deltaMission b{
+font-size:16px;
+}
+
+.deltaMini{
+position:absolute;
+left:15px;
+bottom:105px;
+width:130px;
+height:130px;
+border-radius:50%;
+background:
+linear-gradient(45deg,#5c9b62 25%,#91bd78 25% 50%,#4d8860 50% 75%,#9acb83 75%);
+border:7px solid white;
+box-shadow:0 5px 18px #0005;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:40px;
+z-index:10;
+}
+
+.deltaPlayer{
+position:absolute;
+left:50%;
+bottom:105px;
+transform:translateX(-50%);
+font-size:85px;
+z-index:8;
+filter:drop-shadow(0 8px 5px #0005);
+}
+
+.deltaSide{
+position:absolute;
+right:12px;
+top:105px;
+display:flex;
+flex-direction:column;
+gap:9px;
+z-index:10;
+}
+
+.deltaSide button{
+width:68px;
+height:68px;
+border:0;
+border-radius:18px;
+background:#ffffffed;
+font-size:28px;
+box-shadow:0 5px 15px #0003;
+cursor:pointer;
+}
+
+.deltaSide span{
+display:block;
+font-size:10px;
+font-weight:bold;
+}
+
+.deltaBottom{
+position:absolute;
+left:10px;
+right:10px;
+bottom:10px;
+height:76px;
+background:#ffffffef;
+border-radius:25px;
+display:flex;
+align-items:center;
+justify-content:space-around;
+z-index:20;
+box-shadow:0 -3px 18px #0003;
+}
+
+.deltaBottom button{
+border:0;
+background:transparent;
+color:#4f5969;
+font-size:25px;
+font-weight:bold;
+cursor:pointer;
+padding:7px 12px;
+}
+
+.deltaBottom span{
+display:block;
+font-size:11px;
+margin-top:3px;
+}
+
+.deltaBottom button.active{
+background:#172033;
+color:white;
+border-radius:20px;
+}
+
+.deltaLocation{
+position:absolute;
+top:85px;
+left:50%;
+transform:translateX(-50%);
+background:#ffffffed;
+padding:9px 18px;
+border-radius:20px;
+font-weight:bold;
+z-index:10;
+white-space:nowrap;
+}
+
+@media(max-width:600px){
+
+.deltaProfile{
+padding:7px 10px;
+}
+
+.deltaAvatar{
+width:38px;
+height:38px;
+font-size:20px;
+}
+
+.deltaMoney{
+padding:10px 12px;
+font-size:13px;
+}
+
+.deltaMission{
+width:235px;
+top:105px;
+}
+
+.deltaSide button{
+width:55px;
+height:55px;
+font-size:23px;
+}
+
+.deltaPlayer{
+font-size:65px;
+}
+
+.deltaBottom{
+height:72px;
+}
+
+.deltaBottom button{
+font-size:21px;
+padding:5px;
+}
+
+.deltaMini{
+width:105px;
+height:105px;
+bottom:95px;
+}
+
+}
+</style>
+
+<div id="deltaWorld">
+
+<div class="deltaSky"></div>
+
+<div class="deltaTop">
+
+<div class="deltaProfile">
+<div class="deltaAvatar">👤</div>
+
+<div>
+<div class="deltaName" id="deltaName">
+KingPraise
+</div>
+
+<div class="deltaLevel">
+Level <span id="deltaLevel">1</span>
+</div>
+</div>
+</div>
+
+<div class="deltaMoney">
+💰 ₦<span id="deltaMoney">0</span>
+</div>
+
+</div>
+
+
+<div class="deltaLocation">
+📍 <span id="deltaLocation">Warri</span>
+</div>
+
+
+<div class="deltaMission">
+
+<b>🎯 Current Mission</b>
+
+<br><br>
+
+Get a job at the market
+
+<br>
+
+<span style="color:#667080;font-size:13px">
+○ Talk to the market manager
+</span>
+
+</div>
+
+
+<div class="deltaCity">
+
+<div class="deltaRoad road1"></div>
+<div class="deltaRoad road2"></div>
+
+<div class="cityBuilding b1"></div>
+<div class="cityBuilding b2"></div>
+<div class="cityBuilding b3"></div>
+<div class="cityBuilding b4"></div>
+
+<div class="market">
+🛒 DELTA MARKET
+</div>
+
+<div class="hotel">
+🏨 DELTA HOTEL
+</div>
+
+<div class="university">
+🎓 DELTA UNIVERSITY
+</div>
+
+<div class="palm p1">🌴</div>
+<div class="palm p2">🌴</div>
+<div class="palm p3">🌴</div>
+
+<div class="deltaPlayer">
+🧍🏽
+</div>
+
+</div>
+
+
+<div class="deltaMini">
+🗺️
+</div>
+
+
+<div class="deltaSide">
+
+<button onclick="showHome()">
+🏠
+<span>Home</span>
+</button>
+
+<button onclick="showPeople()">
+👥
+<span>People</span>
+</button>
+
+<button onclick="showJobs()">
+💼
+<span>Jobs</span>
+</button>
+
+<button onclick="showActivity()">
+📱
+<span>Phone</span>
+</button>
+
+</div>
+
+
+<div class="deltaBottom">
+
+<button class="active"
+onclick="deltaHome()">
+🏠
+<span>Home</span>
+</button>
+
+<button onclick="deltaBuy()">
+🛒
+<span>Buy</span>
+</button>
+
+<button onclick="deltaMap()">
+🗺️
+<span>Map</span>
+</button>
+
+<button onclick="deltaPhone()">
+📱
+<span>Phone</span>
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ===== DELTA WORLD CONTROLLER ===== */
+
+function updateDeltaWorld(){
+
+if(typeof profile==="undefined" || !profile){
+return;
+}
+
+const name =
+document.getElementById("deltaName");
+
+const money =
+document.getElementById("deltaMoney");
+
+const level =
+document.getElementById("deltaLevel");
+
+const location =
+document.getElementById("deltaLocation");
+
+if(name){
+name.textContent =
+profile.username || "Player";
+}
+
+if(money){
+money.textContent =
+Number(profile.money || 0).toLocaleString();
+}
+
+if(level){
+level.textContent =
+profile.level || 1;
+}
+
+if(location){
+location.textContent =
+profile.location || "Delta State";
+}
+
+}
+
+
+/* HOME */
+
+function deltaHome(){
+
+updateDeltaWorld();
+
+document.querySelectorAll(".deltaBottom button")
+.forEach(function(btn){
+btn.classList.remove("active");
+});
+
+event.currentTarget.classList.add("active");
+
+}
+
+
+/* BUY */
+
+function deltaBuy(){
+
+document.querySelectorAll(".deltaBottom button")
+.forEach(function(btn){
+btn.classList.remove("active");
+});
+
+event.currentTarget.classList.add("active");
+
+if(typeof showVehicles==="function"){
+showVehicles();
+}
+
+}
+
+
+/* MAP */
+
+function deltaMap(){
+
+document.querySelectorAll(".deltaBottom button")
+.forEach(function(btn){
+btn.classList.remove("active");
+});
+
+event.currentTarget.classList.add("active");
+
+alert(
+"🌴 DELTA MAP\n\n"+
+"🏙️ Asaba\n"+
+"🌊 Warri\n"+
+"🌴 Sapele\n"+
+"🏘️ Ughelli\n"+
+"📍 Oleh\n"+
+"🌴 Kwale\n"+
+"🏘️ Ozoro\n"+
+"🏙️ Effurun\n"+
+"🏘️ Agbor"
+);
+
+}
+
+
+/* PHONE */
+
+function deltaPhone(){
+
+document.querySelectorAll(".deltaBottom button")
+.forEach(function(btn){
+btn.classList.remove("active");
+});
+
+event.currentTarget.classList.add("active");
+
+if(typeof showActivity==="function"){
+showActivity();
+}
+
+}
+
+
+/* SHOW NEW WORLD AFTER LOGIN */
+
+function activateDeltaWorld(){
+
+const game =
+document.getElementById("gameScreen");
+
+const world =
+document.getElementById("deltaWorld");
+
+if(game && world){
+
+game.style.display="none";
+
+world.style.display="block";
+
+updateDeltaWorld();
+
+}
+
+}
+
+
+/* WATCH FOR LOGIN */
+
+setInterval(function(){
+
+if(typeof currentUser!=="undefined" &&
+currentUser){
+
+activateDeltaWorld();
+
+}
+
+},1000);
+
+</script>
 </body>
 </html>
